@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware - Engenharia da Computação</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e83e1a;
+            margin-bottom: 20px;
+            font-size: 2.3em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #e83e1a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #e83e1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c32f10;
+        }
+
+        .response {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fdf0e8;
+            border-left: 5px solid #e83e1a;
+            border-radius: 8px;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">Voltar ao início</a>
+        <h1>Hardware</h1>
+        <p>Pergunte sobre qualquer componente ou arquitetura de hardware!</p>
+
+        <form id="perguntaForm">
+            <label for="tipo">Tipo de Hardware:</label>
+            <input type="text" id="tipo" placeholder="Ex: Processador, Memória RAM, SSD..." required>
+
+            <label for="pergunta">Sua Pergunta:</label>
+            <textarea id="pergunta" placeholder="Ex: Qual a diferença entre HDD e SSD?" required></textarea>
+
+            <button type="submit">Enviar Pergunta</button>
+        </form>
+
+        <div id="resposta" class="response"></div>
+
+        <footer>
+            <p>Engenharia da Computação &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Banco de respostas sobre hardware
+        const respostas = {
+            "processador": {
+                "cpu": "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
+                "gpu": "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
+                "diferença": "CPU: geral, poucas núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
+            },
+            "memória": {
+                "ram": "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
+                "rom": "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
+                "cache": "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
+            },
+            "armazenamento": {
+                "hdd": "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
+                "ssd": "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
+                "nvme": "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
+                "diferença": "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
+            },
+            "placa-mãe": {
+                "o que é": "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
+                "chipset": "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
+            },
+            "default": "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU..."
+        };
+
+        document.getElementById("perguntaForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const tipo = document.getElementById("tipo").value.toLowerCase().trim();
+            const pergunta = document.getElementById("pergunta").value.toLowerCase().trim();
+            const respostaDiv = document.getElementById("resposta");
+
+            let resposta = respostas["default"];
+
+            // Lógica de busca por palavras-chave
+            if (tipo.includes("processador") || tipo.includes("cpu") || tipo.includes("gpu")) {
+                if (pergunta.includes("cpu")) resposta = respostas["processador"]["cpu"];
+                else if (pergunta.includes("gpu")) resposta = respostas["processador"]["gpu"];
+                else if (pergunta.includes("diferença")) resposta = respostas["processador"]["diferença"];
+            }
+            else if (tipo.includes("memória") || tipo.includes("ram") || tipo.includes("rom")) {
+                if (pergunta.includes("ram")) resposta = respostas["memória"]["ram"];
+                else if (pergunta.includes("rom")) resposta = respostas["memória"]["rom"];
+                else if (pergunta.includes("cache")) resposta = respostas["memória"]["cache"];
+            }
+            else if (tipo.includes("armazenamento") || tipo.includes("disco") || tipo.includes("ssd") || tipo.includes("hdd")) {
+                if (pergunta.includes("hdd")) resposta = respostas["armazenamento"]["hdd"];
+                else if (pergunta.includes("ssd")) resposta = respostas["armazenamento"]["ssd"];
+                else if (pergunta.includes("nvme")) resposta = respostas["armazenamento"]["nvme"];
+                else if (pergunta.includes("diferença")) resposta = respostas["armazenamento"]["diferença"];
+            }
+            else if (tipo.includes("placa") || tipo.includes("mãe") || tipo.includes("motherboard")) {
+                if (pergunta.includes("o que") || pergunta.includes("função")) resposta = respostas["placa-mãe"]["o que é"];
+                else if (pergunta.includes("chipset")) resposta = respostas["placa-mãe"]["chipset"];
+            }
+
+            respostaDiv.textContent = resposta;
+            respostaDiv.style.display = "block";
+        });
+    </script>
+</body>
+</html>

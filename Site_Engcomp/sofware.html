@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software - Engenharia da Computação</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 2.3em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0d47a1;
+        }
+
+        .response {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f0fe;
+            border-left: 5px solid #1a73e8;
+            border-radius: 8px;
+            text-align: left;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">Voltar ao início</a>
+        <h1>Software</h1>
+        <p>Pergunte sobre linguagens, sistemas operacionais, tipos de software e mais!</p>
+
+        <form id="perguntaForm">
+            <label for="tipo">Tipo de Software:</label>
+            <input type="text" id="tipo" placeholder="Ex: Sistema Operacional, Linguagem, Aplicativo..." required>
+
+            <label for="pergunta">Sua Pergunta:</label>
+            <textarea id="pergunta" placeholder="Ex: Qual a diferença entre software livre e proprietário?" required></textarea>
+
+            <button type="submit">Enviar Pergunta</button>
+        </form>
+
+        <div id="resposta" class="response"></div>
+
+        <footer>
+            <p>Engenharia da Computação &copy; 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Banco de respostas sobre software
+        const respostas = {
+            "sistema operacional": {
+                "windows": "Windows é um SO proprietário da Microsoft. Fácil de usar, amplo suporte a jogos e softwares comerciais.",
+                "linux": "Linux é um SO de código aberto, gratuito e altamente personalizável. Ideal para servidores, desenvolvimento e segurança.",
+                "macos": "macOS é o SO da Apple, baseado em Unix. Otimizado para hardware Apple, com foco em design e integração.",
+                "diferença": "Windows: comercial, fácil. Linux: gratuito, técnico. macOS: premium, integrado ao ecossistema Apple."
+            },
+            "linguagem": {
+                "python": "Python é simples, legível e versátil. Usado em IA, web (Django/Flask), automação e ciência de dados.",
+                "javascript": "JavaScript roda no navegador. Essencial para web interativa. Com Node.js, também no back-end.",
+                "c++": "C++ é rápida e poderosa. Usada em jogos, sistemas embarcados, engines (Unreal) e software de alto desempenho.",
+                "java": "Java é portável ('write once, run anywhere'). Usada em apps Android, enterprise e servidores.",
+                "sql": "SQL é usada para gerenciar bancos de dados relacionais. Comandos como SELECT, INSERT, UPDATE."
+            },
+            "software": {
+                "livre": "Software livre dá liberdade para usar, estudar, modificar e distribuir. Ex: Linux, Firefox, GIMP.",
+                "proprietário": "Software proprietário tem código fechado e licença restrita. Ex: Windows, Photoshop, Office.",
+                "open source": "Open Source é software com código aberto. Nem todo open source é livre (ex: licenças restritivas).",
+                "aplicativo": "Aplicativos são softwares de usuário final: navegadores, editores, jogos, apps mobile."
+            },
+            "desenvolvimento": {
+                "ide": "IDE (Ambiente Integrado de Desenvolvimento) ajuda a codificar: Visual Studio, PyCharm, VS Code, IntelliJ.",
+                "compilador": "Compilador traduz código-fonte para linguagem de máquina. Ex: GCC (C/C++), javac (Java).",
+                "interpretador": "Interpretador executa código linha por linha. Ex: Python, JavaScript (no navegador).",
+                "ciclo": "1. Análise → 2. Projeto → 3. Codificação → 4. Testes → 5. Implantação → 6. Manutenção."
+            },
+            "default": "Desculpe, não entendi sua pergunta sobre software. Tente usar palavras como Python, Linux, aplicativo, IDE..."
+        };
+
+        document.getElementById("perguntaForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const tipo = document.getElementById("tipo").value.toLowerCase().trim();
+            const pergunta = document.getElementById("pergunta").value.toLowerCase().trim();
+            const respostaDiv = document.getElementById("resposta");
+
+            let resposta = respostas["default"];
+
+            // Lógica de busca por palavras-chave
+            if (tipo.includes("sistema") || tipo.includes("so") || tipo.includes("operacional")) {
+                if (pergunta.includes("windows")) resposta = respostas["sistema operacional"]["windows"];
+                else if (pergunta.includes("linux")) resposta = respostas["sistema operacional"]["linux"];
+                else if (pergunta.includes("macos") || pergunta.includes("mac")) resposta = respostas["sistema operacional"]["macos"];
+                else if (pergunta.includes("diferença")) resposta = respostas["sistema operacional"]["diferença"];
+            }
+            else if (tipo.includes("linguagem") || tipo.includes("programação")) {
+                if (pergunta.includes("python")) resposta = respostas["linguagem"]["python"];
+                else if (pergunta.includes("javascript") || pergunta.includes("js")) resposta = respostas["linguagem"]["javascript"];
+                else if (pergunta.includes("c++") || pergunta.includes("cpp")) resposta = respostas["linguagem"]["c++"];
+                else if (pergunta.includes("java")) resposta = respostas["linguagem"]["java"];
+                else if (pergunta.includes("sql")) resposta = respostas["linguagem"]["sql"];
+            }
+            else if (tipo.includes("software") || tipo.includes("aplicativo") || tipo.includes("programa")) {
+                if (pergunta.includes("livre")) resposta = respostas["software"]["livre"];
+                else if (pergunta.includes("proprietário")) resposta = respostas["software"]["proprietário"];
+                else if (pergunta.includes("open source") || pergunta.includes("código aberto")) resposta = respostas["software"]["open source"];
+                else if (pergunta.includes("aplicativo") || pergunta.includes("app")) resposta = respostas["software"]["aplicativo"];
+            }
+            else if (tipo.includes("desenvolvimento") || tipo.includes("programar") || tipo.includes("codar")) {
+                if (pergunta.includes("ide")) resposta = respostas["desenvolvimento"]["ide"];
+                else if (pergunta.includes("compilador")) resposta = respostas["desenvolvimento"]["compilador"];
+                else if (pergunta.includes("interpretador")) resposta = respostas["desenvolvimento"]["interpretador"];
+                else if (pergunta.includes("ciclo") || pergunta.includes("fases")) resposta = respostas["desenvolvimento"]["ciclo"];
+            }
+
+            respostaDiv.textContent = resposta;
+            respostaDiv.style.display = "block";
+        });
+    </script>
+</body>
+</html>

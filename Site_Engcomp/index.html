@@ -24,30 +24,79 @@
             padding: 40px 60px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
         }
 
         h1 {
             color: #1a73e8;
+            margin-bottom: 15px;
+            font-size: 2.4em;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #555;
             margin-bottom: 30px;
-            font-size: 2.2em;
+            font-style: italic;
+        }
+
+        .intro {
+            text-align: left;
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #1a73e8;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .section {
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .section h2 {
+            color: #1a73e8;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #1a73e8;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .section ul {
+            padding-left: 20px;
+            line-height: 1.7;
+        }
+
+        .section ul li {
+            margin: 8px 0;
+        }
+
+        nav {
+            margin: 35px 0;
         }
 
         nav a {
             display: block;
             margin: 15px 0;
-            padding: 12px 20px;
+            padding: 14px 20px;
             background-color: #1a73e8;
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(26, 115, 232, 0.2);
         }
 
         nav a:hover {
             background-color: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
         }
 
         footer {
@@ -55,15 +104,66 @@
             font-size: 0.9em;
             color: #666;
         }
+
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #0d47a1;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Engenharia da Computação</h1>
+        <p class="subtitle">A ponte entre hardware e software</p>
+
+        <div class="intro">
+            <p><strong>Engenharia da Computação</strong> é a área da engenharia que une <span class="highlight">eletrônica</span>, <span class="highlight">programação</span> e <span class="highlight">sistemas digitais</span> para projetar, desenvolver e otimizar computadores, dispositivos embarcados e sistemas inteligentes.</p>
+            <p>É uma das profissões mais versáteis e demandadas do século XXI, atuando desde o chip até a nuvem.</p>
+        </div>
+
+        <div class="section">
+            <h2>O que é?</h2>
+            <p>É a engenharia que:</p>
+            <ul>
+                <li>Projeta <strong>processadores, placas-mãe e circuitos</strong> (hardware)</li>
+                <li>Desenvolve <strong>sistemas operacionais, drivers e firmware</strong> (software de baixo nível)</li>
+                <li>Cria <strong>robôs, IoT, carros autônomos e drones</strong></li>
+                <li>Integra <strong>hardware + software</strong> para soluções eficientes</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Áreas de Atuação</h2>
+            <ul>
+                <li><strong>Sistemas Embarcados:</strong> Arduino, ESP32, carros, eletrodomésticos inteligentes</li>
+                <li><strong>Inteligência Artificial:</strong> Redes neurais, visão computacional, processamento em GPU</li>
+                <li><strong>Redes e Telecomunicações:</strong> 5G, roteadores, segurança cibernética</li>
+                <li><strong>Desenvolvimento de Software:</strong> Apps, jogos, cloud computing</li>
+                <li><strong>Automação Industrial:</strong> PLCs, robótica, indústria 4.0</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Principais Disciplinas</h2>
+            <ul>
+                <li>Circuitos Elétricos e Eletrônica Digital</li>
+                <li>Arquitetura de Computadores</li>
+                <li>Sistemas Operacionais</li>
+                <li>Programação (C, C++, Python, Assembly)</li>
+                <li>Redes de Computadores</li>
+                <li>Engenharia de Software</li>
+                <li>Inteligência Artificial e Machine Learning</li>
+            </ul>
+        </div>
+
         <nav>
-            <a href="hardware.html">Hardware</a>
-            <a href="sofware.html">Software</a>
+            <a href="hardware.html">Explorar Hardware</a>
+            <a href="software.html">Explorar Software</a>
         </nav>
+
         <footer>
             <p>Site educativo sobre Engenharia da Computação &copy; 2025</p>
         </footer>

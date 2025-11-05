@@ -59,10 +59,10 @@
 
     <form id="perguntaForm">
         <label for="tipo">Tipo de Hardware:</label>
-        <input type="text" id="tipo" placeholder="Ex: Processador, RAM, SSD, GPU..." required>
+        <input type="text" id="tipo" placeholder="Ex: RAM, SSD, CPU, GPU..." required>
 
         <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: Qual a diferença entre HDD e SSD?" required></textarea>
+        <textarea id="pergunta" placeholder="Ex: Qual RAM é melhor? DDR4 ou DDR5?" required></textarea>
 
         <button type="submit">Enviar Pergunta</button>
     </form>
@@ -74,7 +74,7 @@
 </div>
 
 <script>
-/* ---------- LISTA DE PALAVRAS OFENSIVAS (em português) ---------- */
+/* ---------- LISTA DE PALAVRAS OFENSIVAS ---------- */
 const palavrasProibidas = [
     "porra","caralho","fod[aeo]","puta","merda","cu","bunda","buceta","pau","piroca",
     "viado","bicha","traveco","sapatão","arrombado","filho da puta","vagabundo",
@@ -82,48 +82,55 @@ const palavrasProibidas = [
     "macaco","preto","branco","judeu","árabe","muçulmano","cristão","negro","branco",
     "lixo","escória","nojo","verme","sujo","podre","ridículo","patético"
 ];
+const regexOfensa = new RegExp(palavrasProibidas.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'i');
 
-const regexOfensa = new RegExp(
-    palavrasProibidas.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
-    'i'
-);
-
-/* ---------- SINÔNIMOS (igual ao anterior) ---------- */
+/* ---------- SINÔNIMOS E PADRÕES DE COMPARAÇÃO ---------- */
 const sinonimos = {
-    processador: /proc|processador|cpu|core|ryzen|intel|amd/i,
-    gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica/i,
-    ram: /ram|memoria ram|memo|memória|ddr/i,
-    rom: /rom|bios|uefi|firmware/i,
-    cache: /cache|l1|l2|l3/i,
-    hdd: /hdd|hd|disco rigido|disco rígido/i,
-    ssd: /ssd|nvme|unidade de estado solido|solido/i,
-    placaMae: /placa.?mãe|motherboard|mainboard|placa base/i,
-    chipset: /chipset|z790|b650|x670/i
+    processador: /proc|processador|cpu|core|ryzen|intel|amd|core i[3579]|ryzen [3579]/i,
+    gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica|3060|3070|3080|rx/i,
+    ram: /ram|memoria ram|memo|memória|ddr[345]|ddr/i,
+    armazenamento: /hdd|hd|ssd|nvme|disco|armazenamento|sata|pcie/i,
+    placaMae: /placa.?mãe|motherboard|mainboard|placa base|b650|z790|x670/i
 };
 
-/* ---------- RESPOSTAS PRÉ-DEFINIDAS ---------- */
+/* ---------- RESPOSTAS COM COMPARAÇÕES ---------- */
 const respostas = {
     processador: {
-        cpu: "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
-        gpu: "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
-        diferenca: "CPU: geral, poucos núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
+        cpu: "CPU é o cérebro do PC. Executa instruções e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
+        gpu: "GPU processa gráficos e IA. Ideal para jogos, edição e machine learning. Ex: NVIDIA RTX, AMD Radeon.",
+        comparacao: "<strong>CPU vs GPU:</strong><br>" +
+            "• <strong>CPU</strong>: 4–16 núcleos, alta frequência (até 6 GHz), uso geral.<br>" +
+            "• <strong>GPU</strong>: milhares de núcleos, paralela, ideal para renderização e IA.<br>" +
+            "→ <em>Use CPU para tarefas sequenciais, GPU para paralelas.</em>",
+        intelVsAmd: "<strong>Intel vs AMD:</strong><br>" +
+            "• <strong>Intel</strong>: melhor em jogos (frequência alta), mais caro.<br>" +
+            "• <strong>AMD</strong>: melhor custo-benefício, mais núcleos, ótimo para multitarefa.<br>" +
+            "→ <em>AMD geralmente vence em preço/desempenho.</em>"
     },
     memoria: {
-        ram: "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
-        rom: "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
-        cache: "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
+        ram: "RAM armazena dados em uso. Quanto mais, mais fluido o sistema. DDR4 e DDR5 são os padrões atuais.",
+        comparacao: "<strong>DDR4 vs DDR5:</strong><br>" +
+            "• <strong>DDR4</strong>: madura, barata, até 3200 MHz, compatível com placas antigas.<br>" +
+            "• <strong>DDR5</strong>: até 8400+ MHz, mais eficiente, exige placa-mãe nova.<br>" +
+            "→ <em>DDR5 é o futuro, mas DDR4 ainda é suficiente para 90% dos usuários.</em>",
+        ddr4: "DDR4 é o padrão atual. Boa performance, preço acessível. Ideal para jogos e trabalho.",
+        ddr5: "DDR5 é mais rápida e eficiente. Requer CPU e placa-mãe compatíveis (ex: Intel 12ª+, AMD Ryzen 7000)."
     },
     armazenamento: {
-        hdd: "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
-        ssd: "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
-        nvme: "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
-        diferenca: "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
+        hdd: "HDD: barato, grande capacidade, lento (5400–7200 RPM). Ideal para backup e arquivos.",
+        ssd: "SSD: rápido (500–7000 MB/s), silencioso, resistente. Padrão para sistema e jogos.",
+        nvme: "NVMe: SSD via PCIe, até 14.000 MB/s. O mais rápido do mercado.",
+        comparacao: "<strong>HDD vs SSD vs NVMe:</strong><br>" +
+            "• <strong>HDD</strong>: R$0,10/GB, lento, mecânico.<br>" +
+            "• <strong>SSD SATA</strong>: R$0,30/GB, 500 MB/s.<br>" +
+            "• <strong>NVMe</strong>: R$0,50/GB, 7000+ MB/s.<br>" +
+            "→ <em>Use NVMe para SO e jogos, HDD para armazenamento em massa.</em>"
     },
     placaMae: {
-        oque: "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
-        chipset: "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
+        oque: "A placa-mãe conecta CPU, RAM, GPU, SSD. Define compatibilidade e expansão (PCIe, M.2, USB).",
+        chipset: "Chipset controla recursos. Ex: Z790 (overclock), B650 (custo-benefício), X670 (high-end)."
     },
-    default: "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU, HDD, NVMe..."
+    default: "Desculpe, não entendi. Tente: <em>Qual RAM é melhor?</em>, <em>Intel ou AMD?</em>, <em>HDD vs SSD</em>..."
 };
 
 /* ---------- NORMALIZAÇÃO ---------- */
@@ -134,72 +141,99 @@ const normalizar = t => t.toLowerCase()
     .replace(/\s+/g,' ')
     .trim();
 
+/* ---------- DETECÇÃO DE COMPARAÇÃO ---------- */
+function ehComparacao(texto) {
+    return /melhor|ou|vs|versus|comparar|qual é melhor|diferença|contra/i.test(texto);
+}
+
+function extrairItensComparacao(texto) {
+    const itens = [];
+    const palavras = texto.split(/\s+/);
+    const termos = ['ddr4','ddr5','hdd','ssd','nvme','intel','amd','rtx','radeon','3060','3070'];
+    termos.forEach(t => {
+        if (texto.includes(t)) itens.push(t.toUpperCase());
+    });
+    return [...new Set(itens)].slice(0, 2);
+}
+
 /* ---------- BUSCA DE RESPOSTA ---------- */
-function buscarResposta(tipo, pergunta){
+function buscarResposta(tipo, pergunta) {
     const texto = normalizar(tipo + " " + pergunta);
     let cat = 'default';
 
-    if(sinonimos.processador.test(texto)) cat = 'processador';
-    else if(sinonimos.ram.test(texto) || sinonimos.rom.test(texto) || sinonimos.cache.test(texto)) cat = 'memoria';
-    else if(sinonimos.hdd.test(texto) || sinonimos.ssd.test(texto)) cat = 'armazenamento';
-    else if(sinonimos.placaMae.test(texto)) cat = 'placaMae';
+    // Detectar categoria
+    if (sinonimos.processador.test(texto)) cat = 'processador';
+    else if (sinonimos.ram.test(texto)) cat = 'memoria';
+    else if (sinonimos.armazenamento.test(texto)) cat = 'armazenamento';
+    else if (sinonimos.placaMae.test(texto)) cat = 'placaMae';
 
     const r = respostas[cat];
 
-    if(cat === 'processador'){
-        if(sinonimos.cpu.test(texto)) return r.cpu;
-        if(sinonimos.gpu.test(texto)) return r.gpu;
-        if(/diferen|compar|qual a diferenca/i.test(texto)) return r.diferenca;
+    // Respostas específicas com prioridade para comparações
+    if (ehComparacao(texto)) {
+        if (cat === 'processador') {
+            if (/intel.*amd|amd.*intel/i.test(texto)) return r.intelVsAmd;
+            return r.comparacao;
+        }
+        if (cat === 'memoria') {
+            if (/ddr4.*ddr5|ddr5.*ddr4/i.test(texto)) return r.comparacao;
+            return r.comparacao;
+        }
+        if (cat === 'armazenamento') {
+            return r.comparacao;
+        }
     }
-    else if(cat === 'memoria'){
-        if(sinonimos.ram.test(texto)) return r.ram;
-        if(sinonimos.rom.test(texto)) return r.rom;
-        if(sinonimos.cache.test(texto)) return r.cache;
+
+    // Respostas individuais
+    if (cat === 'processador') {
+        if (/cpu/i.test(texto)) return r.cpu;
+        if (/gpu/i.test(texto)) return r.gpu;
     }
-    else if(cat === 'armazenamento'){
-        if(sinonimos.hdd.test(texto)) return r.hdd;
-        if(sinonimos.ssd.test(texto)) return r.ssd;
-        if(/nvme/i.test(texto)) return r.nvme;
-        if(/diferen|compar|qual a diferenca/i.test(texto)) return r.diferenca;
+    if (cat === 'memoria') {
+        if (/ddr4/i.test(texto)) return r.ddr4;
+        if (/ddr5/i.test(texto)) return r.ddr5;
+        return r.ram;
     }
-    else if(cat === 'placaMae'){
-        if(/o que|função|para que serve/i.test(texto)) return r.oque;
-        if(sinonimos.chipset.test(texto)) return r.chet;
+    if (cat === 'armazenamento') {
+        if (/hdd/i.test(texto)) return r.hdd;
+        if (/nvme/i.test(texto)) return r.nvme;
+        return r.ssd;
+    }
+    if (cat === 'placaMae') {
+        if (/o que|função/i.test(texto)) return r.oque;
+        return r.chipset;
     }
 
     return cat !== 'default' ? Object.values(r)[0] : respostas.default;
 }
 
 /* ---------- VALIDAÇÃO DE OFENSAS ---------- */
-function contemOfensa(texto){
+function contemOfensa(texto) {
     return regexOfensa.test(normalizar(texto));
 }
 
 /* ---------- SUBMISSÃO DO FORMULÁRIO ---------- */
-document.getElementById('perguntaForm').addEventListener('submit', function(e){
+document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const tipo     = document.getElementById('tipo').value;
+    const tipo = document.getElementById('tipo').value;
     const pergunta = document.getElementById('pergunta').value;
     const avisoDiv = document.getElementById('aviso');
-    const respDiv  = document.getElementById('resposta');
+    const respDiv = document.getElementById('resposta');
 
-    // limpa mensagens anteriores
     avisoDiv.style.display = 'none';
-    respDiv.style.display  = 'none';
-    avisoDiv.textContent   = '';
-    respDiv.textContent    = '';
+    respDiv.style.display = 'none';
+    avisoDiv.textContent = '';
+    respDiv.textContent = '';
 
-    // verifica ofensa
-    if(contemOfensa(tipo + " " + pergunta)){
-        avisoDiv.textContent = "Por favor, mantenha a linguagem respeitosa. Não são permitidas ofensas, palavrões ou discriminações.";
+    if (contemOfensa(tipo + " " + pergunta)) {
+        avisoDiv.textContent = "Por favor, mantenha a linguagem respeitosa. Não são permitidas ofensas ou discriminações.";
         avisoDiv.style.display = 'block';
         return;
     }
 
-    // responde normalmente
     const resposta = buscarResposta(tipo, pergunta);
-    respDiv.textContent = resposta;
+    respDiv.innerHTML = resposta; // innerHTML para <strong> e <em>
     respDiv.style.display = 'block';
 });
 </script>

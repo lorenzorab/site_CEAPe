@@ -5,274 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software - Engenharia da Computação</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        body{
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            background:#f4f4f9;color:#333;margin:0;padding:0;
+            display:flex;justify-content:center;align-items:center;
+            min-height:100vh;
         }
-
-        .container {
-            background-color: white;
-            padding: 40px 50px;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-            width: 100%;
-            text-align: center;
+        .container{
+            background:#fff;padding:40px 50px;border-radius:12px;
+            box-shadow:0 4px 16px rgba(0,0,0,.1);max-width:700px;width:100%;
+            text-align:center;
         }
-
-        h1 {
-            color: #1a73e8;
-            margin-bottom: 20px;
-            font-size: 2.3em;
+        h1{color:#1a73e8;margin-bottom:20px;font-size:2.3em;}
+        .back-link{display:inline-block;margin-bottom:20px;color:#1a73e8;
+            text-decoration:none;font-weight:bold;}
+        .back-link:hover{text-decoration:underline;}
+        form{margin:30px 0;text-align:left;}
+        label{display:block;margin:15px 0 5px;font-weight:bold;color:#444;}
+        input[type=text],textarea{
+            width:100%;padding:12px;border:1px solid #ccc;
+            border-radius:8px;font-size:1em;box-sizing:border-box;
         }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: bold;
+        textarea{height:100px;resize:vertical;}
+        button{
+            margin-top:20px;padding:12px 30px;background:#1a73e8;
+            color:#fff;border:none;border-radius:8px;font-size:1.1em;
+            font-weight:bold;cursor:pointer;transition:.3s;
         }
-
-        .back-link:hover {
-            text-decoration: underline;
+        button:hover{background:#1557b0;}
+        .response{
+            margin-top:30px;padding:20px;background:#e8f4ff;
+            border-left:5px solid #1a73e8;border-radius:8px;
+            text-align:left;display:none;
+            animation:fadeIn .3s ease-in;
         }
-
-        form {
-            margin: 30px 0;
-            text-align: left;
+        .aviso{
+            margin-top:15px;padding:12px;background:#ffebee;
+            border-left:5px solid #d32f2f;color:#c62828;
+            border-radius:8px;display:none;
         }
-
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            font-weight: bold;
-            color: #444;
+        @keyframes fadeIn{
+            from{opacity:0;transform:translateY(-10px);}
+            to{opacity:1;transform:translateY(0);}
         }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 12px 30px;
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #1557b0;
-        }
-
-        .response {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e8f4ff;
-            border-left: 5px solid #1a73e8;
-            border-radius: 8px;
-            text-align: left;
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
-        }
+        footer{margin-top:40px;font-size:.9em;color:#666;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">Voltar ao início</a>
-        <h1>Software</h1>
-        <p>Pergunte sobre sistemas, linguagens, ferramentas, apps, segurança e mais!</p>
+<div class="container">
+    <a href="index.html" class="back-link">Voltar ao início</a>
+    <h1>Software</h1>
+    <p>Pergunte sobre sistemas, linguagens, ferramentas, apps, segurança e mais!</p>
 
-        <form id="perguntaForm">
-            <label for="tipo">Tipo de Software:</label>
-            <input type="text" id="tipo" placeholder="Ex: SO, Linguagem, IDE, App..." required>
+    <form id="perguntaForm">
+        <label for="tipo">Tipo de Software:</label>
+        <input type="text" id="tipo" placeholder="Ex: SO, Linguagem, IDE, App..." required>
 
-            <label for="pergunta">Sua Pergunta:</label>
-            <textarea id="pergunta" placeholder="Ex: Qual a diferença entre Linux e Windows?" required></textarea>
+        <label for="pergunta">Sua Pergunta:</label>
+        <textarea id="pergunta" placeholder="Ex: Qual a diferença entre Linux e Windows?" required></textarea>
 
-            <button type="submit">Enviar Pergunta</button>
-        </form>
+        <button type="submit">Enviar Pergunta</button>
+    </form>
 
-        <div id="resposta" class="response"></div>
+    <div id="aviso" class="aviso"></div>
+    <div id="resposta" class="response"></div>
 
-        <footer>
-            <p>Engenharia da Computação &copy; 2025</p>
-        </footer>
-    </div>
+    <footer><p>Engenharia da Computação &copy; 2025</p></footer>
+</div>
 
-    <script>
-        // === SINÔNIMOS E ABREVIAÇÕES ===
-        const sinonimos = {
-            so: /so|sistema operacional|os|windows|linux|macos|ubuntu|fedora|android|ios/i,
-            linguagem: /linguagem|prog|programacao|code|python|java|js|javascript|c\+\+|c#|php|go|rust/i,
-            ide: /ide|editor|vscode|vs code|sublime|intellij|pycharm|code editor|dev/i,
-            banco: /banco de dados|bd|db|sql|mysql|postgres|mongodb|nosql/i,
-            web: /web|site|frontend|backend|html|css|react|vue|node|api|http/i,
-            seguranca: /seguranca|segurança|antivirus|firewall|malware|cripto|hash|ssl|vpn/i,
-            compilador: /compilador|interpretador|compiler|interpreter|gcc|clang|javac/i
-        };
+<script>
+/* ---------- LISTA DE PALAVRAS OFENSIVAS (em português) ---------- */
+const palavrasProibidas = [
+    // palavrões comuns
+    "porra","caralho","fod[aeo]","puta","merda","cu","bunda","buceta","pau","piroca",
+    "viado","bicha","traveco","sapatão","arrombado","filho da puta","vagabundo",
+    "idiota","burro","retardado","mongol","mongolóide","deficiente","aleijado",
+    // ofensas raciais/étnicas
+    "macaco","preto","branco","judeu","árabe","muçulmano","cristão","negro","branco",
+    // outras
+    "lixo","escória","nojo","verme","sujo","podre","ridículo","patético"
+];
 
-        // === RESPOSTAS PRÉ-DEFINIDAS ===
-        const respostas = {
-            so: {
-                windows: "Windows é o SO da Microsoft. Fácil de usar, compatível com jogos e softwares comerciais. Usa NTFS, interface gráfica amigável.",
-                linux: "Linux é open-source, gratuito, seguro e altamente customizável. Ideal para servidores, devs e privacidade. Ex: Ubuntu, Debian, Arch.",
-                macos: "macOS roda apenas em Macs. Baseado em Unix, elegante, integrado ao ecossistema Apple. Ótimo para design e desenvolvimento.",
-                android: "Android (Google) é o SO mobile mais usado. Open-source (AOSP), roda em milhares de dispositivos. Personalizável.",
-                diferenca: "Windows: fácil, pago. Linux: grátis, técnico. macOS: premium, Apple. Android: mobile, flexível."
-            },
-            linguagem: {
-                python: "Python é simples, legível e versátil. Usado em IA, automação, web (Django/Flask), ciência de dados. Ex: print('Olá')",
-                java: "Java roda em JVM (máquina virtual). 'Write once, run anywhere'. Usado em Android, backend, grandes sistemas.",
-                javascript: "JavaScript roda no navegador e no servidor (Node.js). Essencial para web interativa. Ex: React, Vue, Angular.",
-                c: "C é rápido, baixo nível, usado em SO, drivers, embedded. Base de muitas linguagens modernas.",
-                diferenca: "Python: fácil, lento. Java: portátil, verboso. JS: web, assíncrono. C: rápido, manual."
-            },
-            ide: {
-                vscode: "VS Code é leve, gratuito, com extensões. Melhor editor para web, Python, JS, etc. Da Microsoft.",
-                intellij: "IntelliJ IDEA é poderoso para Java/Kotlin. Tem versão gratuita (Community) e paga (Ultimate).",
-                pycharm: "PyCharm é IDE especializada em Python. Excelente para Django, Flask, ciência de dados.",
-                sublime: "Sublime Text é rápido, minimalista. Ótimo para edição rápida, com plugins."
-            },
-            banco: {
-                sql: "Bancos SQL (MySQL, PostgreSQL) usam tabelas e SQL. Ideais para dados estruturados, transações.",
-                nosql: "NoSQL (MongoDB, Redis) são flexíveis, escaláveis. Usados em apps reais, big data, JSON.",
-                mysql: "MySQL é gratuito, popular em sites (WordPress, PHP). Rápido para leitura.",
-                mongodb: "MongoDB armazena dados como JSON. Ideal para apps modernas com dados não estruturados."
-            },
-            web: {
-                frontend: "Frontend é o que o usuário vê: HTML, CSS, JavaScript. Frameworks: React, Vue, Angular.",
-                backend: "Backend é o servidor: Node.js, Python, Java, PHP. Lida com lógica, banco, APIs.",
-                fullstack: "Fullstack é frontend + backend. Ex: desenvolvedor que faz site completo."
-            },
-            seguranca: {
-                antivirus: "Antivírus detecta malware. Ex: Windows Defender, Avast. Não substitui bom senso.",
-                firewall: "Firewall bloqueia tráfego indesejado. Pode ser software ou hardware.",
-                ssl: "SSL/TLS criptografa dados entre navegador e servidor. Essencial para sites seguros (HTTPS).",
-                vpn: "VPN esconde seu IP e criptografa tráfego. Ideal em redes públicas."
-            },
-            default: "Desculpe, não entendi sua pergunta sobre software. Tente usar palavras como Windows, Python, VS Code, SQL, web..."
-        };
+/* ---------- REGEX DE DETECÇÃO ---------- */
+const regexOfensa = new RegExp(
+    palavrasProibidas.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
+    'i'
+);
 
-        // === NORMALIZAÇÃO DE TEXTO ===
-        const normalizar = (texto) => texto.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[^a-z0-9\s]/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
+/* ---------- SINÔNIMOS (igual ao anterior) ---------- */
+const sinonimos = {
+    so: /so|sistema operacional|os|windows|linux|macos|ubuntu|fedora|android|ios|mac os|apple/i,
+    linguagem: /linguagem|prog|programacao|code|python|java|js|javascript|c\+\+|c#|php|go|rust|c plus|c#/i,
+    ide: /ide|editor|vscode|vs code|sublime|intellij|pycharm|code editor|dev|visual studio/i,
+    banco: /banco de dados|bd|db|sql|mysql|postgres|mongodb|nosql|redis/i,
+    web: /web|site|frontend|backend|html|css|react|vue|node|api|http|fullstack|full stack/i,
+    seguranca: /seguranca|segurança|antivirus|firewall|malware|cripto|hash|ssl|vpn|https|vírus/i,
+    compilador: /compilador|interpretador|compiler|interpreter|gcc|clang|javac/i
+};
 
-        // === BUSCA DE RESPOSTA ===
-        function buscarResposta(tipo, pergunta) {
-            const tipoNorm = normalizar(tipo);
-            const perguntaNorm = normalizar(pergunta);
+/* ---------- RESPOSTAS ---------- */
+const respostas = { /* ... (mesmo objeto do código anterior) ... */
+    so: {
+        windows:"Windows é o SO da Microsoft. Fácil de usar, compatível com jogos e softwares comerciais. Usa NTFS, interface gráfica amigável.",
+        linux:"Linux é open-source, gratuito, seguro e altamente customizável. Ideal para servidores, devs e privacidade. Ex: Ubuntu, Debian, Arch.",
+        macos:"macOS roda apenas em Macs. Baseado em Unix, elegante, integrado ao ecossistema Apple. Ótimo para design e desenvolvimento.",
+        android:"Android (Google) é o SO mobile mais usado. Open-source (AOSP), roda em milhares de dispositivos. Personalizável.",
+        diferenca:"Windows: fácil, pago. Linux: grátis, técnico. macOS: premium, Apple. Android: mobile, flexível."
+    },
+    linguagem: {
+        python:"Python é simples, legível e versátil. Usado em IA, automação, web (Django/Flask), ciência de dados. Ex: print('Olá')",
+        java:"Java roda em JVM (máquina virtual). 'Write once, run anywhere'. Usado em Android, backend, grandes sistemas.",
+        javascript:"JavaScript roda no navegador e no servidor (Node.js). Essencial para web interativa. Ex: React, Vue, Angular.",
+        c:"C é rápido, baixo nível, usado em SO, drivers, embedded. Base de muitas linguagens modernas.",
+        diferenca:"Python: fácil, lento. Java: portátil, verboso. JS: web, assíncrono. C: rápido, manual."
+    },
+    ide:{
+        vscode:"VS Code é leve, gratuito, com extensões. Melhor editor para web, Python, JS, etc. Da Microsoft.",
+        intellij:"IntelliJ IDEA é poderoso para Java/Kotlin. Tem versão gratuita (Community) e paga (Ultimate).",
+        pycharm:"PyCharm é IDE especializada em Python. Excelente para Django, Flask, ciência de dados.",
+        sublime:"Sublime Text é rápido, minimalista. Ótimo para edição rápida, com plugins."
+    },
+    banco:{
+        sql:"Bancos SQL (MySQL, PostgreSQL) usam tabelas e SQL. Ideais para dados estruturados, transações.",
+        nosql:"NoSQL (MongoDB, Redis) são flexíveis, escaláveis. Usados em apps reais, big data, JSON.",
+        mysql:"MySQL é gratuito, popular em sites (WordPress, PHP). Rápido para leitura.",
+        mongodb:"MongoDB armazena dados como JSON. Ideal para apps modernas com dados não estruturados."
+    },
+    web:{
+        frontend:"Frontend é o que o usuário vê: HTML, CSS, JavaScript. Frameworks: React, Vue, Angular.",
+        backend:"Backend é o servidor: Node.js, Python, Java, PHP. Lida com lógica, banco, APIs.",
+        fullstack:"Fullstack é frontend + backend. Ex: desenvolvedor que faz site completo."
+    },
+    seguranca:{
+        antivirus:"Antivírus detecta malware. Ex: Windows Defender, Avast. Não substitui bom senso.",
+        firewall:"Firewall bloqueia tráfego indesejado. Pode ser software ou hardware.",
+        ssl:"SSL/TLS criptografa dados entre navegador e servidor. Essencial para sites seguros (HTTPS).",
+        vpn:"VPN esconde seu IP e criptografa tráfego. Ideal em redes públicas."
+    },
+    default:"Desculpe, não entendi. Tente usar palavras como Windows, Python, VS Code, SQL, frontend, VPN..."
+};
 
-            let categoria = 'default';
+/* ---------- NORMALIZAÇÃO ---------- */
+const normalizar = t => t.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
 
-            // Detectar categoria
-            if (sinonimos.so.test(tipoNorm)) categoria = 'so';
-            else if (sinonimos.linguagem.test(tipoNorm)) categoria = 'linguagem';
-            else if (sinonimos.ide.test(tipoNorm)) categoria = 'ide';
-            else if (sinonimos.banco.test(tipoNorm)) categoria = 'banco';
-            else if (sinonimos.web.test(tipoNorm)) categoria = 'web';
-            else if (sinonimos.seguranca.test(tipoNorm)) categoria = 'seguranca';
+/* ---------- BUSCA DE RESPOSTA ---------- */
+function buscarResposta(tipo, pergunta){
+    const texto = normalizar(tipo + " " + pergunta);
+    let cat = 'default';
 
-            const respostasCat = respostas[categoria];
+    if(sinonimos.so.test(texto)) cat='so';
+    else if(sinonimos.linguagem.test(texto)) cat='linguagem';
+    else if(sinonimos.ide.test(texto)) cat='ide';
+    else if(sinonimos.banco.test(texto)) cat='banco';
+    else if(sinonimos.web.test(texto)) cat='web';
+    else if(sinonimos.seguranca.test(texto)) cat='seguranca';
 
-            // Respostas específicas
-            if (categoria === 'so') {
-                if (/windows/i.test(perguntaNorm)) return respostasCat.windows;
-                if (/linux|ubuntu|debian|arch/i.test(perguntaNorm)) return respostasCat.linux;
-                if (/macos|mac os|apple/i.test(perguntaNorm)) return respostasCat.macos;
-                if (/android|celular|mobile/i.test(perguntaNorm)) return respostasCat.android;
-                if (/diferen|compar|qual melhor/i.test(perguntaNorm)) return respostasCat.diferenca;
-            }
-            else if (categoria === 'linguagem') {
-                if (/python/i.test(perguntaNorm)) return respostasCat.python;
-                if (/java/i.test(perguntaNorm)) return respostasCat.java;
-                if (/javascript|js|node/i.test(perguntaNorm)) return respostasCat.javascript;
-                if (/c\+\+|c plus|c#/i.test(perguntaNorm)) return respostasCat.c;
-                if (/diferen|qual usar/i.test(perguntaNorm)) return respostasCat.diferenca;
-            }
-            else if (categoria === 'ide') {
-                if (/vscode|vs code/i.test(perguntaNorm)) return respostasCat.vscode;
-                if (/intellij|idea/i.test(perguntaNorm)) return respostasCat.intellij;
-                if (/pycharm/i.test(perguntaNorm)) return respostasCat.pycharm;
-                if (/sublime/i.test(perguntaNorm)) return respostasCat.sublime;
-            }
-            else if (categoria === 'banco') {
-                if (/sql|mysql|postgres/i.test(perguntaNorm)) return respostasCat.sql;
-                if (/nosql|mongodb|redis/i.test(perguntaNorm)) return respostasCat.nosql;
-                if (/mysql/i.test(perguntaNorm)) return respostasCat.mysql;
-                if (/mongodb/i.test(perguntaNorm)) return respostasCat.mongodb;
-            }
-            else if (categoria === 'web') {
-                if (/frontend|html|css|react|vue/i.test(perguntaNorm)) return respostasCat.frontend;
-                if (/backend|node|api|server/i.test(perguntaNorm)) return respostasCat.backend;
-                if (/full.?stack|fullstack/i.test(perguntaNorm)) return respostasCat.fullstack;
-            }
-            else if (categoria === 'seguranca') {
-                if (/antivirus|virus/i.test(perguntaNorm)) return respostasCat.antivirus;
-                if (/firewall/i.test(perguntaNorm)) return respostasCat.firewall;
-                if (/ssl|https|certificado/i.test(perguntaNorm)) return respostasCat.ssl;
-                if (/vpn/i.test(perguntaNorm)) return respostasCat.vpn;
-            }
+    const r = respostas[cat];
 
-            // Resposta genérica da categoria
-            if (categoria !== 'default' && respostasCat) {
-                return Object.values(respostasCat)[0];
-            }
+    if(cat==='so'){
+        if(/windows/i.test(texto)) return r.windows;
+        if(/linux|ubuntu|debian|arch/i.test(texto)) return r.linux;
+        if(/macos|mac os|apple/i.test(texto)) return r.macos;
+        if(/android|celular|mobile/i.test(texto)) return r.android;
+        if(/diferen|compar|qual melhor|vs|versus/i.test(texto)) return r.diferenca;
+    }
+    else if(cat==='linguagem'){
+        if(/python/i.test(texto)) return r.python;
+        if(/java/i.test(texto)) return r.java;
+        if(/javascript|js|node/i.test(texto)) return r.javascript;
+        if(/c\+\+|c plus|c#/i.test(texto)) return r.c;
+        if(/diferen|qual usar|melhor|recomend/i.test(texto)) return r.diferenca;
+    }
+    else if(cat==='ide'){
+        if(/vscode|vs code/i.test(texto)) return r.vscode;
+        if(/intellij|idea/i.test(texto)) return r.intellij;
+        if(/pycharm/i.test(texto)) return r.pycharm;
+        if(/sublime/i.test(texto)) return r.sublime;
+    }
+    else if(cat==='banco'){
+        if(/sql|mysql|postgres/i.test(texto)) return r.sql;
+        if(/nosql|mongodb|redis/i.test(texto)) return r.nosql;
+        if(/mysql/i.test(texto)) return r.mysql;
+        if(/mongodb/i.test(texto)) return r.mongodb;
+    }
+    else if(cat==='web'){
+        if(/frontend|html|css|react|vue/i.test(texto)) return r.frontend;
+        if(/backend|node|api|server/i.test(texto)) return r.backend;
+        if(/full.?stack|fullstack/i.test(texto)) return r.fullstack;
+    }
+    else if(cat==='seguranca'){
+        if(/antivirus|vírus|virus/i.test(texto)) return r.antivirus;
+        if(/firewall/i.test(texto)) return r.firewall;
+        if(/ssl|https|certificado/i.test(texto)) return r.ssl;
+        if(/vpn/i.test(texto)) return r.vpn;
+    }
 
-            return respostas.default;
-        }
+    return cat!=='default' ? Object.values(r)[0] : respostas.default;
+}
 
-        // === SUBMISSÃO DO FORMULÁRIO ===
-        document.getElementById("perguntaForm").addEventListener("submit", function(e) {
-            e.preventDefault();
+/* ---------- VALIDAÇÃO DE OFENSAS ---------- */
+function contemOfensa(texto){
+    return regexOfensa.test(normalizar(texto));
+}
 
-            const tipo = document.getElementById("tipo").value;
-            const pergunta = document.getElementById("pergunta").value;
-            const respostaDiv = document.getElementById("resposta");
+/* ---------- SUBMISSÃO DO FORMULÁRIO ---------- */
+document.getElementById('perguntaForm').addEventListener('submit', function(e){
+    e.preventDefault();
 
-            const resposta = buscarResposta(tipo, pergunta);
+    const tipo     = document.getElementById('tipo').value;
+    const pergunta = document.getElementById('pergunta').value;
+    const avisoDiv = document.getElementById('aviso');
+    const respDiv  = document.getElementById('resposta');
 
-            respostaDiv.textContent = resposta;
-            respostaDiv.style.display = "block";
-        });
-    </script>
+    // limpa mensagens anteriores
+    avisoDiv.style.display = 'none';
+    respDiv.style.display  = 'none';
+    avisoDiv.textContent   = '';
+    respDiv.textContent    = '';
+
+    // verifica ofensa
+    if(contemOfensa(tipo + " " + pergunta)){
+        avisoDiv.textContent = "Por favor, mantenha a linguagem respeitosa. Não são permitidas ofensas, palavrões ou discriminações.";
+        avisoDiv.style.display = 'block';
+        return;
+    }
+
+    // responde normalmente
+    const resposta = buscarResposta(tipo, pergunta);
+    respDiv.textContent = resposta;
+    respDiv.style.display = 'block';
+});
+</script>
 </body>
 </html>

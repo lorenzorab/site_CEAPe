@@ -96,12 +96,12 @@
             border-radius: 8px;
             text-align: left;
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.3s ease-in;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
@@ -119,7 +119,7 @@
 
         <form id="perguntaForm">
             <label for="tipo">Tipo de Hardware:</label>
-            <input type="text" id="tipo" placeholder="Ex: Processador, Memória RAM, SSD..." required>
+            <input type="text" id="tipo" placeholder="Ex: Processador, RAM, SSD, GPU..." required>
 
             <label for="pergunta">Sua Pergunta:</label>
             <textarea id="pergunta" placeholder="Ex: Qual a diferença entre HDD e SSD?" required></textarea>
@@ -135,61 +135,106 @@
     </div>
 
     <script>
-        // Banco de respostas sobre hardware
-        const respostas = {
-            "processador": {
-                "cpu": "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
-                "gpu": "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
-                "diferença": "CPU: geral, poucas núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
-            },
-            "memória": {
-                "ram": "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
-                "rom": "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
-                "cache": "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
-            },
-            "armazenamento": {
-                "hdd": "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
-                "ssd": "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
-                "nvme": "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
-                "diferença": "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
-            },
-            "placa-mãe": {
-                "o que é": "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
-                "chipset": "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
-            },
-            "default": "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU..."
+        // === SINÔNIMOS E ABREVIAÇÕES ===
+        const sinonimos = {
+            processador: /proc|processador|cpu|core|ryzen|intel|amd/i,
+            gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica/i,
+            ram: /ram|memoria ram|memo|memória|ddr/i,
+            rom: /rom|bios|uefi|firmware/i,
+            cache: /cache|l1|l2|l3/i,
+            hdd: /hdd|hd|disco rigido|disco rígido/i,
+            ssd: /ssd|nvme|unidade de estado solido|solido/i,
+            placaMae: /placa.?mãe|motherboard|mainboard|placa base/i,
+            chipset: /chipset|z790|b650|x670/i
         };
 
+        // === RESPOSTAS PRÉ-DEFINIDAS ===
+        const respostas = {
+            processador: {
+                cpu: "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
+                gpu: "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
+                diferenca: "CPU: geral, poucos núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
+            },
+            memoria: {
+                ram: "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
+                rom: "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
+                cache: "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
+            },
+            armazenamento: {
+                hdd: "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
+                ssd: "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
+                nvme: "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
+                diferenca: "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
+            },
+            placaMae: {
+                oque: "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
+                chipset: "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
+            },
+            default: "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU, HDD, NVMe..."
+        };
+
+        // === FUNÇÃO DE NORMALIZAÇÃO ===
+        const normalizar = (texto) => texto.toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '') // remove acentos
+            .replace(/[^a-z0-9\s]/g, ' ')   // remove caracteres especiais
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        // === FUNÇÃO PRINCIPAL DE BUSCA ===
+        function buscarResposta(tipo, pergunta) {
+            const tipoNorm = normalizar(tipo);
+            const perguntaNorm = normalizar(pergunta);
+
+            // Detectar categoria
+            let categoria = 'default';
+
+            if (sinonimos.processador.test(tipoNorm)) categoria = 'processador';
+            else if (sinonimos.ram.test(tipoNorm) || sinonimos.rom.test(tipoNorm) || sinonimos.cache.test(tipoNorm)) categoria = 'memoria';
+            else if (sinonimos.hdd.test(tipoNorm) || sinonimos.ssd.test(tipoNorm)) categoria = 'armazenamento';
+            else if (sinonimos.placaMae.test(tipoNorm)) categoria = 'placaMae';
+
+            // Buscar resposta específica
+            const respostasCat = respostas[categoria];
+
+            if (categoria === 'processador') {
+                if (sinonimos.cpu.test(perguntaNorm)) return respostasCat.cpu;
+                if (sinonimos.gpu.test(perguntaNorm)) return respostasCat.gpu;
+                if (/diferen|compar|qual a diferenca/i.test(perguntaNorm)) return respostasCat.diferenca;
+            }
+            else if (categoria === 'memoria') {
+                if (sinonimos.ram.test(perguntaNorm)) return respostasCat.ram;
+                if (sinonimos.rom.test(perguntaNorm)) return respostasCat.rom;
+                if (sinonimos.cache.test(perguntaNorm)) return respostasCat.cache;
+            }
+            else if (categoria === 'armazenamento') {
+                if (sinonimos.hdd.test(perguntaNorm)) return respostasCat.hdd;
+                if (sinonimos.ssd.test(perguntaNorm)) return respostasCat.ssd;
+                if (/nvme/i.test(perguntaNorm)) return respostasCat.nvme;
+                if (/diferen|compar|qual a diferenca/i.test(perguntaNorm)) return respostasCat.diferenca;
+            }
+            else if (categoria === 'placaMae') {
+                if (/o que|função|para que serve/i.test(perguntaNorm)) return respostasCat.oque;
+                if (sinonimos.chipset.test(perguntaNorm)) return respostasCat.chipset;
+            }
+
+            // Resposta genérica da categoria
+            if (categoria !== 'default' && respostasCat) {
+                return Object.values(respostasCat)[0]; // primeira resposta da categoria
+            }
+
+            return respostas.default;
+        }
+
+        // === EVENTO DO FORMULÁRIO ===
         document.getElementById("perguntaForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
-            const tipo = document.getElementById("tipo").value.toLowerCase().trim();
-            const pergunta = document.getElementById("pergunta").value.toLowerCase().trim();
+            const tipo = document.getElementById("tipo").value;
+            const pergunta = document.getElementById("pergunta").value;
             const respostaDiv = document.getElementById("resposta");
 
-            let resposta = respostas["default"];
-
-            // Lógica de busca por palavras-chave
-            if (tipo.includes("processador") || tipo.includes("cpu") || tipo.includes("gpu")) {
-                if (pergunta.includes("cpu")) resposta = respostas["processador"]["cpu"];
-                else if (pergunta.includes("gpu")) resposta = respostas["processador"]["gpu"];
-                else if (pergunta.includes("diferença")) resposta = respostas["processador"]["diferença"];
-            }
-            else if (tipo.includes("memória") || tipo.includes("ram") || tipo.includes("rom")) {
-                if (pergunta.includes("ram")) resposta = respostas["memória"]["ram"];
-                else if (pergunta.includes("rom")) resposta = respostas["memória"]["rom"];
-                else if (pergunta.includes("cache")) resposta = respostas["memória"]["cache"];
-            }
-            else if (tipo.includes("armazenamento") || tipo.includes("disco") || tipo.includes("ssd") || tipo.includes("hdd")) {
-                if (pergunta.includes("hdd")) resposta = respostas["armazenamento"]["hdd"];
-                else if (pergunta.includes("ssd")) resposta = respostas["armazenamento"]["ssd"];
-                else if (pergunta.includes("nvme")) resposta = respostas["armazenamento"]["nvme"];
-                else if (pergunta.includes("diferença")) resposta = respostas["armazenamento"]["diferença"];
-            }
-            else if (tipo.includes("placa") || tipo.includes("mãe") || tipo.includes("motherboard")) {
-                if (pergunta.includes("o que") || pergunta.includes("função")) resposta = respostas["placa-mãe"]["o que é"];
-                else if (pergunta.includes("chipset")) resposta = respostas["placa-mãe"]["chipset"];
-            }
+            const resposta = buscarResposta(tipo, pergunta);
 
             respostaDiv.textContent = resposta;
             respostaDiv.style.display = "block";

@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --primary: #e83e1a;
-            --accent: #c32f10;
+            --primary: #1a73e8;
+            --accent: #1557b0;
             --bg: #f4f4f9;
             --card: #ffffff;
             --text: #333;
-            --success: #fdf0e8;
+            --success: #e8f4ff;
             --warning: #ffebee;
-            --border: #e83e1a;
+            --border: #1a73e8;
             --danger: #d32f2f;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +33,7 @@
             padding: 40px 50px;
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,.1);
-            max-width: 720px;
+            max-width: 800px;
             width: 100%;
             text-align: center;
         }
@@ -55,7 +55,6 @@
         }
         .back-link:hover { text-decoration: underline; }
         .back-link i { font-size: 1.1em; }
-
         form { margin: 30px 0; text-align: left; }
         label {
             display: block;
@@ -75,10 +74,9 @@
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(232, 62, 26, 0.15);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
         }
         textarea { height: 110px; resize: vertical; }
-
         button {
             margin-top: 24px;
             padding: 14px 32px;
@@ -96,7 +94,6 @@
         }
         button:hover { background: var(--accent); transform: translateY(-1px); }
         button i { font-size: 1.2em; }
-
         .response, .aviso {
             margin-top: 28px;
             padding: 20px;
@@ -105,7 +102,7 @@
             display: none;
             animation: fadeIn 0.4s ease-out;
             font-size: 1.02em;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         .response {
             background: var(--success);
@@ -119,24 +116,34 @@
         .response table {
             width: 100%;
             border-collapse: collapse;
-            margin: 12px 0;
+            margin: 16px 0;
             font-size: 0.98em;
         }
         .response th, .response td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
+            vertical-align: top;
         }
         .response th {
-            background: rgba(232, 62, 26, 0.1);
+            background: rgba(26, 115, 232, 0.1);
             font-weight: 600;
+            width: 20%;
         }
-
+        .response td strong { color: var(--primary); }
+        .conclusao {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(26, 115, 232, 0.08);
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         footer {
             margin-top: 40px;
             font-size: 0.9em;
@@ -150,23 +157,18 @@
         <i class="material-icons">arrow_back</i> Voltar ao início
     </a>
     <h1>Hardware</h1>
-    <p>Pergunte sobre processadores, RAM, SSD, GPU, placas-mãe e mais!</p>
-
+    <p>Pergunte sobre processadores, placas de vídeo, SSDs, RAM e mais!</p>
     <form id="perguntaForm">
         <label for="tipo">Tipo de Hardware:</label>
-        <input type="text" id="tipo" placeholder="Ex: RAM, CPU, SSD, GPU..." required>
-
+        <input type="text" id="tipo" placeholder="Ex: CPU, GPU, SSD, RAM, Placa-mãe..." required>
         <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: DDR4 ou DDR5? Intel é melhor que AMD?" required></textarea>
-
+        <textarea id="pergunta" placeholder="Ex: Intel ou AMD? SSD ou HDD? 16GB RAM é suficiente?" required></textarea>
         <button type="submit">
             <i class="material-icons">send</i> Enviar Pergunta
         </button>
     </form>
-
     <div id="aviso" class="aviso"></div>
     <div id="resposta" class="response"></div>
-
     <footer><p>Engenharia da Computação © 2025</p></footer>
 </div>
 
@@ -181,63 +183,271 @@ const CONFIG = {
         "lixo","escória","nojo","verme","sujo","podre","ridículo","patético"
     ],
     sinonimos: {
-        processador: /proc|processador|cpu|core|ryzen|intel|amd|core i[3579]|ryzen [3579]/i,
-        gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica|3060|3070|3080|rx/i,
-        ram: /ram|memoria ram|memo|memória|ddr[345]|ddr/i,
-        armazenamento: /hdd|hd|ssd|nvme|disco|armazenamento|sata|pcie/i,
-        placaMae: /placa.?mãe|motherboard|mainboard|placa base|b650|z790|x670/i
+        cpu: /cpu|processador|intel|amd|core i|ryzen|pentium|celeron|threadripper|epyc/i,
+        gpu: /gpu|placa de video|placa grafica|nvidia|amd|rtx|gtx|radeon|geforce|quadro/i,
+        ssd: /ssd|hdd|disco|armazenamento|nvme|sata|m2|m\.2|velocidade de leitura/i,
+        ram: /ram|memoria|ddr4|ddr5|16gb|32gb|8gb|velocidade ram|latencia/i,
+        placamae: /placa.mae|motherboard|chipset|b550|x570|z790|formato|atx|micro.atx/i,
+        fonte: /fonte|psu|watt|80 plus|bronze|gold|modular|cabo/i
     }
 };
 
-/* ========== RESPOSTAS COM TABELAS ========== */
+/* ========== RESPOSTAS COM EXPLICAÇÕES DETALHADAS ========== */
 const RESPOSTAS = {
-    processador: {
-        comparacao: `
-            <strong>CPU vs GPU</strong><br>
-            <table>
-                <tr><th>Componente</th><th>Núcleos</th><th>Frequência</th><th>Uso Ideal</th></tr>
-                <tr><td><strong>CPU</strong></td><td>4–16</td><td>Até 6 GHz</td><td>Tarefas gerais, SO</td></tr>
-                <tr><td><strong>GPU</strong></td><td>Milhares</td><td>1–2 GHz</td><td>Jogos, IA, render</td></tr>
-            </table>
-            <em>CPU = cérebro. GPU = artista.</em>
-        `,
+    cpu: {
         intelVsAmd: `
-            <strong>Intel vs AMD</strong><br>
+            <strong>Intel vs AMD: Qual processador escolher?</strong><br>
             <table>
-                <tr><th>Marca</th><th>Vantagem</th><th>Desvantagem</th><th>Melhor para</th></tr>
-                <tr><td><strong>Intel</strong></td><td>Frequência alta</td><td>Mais caro</td><td>Jogos, single-thread</td></tr>
-                <tr><td><strong>AMD</strong></td><td>Mais núcleos, preço</td><td>Menos eficiente</td><td>Multitarefa, custo</td></tr>
+                <tr>
+                    <th>Critério</th>
+                    <th>Intel</th>
+                    <th>AMD</th>
+                    <th>Explicação</th>
+                </tr>
+                <tr>
+                    <td><strong>Desempenho Single-Core</strong></td>
+                    <td>Melhor (jogos, apps leves)</td>
+                    <td>Bom (mas perde em clock)</td>
+                    <td>
+                        Intel tem clocks mais altos (ex: i5-14600K chega a 5.3 GHz). 
+                        Jogos como CS2, Valorant dependem disso. AMD brilha em multi-core.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Multi-Core / Produtividade</strong></td>
+                    <td>Bom</td>
+                    <td>Excelente</td>
+                    <td>
+                        AMD Ryzen 9 7950X tem 16 núcleos vs 14 do i9-14900K. 
+                        Ideal para renderização, edição de vídeo, IA, máquinas virtuais.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Preço/Desempenho</strong></td>
+                    <td>Médio</td>
+                    <td>Excelente</td>
+                    <td>
+                        Ryzen 5 7600X custa ~R$1.800 e bate i5-14600K em multitarefa. 
+                        AMD oferece mais núcleos pelo mesmo preço.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Consumo e Aquecimento</strong></td>
+                    <td>Alto (TDP 125W+)</td>
+                    <td>Médio (TDP 105W)</td>
+                    <td>
+                        AMD é mais eficiente. Intel exige cooler melhor e fonte mais robusta.
+                    </td>
+                </tr>
             </table>
-            <em>AMD vence em custo-benefício.</em>
+            <div class="conclusao">
+                <strong>Recomendação:</strong><br>
+                → <strong>Jogos + uso leve:</strong> Intel (i5 ou i7)<br>
+                → <strong>Edição, render, programação:</strong> AMD (Ryzen 7 ou 9)
+            </div>
+        `,
+        comparacao: `
+            <strong>Top CPUs 2025: Guia Completo</strong><br>
+            <table>
+                <tr><th>CPU</th><th>Uso Ideal</th><th>Núcleos</th><th>Explicação</th></tr>
+                <tr>
+                    <td><strong>Ryzen 5 7600</strong></td>
+                    <td>Jogos + produtividade</td>
+                    <td>6C/12T</td>
+                    <td>Melhor custo-benefício. Bate i5 em multitarefa, ótimo para 1080p/1440p.</td>
+                </tr>
+                <tr>
+                    <td><strong>Core i7-14700K</strong></td>
+                    <td>Gaming premium</td>
+                    <td>20C/28T</td>
+                    <td>Excelente em jogos e edição. Consome mais, mas entrega estabilidade.</td>
+                </tr>
+                <tr>
+                    <td><strong>Ryzen 9 7950X</strong></td>
+                    <td>Workstation</td>
+                    <td>16C/32T</td>
+                    <td>Rei do multi-core. Perfeito para 3D, IA, servidores locais.</td>
+                </tr>
+            </table>
+        `
+    },
+    gpu: {
+        comparacao: `
+            <strong>NVIDIA vs AMD: Placas de Vídeo</strong><br>
+            <table>
+                <tr>
+                    <th>Critério</th>
+                    <th>NVIDIA</th>
+                    <th>AMD</th>
+                    <th>Explicação</th>
+                </tr>
+                <tr>
+                    <td><strong>Ray Tracing</strong></td>
+                    <td>Excelente (RTX)</td>
+                    <td>Bom (RDNA 3)</td>
+                    <td>
+                        NVIDIA tem DLSS 3 (upscaling com IA). AMD tem FSR 3, mas perde em qualidade.
+                        Jogos como Cyberpunk 2077 rodam melhor com RTX.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Custo-Benefício</strong></td>
+                    <td>Médio</td>
+                    <td>Ótimo</td>
+                    <td>
+                        RX 7800 XT custa menos que RTX 4070 e entrega FPS similar em 1440p.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Drivers</strong></td>
+                    <td>Estáveis</td>
+                    <td>Instáveis (às vezes)</td>
+                    <td>
+                        NVIDIA tem melhor suporte a criadores (CUDA, Studio). AMD melhora a cada ano.
+                    </td>
+                </tr>
+            </table>
+            <div class="conclusao">
+                <strong>Escolha:</strong><br>
+                → <strong>NVIDIA:</strong> Ray Tracing, streaming, edição (Premiere, DaVinci)<br>
+                → <strong>AMD:</strong> Jogos puros, 1440p/4K, orçamento
+            </div>
+        `
+    },
+    ssd: {
+        comparacao: `
+            <strong>SSD vs HDD vs NVMe: Qual armazenamento escolher?</strong><br>
+            <table>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Velocidade</th>
+                    <th>Custo/GB</th>
+                    <th>Explicação</th>
+                </tr>
+                <tr>
+                    <td><strong>HDD</strong></td>
+                    <td>100-200 MB/s</td>
+                    <td>Baixo</td>
+                    <td>
+                        Barato, mas lento. Ideal para arquivos grandes (fotos, vídeos antigos). 
+                        Ruído e vibração. Não use como sistema.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>SSD SATA</strong></td>
+                    <td>500-550 MB/s</td>
+                    <td>Médio</td>
+                    <td>
+                        6x mais rápido que HDD. Bom para sistema + jogos. 
+                        Limite do barramento SATA III.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>SSD NVMe (PCIe 4.0)</strong></td>
+                    <td>5000-7000 MB/s</td>
+                    <td>Alto</td>
+                    <td>
+                        Inicialização em 8s, jogos carregam instantaneamente. 
+                        Essencial para edição de vídeo 4K/8K e IA.
+                    </td>
+                </tr>
+            </table>
+            <div class="conclusao">
+                <strong>Montagem ideal:</strong><br>
+                → <strong>NVMe 1TB</strong> (sistema + jogos)<br>
+                → <strong>HDD 4TB</strong> (arquivos, backup)
+            </div>
         `
     },
     ram: {
         comparacao: `
-            <strong>DDR4 vs DDR5</strong><br>
+            <strong>Quantos GB de RAM você precisa?</strong><br>
             <table>
-                <tr><th>Geração</th><th>Velocidade</th><th>Compatibilidade</th><th>Preço</th></tr>
-                <tr><td><strong>DDR4</strong></td><td>Até 3200 MHz</td><td>Placas antigas</td><td>Barato</td></tr>
-                <tr><td><strong>DDR5</strong></td><td>Até 8400+ MHz</td><td>Placas novas</td><td>Caro</td></tr>
+                <tr>
+                    <th>Uso</th>
+                    <th>RAM Ideal</th>
+                    <th>Explicação</th>
+                </tr>
+                <tr>
+                    <td><strong>Navegação, Office</strong></td>
+                    <td>8 GB</td>
+                    <td>
+                        Suficiente para Chrome com 10 abas, Word, Excel. 
+                        DDR4 3200 MHz já basta.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Jogos AAA, Edição</strong></td>
+                    <td>16 GB</td>
+                    <td>
+                        Padrão atual. Jogos como GTA V, Cyberpunk usam 12-14 GB. 
+                        DDR5 6000 MHz é o ideal.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Edição 4K, IA, VMs</strong></td>
+                    <td>32 GB+</td>
+                    <td>
+                        After Effects, Blender, máquinas virtuais consomem muito. 
+                        32 GB é o novo "padrão profissional".
+                    </td>
+                </tr>
             </table>
-            <em>DDR5 é o futuro. DDR4 ainda é suficiente.</em>
+            <div class="conclusao">
+                <strong>Dica:</strong> Prefira <strong>2 pentes</strong> (dual channel) e <strong>mesma marca/velocidade</strong>.
+            </div>
         `
     },
-    armazenamento: {
+    placamae: {
         comparacao: `
-            <strong>HDD vs SSD vs NVMe</strong><br>
+            <strong>Como escolher a placa-mãe ideal?</strong><br>
             <table>
-                <tr><th>Tipo</th><th>Velocidade</th><th>Preço/GB</th><th>Durabilidade</th></tr>
-                <tr><td><strong>HDD</strong></td><td>~150 MB/s</td><td>R$0,10</td><td>Mecânico</td></tr>
-                <tr><td><strong>SSD SATA</strong></td><td>~550 MB/s</td><td>R$0,30</td><td>Sólido</td></tr>
-                <tr><td><strong>NVMe</strong></td><td>~7000 MB/s</td><td>R$0,50</td><td>Sólido</td></tr>
+                <tr>
+                    <th>Fator</th>
+                    <th>Opção</th>
+                    <th>Explicação</th>
+                </tr>
+                <tr>
+                    <td><strong>Chipset</strong></td>
+                    <td>B550, Z790</td>
+                    <td>
+                        B550 (AMD): overclock, PCIe 4.0, bom custo.<br>
+                        Z790 (Intel): mais fases VRM, PCIe 5.0, futuro-proof.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Formato</strong></td>
+                    <td>ATX vs Micro-ATX</td>
+                    <td>
+                        ATX: mais slots, melhor airflow.<br>
+                        Micro-ATX: compacto, gabinetes menores.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>VRM</strong></td>
+                    <td>8+ fases</td>
+                    <td>
+                        Essencial para overclock ou CPUs potentes (Ryzen 9, i9). 
+                        Evita gargalos térmicos.
+                    </td>
+                </tr>
             </table>
-            <em>NVMe para SO. HDD para backup.</em>
         `
     },
-    default: "Desculpe, não entendi. Tente: <em>DDR4 ou DDR5?</em>, <em>Intel é melhor?</em>, <em>SSD vs HDD</em>..."
+    default: `
+        <strong>Não entendi sua pergunta sobre hardware.</strong><br>
+        Tente exemplos como:<br>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li><em>Intel ou AMD?</em></li>
+            <li><em>SSD ou HDD?</em></li>
+            <li><em>16GB RAM é suficiente?</em></li>
+            <li><em>RTX 4070 ou RX 7800 XT?</em></li>
+        </ul>
+        <em>Seja específico para uma resposta precisa!</em>
+    `
 };
 
-/* ========== FUNÇÕES PRINCIPAIS ========== */
+/* ========== FUNÇÕES ========== */
 const normalizar = t => t.toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -263,6 +473,7 @@ const responder = (html) => {
     const div = document.getElementById('resposta');
     div.innerHTML = html;
     div.style.display = 'block';
+    div.scrollIntoView({ behavior: 'smooth' });
 };
 
 const aviso = (msg) => {
@@ -274,9 +485,9 @@ const aviso = (msg) => {
 /* ========== PROCESSAMENTO ========== */
 document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     e.preventDefault();
-
-    const tipo = document.getElementById('tipo').value;
-    const pergunta = document.getElementById('pergunta').value;
+    
+    const tipo = document.getElementById('tipo').value.trim();
+    const pergunta = document.getElementById('pergunta').value.trim();
     const texto = normalizar(tipo + " " + pergunta);
 
     // Limpar
@@ -285,7 +496,7 @@ document.getElementById('perguntaForm').addEventListener('submit', function(e) {
 
     // Verificar ofensa
     if (contemOfensa(tipo + " " + pergunta)) {
-        return aviso("Por favor, mantenha a linguagem respeitosa. Evite ofensas ou discriminações.");
+        return aviso("Por favor, use uma linguagem respeitosa. Evite ofensas ou termos inadequados.");
     }
 
     const cat = detectarCategoria(texto);
@@ -294,14 +505,18 @@ document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     let resposta = RESPOSTAS.default;
 
     if (ehComparacao(texto)) {
-        if (cat === 'processador') {
-            if (/intel.*amd|amd.*intel/i.test(texto)) resposta = RESPOSTAS.processador.intelVsAmd;
-            else resposta = RESPOSTAS.processador.comparacao;
+        if (RESPOSTAS[cat]?.comparacao) {
+            resposta = RESPOSTAS[cat].comparacao;
+
+            // Casos específicos
+            if (cat === 'cpu' && /intel.*amd|amd.*intel/i.test(texto)) {
+                resposta = RESPOSTAS.cpu.intelVsAmd;
+            }
         }
-        else if (cat === 'ram') resposta = RESPOSTAS.ram.comparacao;
-        else if (cat === 'armazenamento') resposta = RESPOSTAS.armazenamento.comparacao;
     } else {
-        resposta = "Funcionalidade em desenvolvimento. Tente uma comparação!";
+        resposta = `<strong>Funcionalidade em desenvolvimento.</strong><br>
+                    Tente uma <strong>comparaçãostrong> como: 
+                    "<em>${pergunta}</em>" → "<em>Intel ou AMD?</em>"`;
     }
 
     responder(resposta);

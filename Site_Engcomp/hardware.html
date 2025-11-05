@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardware - Engenharia da Computação</title>
+    <title>Software - Engenharia da Computação</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
@@ -14,7 +14,6 @@
             --text: #333;
             --success: #e8f4ff;
             --warning: #ffebee;
-            --border: #1a73e8;
             --danger: #d32f2f;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,118 +36,46 @@
             width: 100%;
             text-align: center;
         }
-        h1 {
-            color: var(--primary);
-            margin-bottom: 16px;
-            font-size: 2.4em;
-            font-weight: 600;
-        }
+        h1 { color: var(--primary); margin-bottom: 16px; font-size: 2.4em; font-weight: 600; }
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1em;
+            display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px;
+            color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1em;
         }
         .back-link:hover { text-decoration: underline; }
         .back-link i { font-size: 1.1em; }
         form { margin: 30px 0; text-align: left; }
-        label {
-            display: block;
-            margin: 16px 0 6px;
-            font-weight: 600;
-            color: #444;
-            font-size: 1.05em;
-        }
+        label { display: block; margin: 16px 0 6px; font-weight: 600; color: #444; font-size: 1.05em; }
         input[type="text"], textarea {
-            width: 100%;
-            padding: 14px;
-            border: 1.5px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border 0.3s, box-shadow 0.3s;
+            width: 100%; padding: 14px; border: 1.5px solid #ddd; border-radius: 10px;
+            font-size: 1em; transition: border 0.3s, box-shadow 0.3s;
         }
         input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
         }
         textarea { height: 110px; resize: vertical; }
         button {
-            margin-top: 24px;
-            padding: 14px 32px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            margin-top: 24px; padding: 14px 32px; background: var(--primary); color: white;
+            border: none; border-radius: 10px; font-size: 1.1em; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
         }
         button:hover { background: var(--accent); transform: translateY(-1px); }
         button i { font-size: 1.2em; }
         .response, .aviso {
-            margin-top: 28px;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: left;
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-            font-size: 1.02em;
-            line-height: 1.7;
+            margin-top: 28px; padding: 20px; border-radius: 12px; text-align: left;
+            display: none; animation: fadeIn 0.4s ease-out; font-size: 1.02em; line-height: 1.7;
         }
-        .response {
-            background: var(--success);
-            border-left: 6px solid var(--primary);
-        }
-        .aviso {
-            background: var(--warning);
-            border-left: 6px solid var(--danger);
-            color: #b00020;
-        }
-        .response table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 0.98em;
-        }
-        .response th, .response td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-            vertical-align: top;
-        }
-        .response th {
-            background: rgba(26, 115, 232, 0.1);
-            font-weight: 600;
-            width: 20%;
-        }
+        .response { background: var(--success); border-left: 6px solid var(--primary); }
+        .aviso { background: var(--warning); border-left: 6px solid var(--danger); color: #b00020; }
+        .response table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.98em; }
+        .response th, .response td { padding: 12px; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+        .response th { background: rgba(26, 115, 232, 0.1); font-weight: 600; width: 20%; }
         .response td strong { color: var(--primary); }
         .conclusao {
-            margin-top: 20px;
-            padding: 16px;
-            background: rgba(26, 115, 232, 0.08);
-            border-radius: 10px;
-            font-weight: 600;
-            color: var(--primary);
-            border-left: 4px solid var(--primary);
+            margin-top: 20px; padding: 16px; background: rgba(26, 115, 232, 0.08);
+            border-radius: 10px; font-weight: 600; color: var(--primary); border-left: 4px solid var(--primary);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        footer { margin-top: 40px; font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body>
@@ -156,13 +83,13 @@
     <a href="index.html" class="back-link">
         <i class="material-icons">arrow_back</i> Voltar ao início
     </a>
-    <h1>Hardware</h1>
-    <p>Pergunte sobre processadores, placas de vídeo, SSDs, RAM e mais!</p>
+    <h1>Software</h1>
+    <p>Pergunte sobre linguagens, IDEs, bancos, SOs e mais!</p>
     <form id="perguntaForm">
-        <label for="tipo">Tipo de Hardware:</label>
-        <input type="text" id="tipo" placeholder="Ex: CPU, GPU, SSD, RAM, Placa-mãe..." required>
+        <label for="tipo">Tipo de Software:</label>
+        <input type="text" id="tipo" placeholder="Ex: Linguagem, IDE, SO, Banco..." required>
         <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: Intel ou AMD? SSD ou HDD? 16GB RAM é suficiente?" required></textarea>
+        <textarea id="pergunta" placeholder="Ex: O que é Python? VS Code é bom?" required></textarea>
         <button type="submit">
             <i class="material-icons">send</i> Enviar Pergunta
         </button>
@@ -175,307 +102,127 @@
 <script>
 /* ========== CONFIGURAÇÕES ========== */
 const CONFIG = {
-    ofensas: [
-        "porra","caralho","fod[aeo]","puta","merda","cu","bunda","buceta","pau","piroca",
-        "viado","bicha","traveco","sapatão","arrombado","filho da puta","vagabundo",
-        "idiota","burro","retardado","mongol","mongolóide","deficiente","aleijado",
-        "macaco","preto","branco","judeu","árabe","muçulmano","cristão","negro",
-        "lixo","escória","nojo","verme","sujo","podre","ridículo","patético"
-    ],
+    ofensas: ["porra","caralho","puta","merda","cu","bunda","pau","viado","idiota","burro"],
     sinonimos: {
-        cpu: /cpu|processador|intel|amd|core i|ryzen|pentium|celeron|threadripper|epyc/i,
-        gpu: /gpu|placa de video|placa grafica|nvidia|amd|rtx|gtx|radeon|geforce|quadro/i,
-        ssd: /ssd|hdd|disco|armazenamento|nvme|sata|m2|m\.2|velocidade de leitura/i,
-        ram: /ram|memoria|ddr4|ddr5|16gb|32gb|8gb|velocidade ram|latencia/i,
-        placamae: /placa.mae|motherboard|chipset|b550|x570|z790|formato|atx|micro.atx/i,
-        fonte: /fonte|psu|watt|80 plus|bronze|gold|modular|cabo/i
+        so: /so|sistema operacional|os|windows|linux|macos|ubuntu|android|ios/i,
+        linguagem: /linguagem|programacao|python|java|javascript|js|c\+\+|c#|php|go|rust/i,
+        ide: /ide|editor|vscode|vs code|pycharm|intellij|sublime|visual studio/i,
+        banco: /banco de dados|bd|sql|mysql|postgres|mongodb|nosql|redis/i
     }
 };
 
-/* ========== RESPOSTAS COM EXPLICAÇÕES DETALHADAS ========== */
+/* ========== RESPOSTAS PRONTAS ========== */
 const RESPOSTAS = {
-    cpu: {
-        intelVsAmd: `
-            <strong>Intel vs AMD: Qual processador escolher?</strong><br>
-            <table>
-                <tr>
-                    <th>Critério</th>
-                    <th>Intel</th>
-                    <th>AMD</th>
-                    <th>Explicação</th>
-                </tr>
-                <tr>
-                    <td><strong>Desempenho Single-Core</strong></td>
-                    <td>Melhor (jogos, apps leves)</td>
-                    <td>Bom (mas perde em clock)</td>
-                    <td>
-                        Intel tem clocks mais altos (ex: i5-14600K chega a 5.3 GHz). 
-                        Jogos como CS2, Valorant dependem disso. AMD brilha em multi-core.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Multi-Core / Produtividade</strong></td>
-                    <td>Bom</td>
-                    <td>Excelente</td>
-                    <td>
-                        AMD Ryzen 9 7950X tem 16 núcleos vs 14 do i9-14900K. 
-                        Ideal para renderização, edição de vídeo, IA, máquinas virtuais.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Preço/Desempenho</strong></td>
-                    <td>Médio</td>
-                    <td>Excelente</td>
-                    <td>
-                        Ryzen 5 7600X custa ~R$1.800 e bate i5-14600K em multitarefa. 
-                        AMD oferece mais núcleos pelo mesmo preço.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Consumo e Aquecimento</strong></td>
-                    <td>Alto (TDP 125W+)</td>
-                    <td>Médio (TDP 105W)</td>
-                    <td>
-                        AMD é mais eficiente. Intel exige cooler melhor e fonte mais robusta.
-                    </td>
-                </tr>
-            </table>
-            <div class="conclusao">
-                <strong>Recomendação:</strong><br>
-                → <strong>Jogos + uso leve:</strong> Intel (i5 ou i7)<br>
-                → <strong>Edição, render, programação:</strong> AMD (Ryzen 7 ou 9)
-            </div>
+    so: {
+        explicacao: `
+            <strong>Sistema Operacional (SO)</strong><br>
+            Software que gerencia hardware e permite rodar programas.<br><br>
+            <strong>Principais:</strong>
+            <ul>
+                <li><strong>Windows:</strong> Fácil, jogos, Office</li>
+                <li><strong>Linux:</strong> Grátis, seguro, servidores</li>
+                <li><strong>macOS:</strong> Design, integração Apple</li>
+            </ul>
         `,
         comparacao: `
-            <strong>Top CPUs 2025: Guia Completo</strong><br>
+            <strong>Windows vs Linux vs macOS</strong><br>
             <table>
-                <tr><th>CPU</th><th>Uso Ideal</th><th>Núcleos</th><th>Explicação</th></tr>
-                <tr>
-                    <td><strong>Ryzen 5 7600</strong></td>
-                    <td>Jogos + produtividade</td>
-                    <td>6C/12T</td>
-                    <td>Melhor custo-benefício. Bate i5 em multitarefa, ótimo para 1080p/1440p.</td>
-                </tr>
-                <tr>
-                    <td><strong>Core i7-14700K</strong></td>
-                    <td>Gaming premium</td>
-                    <td>20C/28T</td>
-                    <td>Excelente em jogos e edição. Consome mais, mas entrega estabilidade.</td>
-                </tr>
-                <tr>
-                    <td><strong>Ryzen 9 7950X</strong></td>
-                    <td>Workstation</td>
-                    <td>16C/32T</td>
-                    <td>Rei do multi-core. Perfeito para 3D, IA, servidores locais.</td>
-                </tr>
+                <tr><th>Sistema</th><th>Prós</th><th>Contras</th><th>Explicação</th></tr>
+                <tr><td>Windows</td><td>Jogos, softwares</td><td>Vírus, pago</td><td>70% do mercado desktop. Ideal para gamers.</td></tr>
+                <tr><td>Linux</td><td>Grátis, seguro</td><td>Curva de aprendizado</td><td>96% dos servidores. Perfeito para dev.</td></tr>
+                <tr><td>macOS</td><td>Estável, bonito</td><td>Só em Mac</td><td>Ótimo para design e vídeo.</td></tr>
             </table>
+            <div class="conclusao">Jogos → Windows | Dev → Linux | Criação → macOS</div>
         `
     },
-    gpu: {
-        comparacao: `
-            <strong>NVIDIA vs AMD: Placas de Vídeo</strong><br>
+    linguagem: {
+        explicacao: `
+            <strong>Linguagem de Programação</strong><br>
+            Código que o computador entende. Cada uma tem um foco.<br><br>
+            <strong>Populares:</strong>
+            <ul>
+                <li><strong>Python:</strong> IA, automação</li>
+                <li><strong>JavaScript:</strong> Sites</li>
+                <li><strong>Java:</strong> Android, empresas</li>
+            </ul>
+        `,
+        pythonVsJs: `
+            <strong>Python vs JavaScript</strong><br>
             <table>
-                <tr>
-                    <th>Critério</th>
-                    <th>NVIDIA</th>
-                    <th>AMD</th>
-                    <th>Explicação</th>
-                </tr>
-                <tr>
-                    <td><strong>Ray Tracing</strong></td>
-                    <td>Excelente (RTX)</td>
-                    <td>Bom (RDNA 3)</td>
-                    <td>
-                        NVIDIA tem DLSS 3 (upscaling com IA). AMD tem FSR 3, mas perde em qualidade.
-                        Jogos como Cyberpunk 2077 rodam melhor com RTX.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Custo-Benefício</strong></td>
-                    <td>Médio</td>
-                    <td>Ótimo</td>
-                    <td>
-                        RX 7800 XT custa menos que RTX 4070 e entrega FPS similar em 1440p.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Drivers</strong></td>
-                    <td>Estáveis</td>
-                    <td>Instáveis (às vezes)</td>
-                    <td>
-                        NVIDIA tem melhor suporte a criadores (CUDA, Studio). AMD melhora a cada ano.
-                    </td>
-                </tr>
+                <tr><th>Critério</th><th>Python</th><th>JavaScript</th><th>Explicação</th></tr>
+                <tr><td>Uso</td><td>IA, dados</td><td>Web</td><td>Python para ciência, JS para sites interativos.</td></tr>
+                <tr><td>Facilidade</td><td>Muito fácil</td><td>Média</td><td>Python é ideal para iniciantes.</td></tr>
+                <tr><td>Velocidade</td><td>Média</td><td>Rápida (navegador)</td><td>JS roda em tempo real no browser.</td></tr>
             </table>
-            <div class="conclusao">
-                <strong>Escolha:</strong><br>
-                → <strong>NVIDIA:</strong> Ray Tracing, streaming, edição (Premiere, DaVinci)<br>
-                → <strong>AMD:</strong> Jogos puros, 1440p/4K, orçamento
-            </div>
+            <div class="conclusao">Comece com <strong>Python</strong>. Depois aprenda <strong>JS</strong> para web.</div>
         `
     },
-    ssd: {
+    ide: {
+        explicacao: `
+            <strong>IDE (Ambiente de Desenvolvimento)</strong><br>
+            Editor com ferramentas: autocomplete, debug, Git.<br><br>
+            <strong>Melhor grátis:</strong> <strong>VS Code</strong> (Microsoft)
+        `,
         comparacao: `
-            <strong>SSD vs HDD vs NVMe: Qual armazenamento escolher?</strong><br>
+            <strong>VS Code vs PyCharm</strong><br>
             <table>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Velocidade</th>
-                    <th>Custo/GB</th>
-                    <th>Explicação</th>
-                </tr>
-                <tr>
-                    <td><strong>HDD</strong></td>
-                    <td>100-200 MB/s</td>
-                    <td>Baixo</td>
-                    <td>
-                        Barato, mas lento. Ideal para arquivos grandes (fotos, vídeos antigos). 
-                        Ruído e vibração. Não use como sistema.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>SSD SATA</strong></td>
-                    <td>500-550 MB/s</td>
-                    <td>Médio</td>
-                    <td>
-                        6x mais rápido que HDD. Bom para sistema + jogos. 
-                        Limite do barramento SATA III.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>SSD NVMe (PCIe 4.0)</strong></td>
-                    <td>5000-7000 MB/s</td>
-                    <td>Alto</td>
-                    <td>
-                        Inicialização em 8s, jogos carregam instantaneamente. 
-                        Essencial para edição de vídeo 4K/8K e IA.
-                    </td>
-                </tr>
+                <tr><th>IDE</th><th>Melhor para</th><th>Peso</th><th>Explicação</th></tr>
+                <tr><td>VS Code</td><td>Tudo</td><td>Leve</td><td>Extensões para qualquer linguagem. Rápido.</td></tr>
+                <tr><td>PyCharm</td><td>Python</td><td>Pesado</td><td>Debug avançado, mas só para Python.</td></tr>
             </table>
-            <div class="conclusao">
-                <strong>Montagem ideal:</strong><br>
-                → <strong>NVMe 1TB</strong> (sistema + jogos)<br>
-                → <strong>HDD 4TB</strong> (arquivos, backup)
-            </div>
+            <div class="conclusao">Use <strong>VS Code</strong> para tudo.</div>
         `
     },
-    ram: {
+    banco: {
+        explicacao: `
+            <strong>Banco de Dados</strong><br>
+            Armazena dados de forma organizada.<br><br>
+            <strong>Tipos:</strong>
+            <ul>
+                <li><strong>SQL:</strong> Tabelas (MySQL, PostgreSQL)</li>
+                <li><strong>NoSQL:</strong> Flexível (MongoDB)</li>
+            </ul>
+        `,
         comparacao: `
-            <strong>Quantos GB de RAM você precisa?</strong><br>
+            <strong>SQL vs NoSQL</strong><br>
             <table>
-                <tr>
-                    <th>Uso</th>
-                    <th>RAM Ideal</th>
-                    <th>Explicação</th>
-                </tr>
-                <tr>
-                    <td><strong>Navegação, Office</strong></td>
-                    <td>8 GB</td>
-                    <td>
-                        Suficiente para Chrome com 10 abas, Word, Excel. 
-                        DDR4 3200 MHz já basta.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Jogos AAA, Edição</strong></td>
-                    <td>16 GB</td>
-                    <td>
-                        Padrão atual. Jogos como GTA V, Cyberpunk usam 12-14 GB. 
-                        DDR5 6000 MHz é o ideal.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Edição 4K, IA, VMs</strong></td>
-                    <td>32 GB+</td>
-                    <td>
-                        After Effects, Blender, máquinas virtuais consomem muito. 
-                        32 GB é o novo "padrão profissional".
-                    </td>
-                </tr>
-            </table>
-            <div class="conclusao">
-                <strong>Dica:</strong> Prefira <strong>2 pentes</strong> (dual channel) e <strong>mesma marca/velocidade</strong>.
-            </div>
-        `
-    },
-    placamae: {
-        comparacao: `
-            <strong>Como escolher a placa-mãe ideal?</strong><br>
-            <table>
-                <tr>
-                    <th>Fator</th>
-                    <th>Opção</th>
-                    <th>Explicação</th>
-                </tr>
-                <tr>
-                    <td><strong>Chipset</strong></td>
-                    <td>B550, Z790</td>
-                    <td>
-                        B550 (AMD): overclock, PCIe 4.0, bom custo.<br>
-                        Z790 (Intel): mais fases VRM, PCIe 5.0, futuro-proof.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Formato</strong></td>
-                    <td>ATX vs Micro-ATX</td>
-                    <td>
-                        ATX: mais slots, melhor airflow.<br>
-                        Micro-ATX: compacto, gabinetes menores.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>VRM</strong></td>
-                    <td>8+ fases</td>
-                    <td>
-                        Essencial para overclock ou CPUs potentes (Ryzen 9, i9). 
-                        Evita gargalos térmicos.
-                    </td>
-                </tr>
+                <tr><th>Tipo</th><th>Quando usar</th><th>Exemplo</th><th>Explicação</th></tr>
+                <tr><td>SQL</td><td>Finanças, ERP</td><td>MySQL</td><td>Dados estruturados, transações seguras.</td></tr>
+                <tr><td>NoSQL</td><td>Apps, redes sociais</td><td>MongoDB</td><td>Escala rápido, dados variados.</td></tr>
             </table>
         `
     },
     default: `
-        <strong>Não entendi sua pergunta sobre hardware.</strong><br>
-        Tente exemplos como:<br>
-        <ul style="margin: 10px 0; padding-left: 20px;">
-            <li><em>Intel ou AMD?</em></li>
-            <li><em>SSD ou HDD?</em></li>
-            <li><em>16GB RAM é suficiente?</em></li>
-            <li><em>RTX 4070 ou RX 7800 XT?</em></li>
+        <strong>Não entendi sua pergunta.</strong><br>
+        Exemplos válidos:<br>
+        <ul>
+            <li><em>O que é Python?</em></li>
+            <li><em>Windows ou Linux?</em></li>
+            <li><em>VS Code é bom?</em></li>
+            <li><em>MySQL ou MongoDB?</em></li>
         </ul>
-        <em>Seja específico para uma resposta precisa!</em>
     `
 };
 
 /* ========== FUNÇÕES ========== */
-const normalizar = t => t.toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const ehComparacao = t => /melhor|ou|vs|versus|comparar|qual é melhor|diferença|contra|melhor que/i.test(t);
-
+const normalizar = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s]/g, ' ').trim();
+const ehComparacao = t => /ou|vs|versus|melhor|comparar|qual é melhor|diferença/i.test(t);
 const detectarCategoria = texto => {
     for (const [cat, regex] of Object.entries(CONFIG.sinonimos)) {
         if (regex.test(texto)) return cat;
     }
     return null;
 };
-
 const contemOfensa = texto => {
     const regex = new RegExp(CONFIG.ofensas.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'i');
     return regex.test(normalizar(texto));
 };
-
 const responder = (html) => {
     const div = document.getElementById('resposta');
     div.innerHTML = html;
     div.style.display = 'block';
     div.scrollIntoView({ behavior: 'smooth' });
 };
-
 const aviso = (msg) => {
     const div = document.getElementById('aviso');
     div.textContent = msg;
@@ -485,38 +232,29 @@ const aviso = (msg) => {
 /* ========== PROCESSAMENTO ========== */
 document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const tipo = document.getElementById('tipo').value.trim();
     const pergunta = document.getElementById('pergunta').value.trim();
     const texto = normalizar(tipo + " " + pergunta);
 
-    // Limpar
     document.getElementById('aviso').style.display = 'none';
     document.getElementById('resposta').style.display = 'none';
 
-    // Verificar ofensa
     if (contemOfensa(tipo + " " + pergunta)) {
-        return aviso("Por favor, use uma linguagem respeitosa. Evite ofensas ou termos inadequados.");
+        return aviso("Use linguagem respeitosa.");
     }
 
     const cat = detectarCategoria(texto);
     if (!cat) return responder(RESPOSTAS.default);
 
-    let resposta = RESPOSTAS.default;
+    let resposta = RESPOSTAS[cat]?.explicacao || RESPOSTAS.default;
 
     if (ehComparacao(texto)) {
         if (RESPOSTAS[cat]?.comparacao) {
             resposta = RESPOSTAS[cat].comparacao;
-
-            // Casos específicos
-            if (cat === 'cpu' && /intel.*amd|amd.*intel/i.test(texto)) {
-                resposta = RESPOSTAS.cpu.intelVsAmd;
+            if (cat === 'linguagem' && /python.*javascript|javascript.*python/i.test(texto)) {
+                resposta = RESPOSTAS.linguagem.pythonVsJs;
             }
         }
-    } else {
-        resposta = `<strong>Funcionalidade em desenvolvimento.</strong><br>
-                    Tente uma <strong>comparaçãostrong> como: 
-                    "<em>${pergunta}</em>" → "<em>Intel ou AMD?</em>"`;
     }
 
     responder(resposta);

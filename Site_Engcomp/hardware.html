@@ -5,240 +5,203 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardware - Engenharia da Computação</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        body{
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            background:#f4f4f9;color:#333;margin:0;padding:0;
+            display:flex;justify-content:center;align-items:center;
+            min-height:100vh;
         }
-
-        .container {
-            background-color: white;
-            padding: 40px 50px;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-            width: 100%;
-            text-align: center;
+        .container{
+            background:#fff;padding:40px 50px;border-radius:12px;
+            box-shadow:0 4px 16px rgba(0,0,0,.1);max-width:700px;width:100%;
+            text-align:center;
         }
-
-        h1 {
-            color: #e83e1a;
-            margin-bottom: 20px;
-            font-size: 2.3em;
+        h1{color:#e83e1a;margin-bottom:20px;font-size:2.3em;}
+        .back-link{display:inline-block;margin-bottom:20px;color:#e83e1a;
+            text-decoration:none;font-weight:bold;}
+        .back-link:hover{text-decoration:underline;}
+        form{margin:30px 0;text-align:left;}
+        label{display:block;margin:15px 0 5px;font-weight:bold;color:#444;}
+        input[type=text],textarea{
+            width:100%;padding:12px;border:1px solid #ccc;
+            border-radius:8px;font-size:1em;box-sizing:border-box;
         }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #e83e1a;
-            text-decoration: none;
-            font-weight: bold;
+        textarea{height:100px;resize:vertical;}
+        button{
+            margin-top:20px;padding:12px 30px;background:#e83e1a;
+            color:#fff;border:none;border-radius:8px;font-size:1.1em;
+            font-weight:bold;cursor:pointer;transition:.3s;
         }
-
-        .back-link:hover {
-            text-decoration: underline;
+        button:hover{background:#c32f10;}
+        .response{
+            margin-top:30px;padding:20px;background:#fdf0e8;
+            border-left:5px solid #e83e1a;border-radius:8px;
+            text-align:left;display:none;
+            animation:fadeIn .3s ease-in;
         }
-
-        form {
-            margin: 30px 0;
-            text-align: left;
+        .aviso{
+            margin-top:15px;padding:12px;background:#ffebee;
+            border-left:5px solid #d32f2f;color:#c62828;
+            border-radius:8px;display:none;
         }
-
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            font-weight: bold;
-            color: #444;
+        @keyframes fadeIn{
+            from{opacity:0;transform:translateY(-10px);}
+            to{opacity:1;transform:translateY(0);}
         }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 12px 30px;
-            background-color: #e83e1a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #c32f10;
-        }
-
-        .response {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #fdf0e8;
-            border-left: 5px solid #e83e1a;
-            border-radius: 8px;
-            text-align: left;
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
-        }
+        footer{margin-top:40px;font-size:.9em;color:#666;}
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">Voltar ao início</a>
-        <h1>Hardware</h1>
-        <p>Pergunte sobre qualquer componente ou arquitetura de hardware!</p>
+<div class="container">
+    <a href="index.html" class="back-link">Voltar ao início</a>
+    <h1>Hardware</h1>
+    <p>Pergunte sobre qualquer componente ou arquitetura de hardware!</p>
 
-        <form id="perguntaForm">
-            <label for="tipo">Tipo de Hardware:</label>
-            <input type="text" id="tipo" placeholder="Ex: Processador, RAM, SSD, GPU..." required>
+    <form id="perguntaForm">
+        <label for="tipo">Tipo de Hardware:</label>
+        <input type="text" id="tipo" placeholder="Ex: Processador, RAM, SSD, GPU..." required>
 
-            <label for="pergunta">Sua Pergunta:</label>
-            <textarea id="pergunta" placeholder="Ex: Qual a diferença entre HDD e SSD?" required></textarea>
+        <label for="pergunta">Sua Pergunta:</label>
+        <textarea id="pergunta" placeholder="Ex: Qual a diferença entre HDD e SSD?" required></textarea>
 
-            <button type="submit">Enviar Pergunta</button>
-        </form>
+        <button type="submit">Enviar Pergunta</button>
+    </form>
 
-        <div id="resposta" class="response"></div>
+    <div id="aviso" class="aviso"></div>
+    <div id="resposta" class="response"></div>
 
-        <footer>
-            <p>Engenharia da Computação &copy; 2025</p>
-        </footer>
-    </div>
+    <footer><p>Engenharia da Computação &copy; 2025</p></footer>
+</div>
 
-    <script>
-        // === SINÔNIMOS E ABREVIAÇÕES ===
-        const sinonimos = {
-            processador: /proc|processador|cpu|core|ryzen|intel|amd/i,
-            gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica/i,
-            ram: /ram|memoria ram|memo|memória|ddr/i,
-            rom: /rom|bios|uefi|firmware/i,
-            cache: /cache|l1|l2|l3/i,
-            hdd: /hdd|hd|disco rigido|disco rígido/i,
-            ssd: /ssd|nvme|unidade de estado solido|solido/i,
-            placaMae: /placa.?mãe|motherboard|mainboard|placa base/i,
-            chipset: /chipset|z790|b650|x670/i
-        };
+<script>
+/* ---------- LISTA DE PALAVRAS OFENSIVAS (em português) ---------- */
+const palavrasProibidas = [
+    "porra","caralho","fod[aeo]","puta","merda","cu","bunda","buceta","pau","piroca",
+    "viado","bicha","traveco","sapatão","arrombado","filho da puta","vagabundo",
+    "idiota","burro","retardado","mongol","mongolóide","deficiente","aleijado",
+    "macaco","preto","branco","judeu","árabe","muçulmano","cristão","negro","branco",
+    "lixo","escória","nojo","verme","sujo","podre","ridículo","patético"
+];
 
-        // === RESPOSTAS PRÉ-DEFINIDAS ===
-        const respostas = {
-            processador: {
-                cpu: "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
-                gpu: "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
-                diferenca: "CPU: geral, poucos núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
-            },
-            memoria: {
-                ram: "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
-                rom: "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
-                cache: "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
-            },
-            armazenamento: {
-                hdd: "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
-                ssd: "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
-                nvme: "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
-                diferenca: "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
-            },
-            placaMae: {
-                oque: "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
-                chipset: "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
-            },
-            default: "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU, HDD, NVMe..."
-        };
+const regexOfensa = new RegExp(
+    palavrasProibidas.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
+    'i'
+);
 
-        // === FUNÇÃO DE NORMALIZAÇÃO ===
-        const normalizar = (texto) => texto.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '') // remove acentos
-            .replace(/[^a-z0-9\s]/g, ' ')   // remove caracteres especiais
-            .replace(/\s+/g, ' ')
-            .trim();
+/* ---------- SINÔNIMOS (igual ao anterior) ---------- */
+const sinonimos = {
+    processador: /proc|processador|cpu|core|ryzen|intel|amd/i,
+    gpu: /gpu|placa de video|rtx|radeon|grafica|gráfica/i,
+    ram: /ram|memoria ram|memo|memória|ddr/i,
+    rom: /rom|bios|uefi|firmware/i,
+    cache: /cache|l1|l2|l3/i,
+    hdd: /hdd|hd|disco rigido|disco rígido/i,
+    ssd: /ssd|nvme|unidade de estado solido|solido/i,
+    placaMae: /placa.?mãe|motherboard|mainboard|placa base/i,
+    chipset: /chipset|z790|b650|x670/i
+};
 
-        // === FUNÇÃO PRINCIPAL DE BUSCA ===
-        function buscarResposta(tipo, pergunta) {
-            const tipoNorm = normalizar(tipo);
-            const perguntaNorm = normalizar(pergunta);
+/* ---------- RESPOSTAS PRÉ-DEFINIDAS ---------- */
+const respostas = {
+    processador: {
+        cpu: "CPU (Unidade Central de Processamento) é o 'cérebro' do computador. Executa instruções, faz cálculos e gerencia tarefas. Ex: Intel Core i7, AMD Ryzen 9.",
+        gpu: "GPU (Unidade de Processamento Gráfico) é especializada em renderização de imagens, vídeos e jogos. Ex: NVIDIA RTX, AMD Radeon.",
+        diferenca: "CPU: geral, poucos núcleos, alta frequência. GPU: paralela, milhares de núcleos, ideal para gráficos e IA."
+    },
+    memoria: {
+        ram: "RAM (Memória de Acesso Aleatório) é volátil e rápida. Armazena dados em uso. Quanto mais, mais multitarefa. Tipos: DDR4, DDR5.",
+        rom: "ROM (Memória Somente Leitura) armazena firmware (ex: BIOS/UEFI). Não volátil, não perde dados ao desligar.",
+        cache: "Cache é uma memória ultrarrápida dentro da CPU. Armazena dados frequentemente usados. Níveis: L1, L2, L3."
+    },
+    armazenamento: {
+        hdd: "HDD (Disco Rígido) usa discos magnéticos giratórios. Barato, mas lento e mecânico. Ideal para armazenamento em massa.",
+        ssd: "SSD (Unidade de Estado Sólido) usa chips de memória flash. Muito rápido, silencioso e resistente. Padrão atual.",
+        nvme: "NVMe é um protocolo para SSDs de alta velocidade via PCIe. Até 7x mais rápido que SATA SSD.",
+        diferenca: "HDD: lento, barato, grande capacidade. SSD: rápido, caro, menor capacidade. NVMe: o mais rápido."
+    },
+    placaMae: {
+        oque: "A placa-mãe conecta todos os componentes: CPU, RAM, armazenamento, GPU, etc. Define compatibilidade e expansão.",
+        chipset: "Chipset controla comunicação entre CPU e periféricos. Ex: Intel Z790, AMD B650."
+    },
+    default: "Desculpe, não entendi sua pergunta sobre hardware. Tente usar palavras como CPU, RAM, SSD, GPU, HDD, NVMe..."
+};
 
-            // Detectar categoria
-            let categoria = 'default';
+/* ---------- NORMALIZAÇÃO ---------- */
+const normalizar = t => t.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
 
-            if (sinonimos.processador.test(tipoNorm)) categoria = 'processador';
-            else if (sinonimos.ram.test(tipoNorm) || sinonimos.rom.test(tipoNorm) || sinonimos.cache.test(tipoNorm)) categoria = 'memoria';
-            else if (sinonimos.hdd.test(tipoNorm) || sinonimos.ssd.test(tipoNorm)) categoria = 'armazenamento';
-            else if (sinonimos.placaMae.test(tipoNorm)) categoria = 'placaMae';
+/* ---------- BUSCA DE RESPOSTA ---------- */
+function buscarResposta(tipo, pergunta){
+    const texto = normalizar(tipo + " " + pergunta);
+    let cat = 'default';
 
-            // Buscar resposta específica
-            const respostasCat = respostas[categoria];
+    if(sinonimos.processador.test(texto)) cat = 'processador';
+    else if(sinonimos.ram.test(texto) || sinonimos.rom.test(texto) || sinonimos.cache.test(texto)) cat = 'memoria';
+    else if(sinonimos.hdd.test(texto) || sinonimos.ssd.test(texto)) cat = 'armazenamento';
+    else if(sinonimos.placaMae.test(texto)) cat = 'placaMae';
 
-            if (categoria === 'processador') {
-                if (sinonimos.cpu.test(perguntaNorm)) return respostasCat.cpu;
-                if (sinonimos.gpu.test(perguntaNorm)) return respostasCat.gpu;
-                if (/diferen|compar|qual a diferenca/i.test(perguntaNorm)) return respostasCat.diferenca;
-            }
-            else if (categoria === 'memoria') {
-                if (sinonimos.ram.test(perguntaNorm)) return respostasCat.ram;
-                if (sinonimos.rom.test(perguntaNorm)) return respostasCat.rom;
-                if (sinonimos.cache.test(perguntaNorm)) return respostasCat.cache;
-            }
-            else if (categoria === 'armazenamento') {
-                if (sinonimos.hdd.test(perguntaNorm)) return respostasCat.hdd;
-                if (sinonimos.ssd.test(perguntaNorm)) return respostasCat.ssd;
-                if (/nvme/i.test(perguntaNorm)) return respostasCat.nvme;
-                if (/diferen|compar|qual a diferenca/i.test(perguntaNorm)) return respostasCat.diferenca;
-            }
-            else if (categoria === 'placaMae') {
-                if (/o que|função|para que serve/i.test(perguntaNorm)) return respostasCat.oque;
-                if (sinonimos.chipset.test(perguntaNorm)) return respostasCat.chipset;
-            }
+    const r = respostas[cat];
 
-            // Resposta genérica da categoria
-            if (categoria !== 'default' && respostasCat) {
-                return Object.values(respostasCat)[0]; // primeira resposta da categoria
-            }
+    if(cat === 'processador'){
+        if(sinonimos.cpu.test(texto)) return r.cpu;
+        if(sinonimos.gpu.test(texto)) return r.gpu;
+        if(/diferen|compar|qual a diferenca/i.test(texto)) return r.diferenca;
+    }
+    else if(cat === 'memoria'){
+        if(sinonimos.ram.test(texto)) return r.ram;
+        if(sinonimos.rom.test(texto)) return r.rom;
+        if(sinonimos.cache.test(texto)) return r.cache;
+    }
+    else if(cat === 'armazenamento'){
+        if(sinonimos.hdd.test(texto)) return r.hdd;
+        if(sinonimos.ssd.test(texto)) return r.ssd;
+        if(/nvme/i.test(texto)) return r.nvme;
+        if(/diferen|compar|qual a diferenca/i.test(texto)) return r.diferenca;
+    }
+    else if(cat === 'placaMae'){
+        if(/o que|função|para que serve/i.test(texto)) return r.oque;
+        if(sinonimos.chipset.test(texto)) return r.chet;
+    }
 
-            return respostas.default;
-        }
+    return cat !== 'default' ? Object.values(r)[0] : respostas.default;
+}
 
-        // === EVENTO DO FORMULÁRIO ===
-        document.getElementById("perguntaForm").addEventListener("submit", function(e) {
-            e.preventDefault();
+/* ---------- VALIDAÇÃO DE OFENSAS ---------- */
+function contemOfensa(texto){
+    return regexOfensa.test(normalizar(texto));
+}
 
-            const tipo = document.getElementById("tipo").value;
-            const pergunta = document.getElementById("pergunta").value;
-            const respostaDiv = document.getElementById("resposta");
+/* ---------- SUBMISSÃO DO FORMULÁRIO ---------- */
+document.getElementById('perguntaForm').addEventListener('submit', function(e){
+    e.preventDefault();
 
-            const resposta = buscarResposta(tipo, pergunta);
+    const tipo     = document.getElementById('tipo').value;
+    const pergunta = document.getElementById('pergunta').value;
+    const avisoDiv = document.getElementById('aviso');
+    const respDiv  = document.getElementById('resposta');
 
-            respostaDiv.textContent = resposta;
-            respostaDiv.style.display = "block";
-        });
-    </script>
+    // limpa mensagens anteriores
+    avisoDiv.style.display = 'none';
+    respDiv.style.display  = 'none';
+    avisoDiv.textContent   = '';
+    respDiv.textContent    = '';
+
+    // verifica ofensa
+    if(contemOfensa(tipo + " " + pergunta)){
+        avisoDiv.textContent = "Por favor, mantenha a linguagem respeitosa. Não são permitidas ofensas, palavrões ou discriminações.";
+        avisoDiv.style.display = 'block';
+        return;
+    }
+
+    // responde normalmente
+    const resposta = buscarResposta(tipo, pergunta);
+    respDiv.textContent = resposta;
+    respDiv.style.display = 'block';
+});
+</script>
 </body>
 </html>

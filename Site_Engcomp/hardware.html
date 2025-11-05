@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software - Engenharia da Computação</title>
+    <title>Hardware - Engenharia da Computação</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
@@ -83,13 +83,13 @@
     <a href="index.html" class="back-link">
         <i class="material-icons">arrow_back</i> Voltar ao início
     </a>
-    <h1>Software</h1>
-    <p>Pergunte sobre linguagens, IDEs, bancos, SOs e mais!</p>
+    <h1>Hardware</h1>
+    <p>Pergunte sobre CPU, GPU, SSD, RAM e mais!</p>
     <form id="perguntaForm">
-        <label for="tipo">Tipo de Software:</label>
-        <input type="text" id="tipo" placeholder="Ex: Linguagem, IDE, SO, Banco..." required>
+        <label for="tipo">Tipo de Hardware:</label>
+        <input type="text" id="tipo" placeholder="Ex: CPU, GPU, SSD, RAM..." required>
         <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: O que é Python? VS Code é bom?" required></textarea>
+        <textarea id="pergunta" placeholder="Ex: O que é SSD? Intel ou AMD?" required></textarea>
         <button type="submit">
             <i class="material-icons">send</i> Enviar Pergunta
         </button>
@@ -104,102 +104,96 @@
 const CONFIG = {
     ofensas: ["porra","caralho","puta","merda","cu","bunda","pau","viado","idiota","burro"],
     sinonimos: {
-        so: /so|sistema operacional|os|windows|linux|macos|ubuntu|android|ios/i,
-        linguagem: /linguagem|programacao|python|java|javascript|js|c\+\+|c#|php|go|rust/i,
-        ide: /ide|editor|vscode|vs code|pycharm|intellij|sublime|visual studio/i,
-        banco: /banco de dados|bd|sql|mysql|postgres|mongodb|nosql|redis/i
+        cpu: /cpu|processador|intel|amd|ryzen|core i/i,
+        gpu: /gpu|placa de video|nvidia|amd|rtx|radeon/i,
+        ssd: /ssd|hdd|nvme|disco|armazenamento/i,
+        ram: /ram|memoria|ddr4|ddr5|16gb/i
     }
 };
 
 /* ========== RESPOSTAS PRONTAS ========== */
 const RESPOSTAS = {
-    so: {
+    cpu: {
         explicacao: `
-            <strong>Sistema Operacional (SO)</strong><br>
-            Software que gerencia hardware e permite rodar programas.<br><br>
-            <strong>Principais:</strong>
+            <strong>CPU (Processador)</strong><br>
+            Cérebro do computador. Executa instruções.<br><br>
+            <strong>Marcas:</strong>
             <ul>
-                <li><strong>Windows:</strong> Fácil, jogos, Office</li>
-                <li><strong>Linux:</strong> Grátis, seguro, servidores</li>
-                <li><strong>macOS:</strong> Design, integração Apple</li>
+                <li><strong>Intel:</strong> Bom em jogos</li>
+                <li><strong>AMD:</strong> Mais núcleos, melhor custo</li>
             </ul>
         `,
         comparacao: `
-            <strong>Windows vs Linux vs macOS</strong><br>
+            <strong>Intel vs AMD</strong><br>
             <table>
-                <tr><th>Sistema</th><th>Prós</th><th>Contras</th><th>Explicação</th></tr>
-                <tr><td>Windows</td><td>Jogos, softwares</td><td>Vírus, pago</td><td>70% do mercado desktop. Ideal para gamers.</td></tr>
-                <tr><td>Linux</td><td>Grátis, seguro</td><td>Curva de aprendizado</td><td>96% dos servidores. Perfeito para dev.</td></tr>
-                <tr><td>macOS</td><td>Estável, bonito</td><td>Só em Mac</td><td>Ótimo para design e vídeo.</td></tr>
+                <tr><th>Critério</th><th>Intel</th><th>AMD</th><th>Explicação</th></tr>
+                <tr><td>Jogos</td><td>Melhor</td><td>Bom</td><td>Intel tem clock mais alto.</td></tr>
+                <tr><td>Produtividade</td><td>Bom</td><td>Excelente</td><td>AMD tem mais núcleos (ex: Ryzen 9).</td></tr>
+                <tr><td>Preço</td><td>Caro</td><td>Barato</td><td>AMD entrega mais por menos.</td></tr>
             </table>
-            <div class="conclusao">Jogos → Windows | Dev → Linux | Criação → macOS</div>
+            <div class="conclusao">Jogos → Intel | Trabalho → AMD</div>
         `
     },
-    linguagem: {
+    gpu: {
         explicacao: `
-            <strong>Linguagem de Programação</strong><br>
-            Código que o computador entende. Cada uma tem um foco.<br><br>
-            <strong>Populares:</strong>
-            <ul>
-                <li><strong>Python:</strong> IA, automação</li>
-                <li><strong>JavaScript:</strong> Sites</li>
-                <li><strong>Java:</strong> Android, empresas</li>
-            </ul>
-        `,
-        pythonVsJs: `
-            <strong>Python vs JavaScript</strong><br>
-            <table>
-                <tr><th>Critério</th><th>Python</th><th>JavaScript</th><th>Explicação</th></tr>
-                <tr><td>Uso</td><td>IA, dados</td><td>Web</td><td>Python para ciência, JS para sites interativos.</td></tr>
-                <tr><td>Facilidade</td><td>Muito fácil</td><td>Média</td><td>Python é ideal para iniciantes.</td></tr>
-                <tr><td>Velocidade</td><td>Média</td><td>Rápida (navegador)</td><td>JS roda em tempo real no browser.</td></tr>
-            </table>
-            <div class="conclusao">Comece com <strong>Python</strong>. Depois aprenda <strong>JS</strong> para web.</div>
-        `
-    },
-    ide: {
-        explicacao: `
-            <strong>IDE (Ambiente de Desenvolvimento)</strong><br>
-            Editor com ferramentas: autocomplete, debug, Git.<br><br>
-            <strong>Melhor grátis:</strong> <strong>VS Code</strong> (Microsoft)
+            <strong>GPU (Placa de Vídeo)</strong><br>
+            Processa gráficos. Essencial para jogos, edição, IA.<br><br>
+            <strong>Marcas:</strong> NVIDIA (RTX), AMD (Radeon)
         `,
         comparacao: `
-            <strong>VS Code vs PyCharm</strong><br>
+            <strong>NVIDIA vs AMD</strong><br>
             <table>
-                <tr><th>IDE</th><th>Melhor para</th><th>Peso</th><th>Explicação</th></tr>
-                <tr><td>VS Code</td><td>Tudo</td><td>Leve</td><td>Extensões para qualquer linguagem. Rápido.</td></tr>
-                <tr><td>PyCharm</td><td>Python</td><td>Pesado</td><td>Debug avançado, mas só para Python.</td></tr>
+                <tr><th>Critério</th><th>NVIDIA</th><th>AMD</th><th>Explicação</th></tr>
+                <tr><td>Ray Tracing</td><td>Excelente</td><td>Bom</td><td>NVIDIA tem DLSS (upscaling com IA).</td></tr>
+                <tr><td>Custo</td><td>Caro</td><td>Barato</td><td>AMD entrega mais FPS por real.</td></tr>
+                <tr><td>Drivers</td><td>Estáveis</td><td>Instáveis</td><td>NVIDIA é melhor para criadores.</td></tr>
             </table>
-            <div class="conclusao">Use <strong>VS Code</strong> para tudo.</div>
         `
     },
-    banco: {
+    ssd: {
         explicacao: `
-            <strong>Banco de Dados</strong><br>
-            Armazena dados de forma organizada.<br><br>
+            <strong>SSD</strong><br>
+            Armazenamento rápido. Inicialização em segundos.<br><br>
             <strong>Tipos:</strong>
             <ul>
-                <li><strong>SQL:</strong> Tabelas (MySQL, PostgreSQL)</li>
-                <li><strong>NoSQL:</strong> Flexível (MongoDB)</li>
+                <li><strong>SATA:</strong> ~550 MB/s</li>
+                <li><strong>NVMe:</strong> ~7000 MB/s</li>
             </ul>
         `,
         comparacao: `
-            <strong>SQL vs NoSQL</strong><br>
+            <strong>SSD vs HDD</strong><br>
             <table>
-                <tr><th>Tipo</th><th>Quando usar</th><th>Exemplo</th><th>Explicação</th></tr>
-                <tr><td>SQL</td><td>Finanças, ERP</td><td>MySQL</td><td>Dados estruturados, transações seguras.</td></tr>
-                <tr><td>NoSQL</td><td>Apps, redes sociais</td><td>MongoDB</td><td>Escala rápido, dados variados.</td></tr>
+                <tr><th>Tipo</th><th>Velocidade</th><th>Custo/GB</th><th>Explicação</th></tr>
+                <tr><td>SSD</td><td>10x mais rápido</td><td>Alto</td><td>Sistema + jogos.</td></tr>
+                <tr><td>HDD</td><td>Lento</td><td>Baixo</td><td>Arquivos grandes, backup.</td></tr>
+            </table>
+            <div class="conclusao">Use <strong>NVMe 1TB</strong> + <strong>HDD 4TB</strong></div>
+        `
+    },
+    ram: {
+        explicacao: `
+            <strong>RAM (Memória)</strong><br>
+            Armazena dados temporários. Mais = mais programas abertos.<br><br>
+            <strong>Padrão 2025:</strong> 16 GB
+        `,
+        comparacao: `
+            <strong>8GB vs 16GB vs 32GB</strong><br>
+            <table>
+                <tr><th>Uso</th><th>RAM</th><th>Explicação</th></tr>
+                <tr><td>Navegação</td><td>8GB</td><td>Chrome + Office.</td></tr>
+                <tr><td>Jogos AAA</td><td>16GB</td><td>Padrão atual.</td></tr>
+                <tr><td>Edição 4K</td><td>32GB</td><td>After Effects, Blender.</td></tr>
             </table>
         `
     },
     default: `
-        <strong>Não entendi sua pergunta.</strong><br>
-        Exemplos válidos:<br>
+        <strong>Não entendi.</strong><br>
+        Exemplos:<br>
         <ul>
-            <li><em>O que é Python?</em></li>
-            <li><em>Windows ou Linux?</em></li>
-            <li><em>VS Code é bom?</em></li>
-            <li><em>MySQL ou MongoDB?</em></li>
+            <li><em>O que é CPU?</em></li>
+            <li><em>Intel ou AMD?</em></li>
+            <li><em>SSD é rápido?</em></li>
+            <li><em>16GB RAM é suficiente?</em></li>
         </ul>
     `
 };
@@ -251,9 +245,6 @@ document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     if (ehComparacao(texto)) {
         if (RESPOSTAS[cat]?.comparacao) {
             resposta = RESPOSTAS[cat].comparacao;
-            if (cat === 'linguagem' && /python.*javascript|javascript.*python/i.test(texto)) {
-                resposta = RESPOSTAS.linguagem.pythonVsJs;
-            }
         }
     }
 

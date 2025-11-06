@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Expert - Funciona!</title>
+    <title>Software Expert - Respeito e Precisão</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -118,7 +118,7 @@
         }
         table {
             width: 100%;
-            border-collapse: collapse;
+           11:1 border-collapse: collapse;
             margin: 20px 0;
             background: white;
             border-radius: 10px;
@@ -207,7 +207,7 @@
 
 <div class="container">
     <h1>Software Expert</h1>
-    <p class="subtitle">Explico. Comparo. Ensino. Com respeito e clareza.</p>
+    <p class="subtitle">Respeito, clareza e aprendizado. Sempre.</p>
 
     <form id="form">
         <label>Área:</label>
@@ -223,7 +223,7 @@
 
     <div id="loading" class="loading">
         <div class="spinner"></div>
-        <p>Processando...</p>
+        <p>Processando com precisão...</p>
     </div>
 
     <div id="aviso" class="aviso" style="display:none;"></div>
@@ -241,8 +241,8 @@
 </div>
 
 <script>
-// PALAVRAS OFENSIVAS
-const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético/i;
+// LISTA DE XINGAMENTOS E OFENSAS
+const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
 
 // CONHECIMENTO
 const DB = {
@@ -272,14 +272,19 @@ document.getElementById('form').onsubmit = function(e) {
     const pergunta = document.getElementById('pergunta').value.trim();
     const textoCompleto = (tipo + " " + pergunta).toLowerCase();
 
-    // REPREENSÃO POR OFENSA
+    // REPREENSÃO IMEDIATA POR XINGAMENTO
     if (OFENSAS.test(textoCompleto)) {
-        document.getElementById('aviso').innerHTML = 
-            `<strong>Respeito é essencial.</strong><br>
-             Use uma linguagem educada. Aqui é um espaço de aprendizado, não de ofensas.`;
-        document.getElementById('aviso').style.display = 'block';
+        const aviso = document.getElementById('aviso');
+        aviso.innerHTML = `
+            <strong>🚫 LINGUAGEM INACEITÁVEL</strong><br><br>
+            Aqui não toleramos ofensas, xingamentos ou desrespeito.<br>
+            Este é um espaço de <strong>aprendizado, respeito e conhecimento</strong>.<br><br>
+            <em>Reformule sua pergunta com educação. Estou aqui para ajudar — com respeito mútuo.</em>
+        `;
+        aviso.style.display = 'block';
         document.getElementById('resposta').style.display = 'none';
         document.getElementById('loading').style.display = 'none';
+        aviso.scrollIntoView({ behavior: 'smooth' });
         return;
     }
 
@@ -292,7 +297,7 @@ document.getElementById('form').onsubmit = function(e) {
         const lower = textoCompleto;
 
         // EXPLICAÇÃO
-        if (lower.includes('o que é') || lower.includes('explique') || lower.includes('como funciona')) {
+        if (/o que é|explique|como funciona|definição|conceito/.test(lower)) {
             if (lower.includes('python')) {
                 html = `<h3>Python</h3>
                         <p>Python é uma linguagem interpretada, de alto nível, criada em 1991 por Guido van Rossum. Famosa por sua simplicidade e legibilidade.</p>
@@ -307,8 +312,8 @@ document.getElementById('form').onsubmit = function(e) {
         }
 
         // COMPARAÇÃO
-        else if (lower.includes('ou') || lower.includes('vs') || lower.includes('melhor') || lower.includes('comparar')) {
-            if ((lower.includes('windows') || lower.includes('linux')) && lower.includes('so')) {
+        else if (/ou|vs|versus|melhor|comparar|diferença/.test(lower)) {
+            if ((lower.includes('windows') || lower.includes('linux')) && /so|sistema/.test(lower)) {
                 html = `<h3>Windows vs Linux</h3>
                         <table>
                             <tr><th></th><th>Windows</th><th>Linux</th></tr>
@@ -332,13 +337,14 @@ document.getElementById('form').onsubmit = function(e) {
 
         // PADRÃO
         if (!html) {
-            html = `<p>Tente: <strong>"O que é Python?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
+            html = `<p>Não entendi. Tente: <strong>"O que é Python?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
         }
 
-        document.getElementById('resposta').innerHTML = html;
-        document.getElementById('resposta').style.display = 'block';
+        const resposta = document.getElementById('resposta');
+        resposta.innerHTML = html;
+        resposta.style.display = 'block';
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('resposta').scrollIntoView({ behavior: 'smooth' });
+        resposta.scrollIntoView({ behavior: 'smooth' });
     }, 600);
 };
 </script>

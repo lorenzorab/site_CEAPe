@@ -3,232 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Expert - Engenharia da Computação</title>
+    <title>Software Expert - Funciona!</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a73e8;
             --primary-dark: #1557b0;
-            --accent: #0d47a1;
             --bg: #f8f9fc;
             --card: #ffffff;
             --text: #2d3748;
-            --text-light: #4a5568;
             --success: #e8f5e8;
-            --warning: #fff8e1;
             --border: #e2e8f0;
-            --danger: #c62828;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 12px 32px rgba(0,0,0,0.15);
             --radius: 14px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
             color: var(--text);
-            line-height: 1.7;
-            min-height: 100vh;
-            padding: 24px;
+            padding: 30px;
         }
         .container {
-            background: var(--card);
-            padding: 48px 60px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
             max-width: 1000px;
             margin: 0 auto;
-            position: relative;
-            overflow: hidden;
+            background: var(--card);
+            padding: 50px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
-        .back-link:hover { color: var(--primary-dark); text-decoration: underline; }
-        .back-link i { font-size: 1.2em; }
         h1 {
-            color: var(--primary);
             font-size: 2.8rem;
-            font-weight: 700;
-            margin: 12px 0;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary), #0d47a1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 10px;
         }
         .subtitle {
-            color: var(--text-light);
-            font-size: 1.15rem;
-            margin-top: 8px;
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 40px;
         }
         form {
-            margin: 40px 0;
             background: #f8f9fc;
-            padding: 32px;
+            padding: 30px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
+            margin-bottom: 30px;
         }
         label {
             display: block;
-            margin: 20px 0 8px;
+            margin: 15px 0 8px;
             font-weight: 600;
-            color: #2d3748;
-            font-size: 1.1rem;
         }
-        input[type="text"], textarea {
+        input, textarea {
             width: 100%;
-            padding: 16px 18px;
+            padding: 14px 16px;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            font-size: 1.05rem;
-            transition: var(--transition);
-            background: white;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
-            transform: translateY(-1px);
+            box-shadow: 0 0 0 4px rgba(26,115,232,0.15);
         }
-        textarea { 
-            height: 130px; 
-            resize: vertical;
-            font-family: inherit;
-        }
+        textarea { height: 120px; resize: vertical; }
         button {
-            margin-top: 28px;
-            padding: 16px 36px;
+            margin-top: 20px;
+            padding: 14px 32px;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 1.15rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-sm);
+            gap: 8px;
+            transition: all 0.2s;
         }
-        button:hover { 
-            background: var(--primary-dark); 
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        button:active { transform: translateY(0); }
-        button i { font-size: 1.3em; }
-        .response, .aviso {
-            margin-top: 32px;
-            padding: 28px;
-            border-radius: var(--radius);
-            animation: fadeIn 0.5s ease-out;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            position: relative;
-            overflow: hidden;
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
         .response {
+            margin-top: 30px;
+            padding: 30px;
             background: var(--success);
             border-left: 6px solid #2e7d32;
-            box-shadow: var(--shadow-sm);
-        }
-        .aviso {
-            background: var(--warning);
-            border-left: 6px solid var(--danger);
-            color: #b00020;
-            box-shadow: var(--shadow-sm);
-        }
-        .response h3, .response h4 {
-            color: var(--primary);
-            margin: 20px 0 12px;
-            font-weight: 600;
+            border-radius: var(--radius);
+            animation: fadeIn 0.5s ease-out;
+            line-height: 1.8;
         }
         .response h3 {
+            color: var(--primary);
+            margin: 20px 0 10px;
             font-size: 1.5rem;
-            border-bottom: 2px solid rgba(26, 115, 232, 0.2);
+            border-bottom: 2px solid rgba(26,115,232,0.2);
             padding-bottom: 8px;
         }
-        .response h4 { font-size: 1.25rem; }
-        .response table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            font-size: 0.98rem;
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .response th, .response td {
+        th, td {
             padding: 16px;
             text-align: left;
-            vertical-align: top;
             border-bottom: 1px solid #e2e8f0;
         }
-        .response th {
-            background: rgba(26, 115, 232, 0.1);
-            font-weight: 600;
+        th {
+            background: rgba(26,115,232,0.1);
             color: var(--primary);
-            width: 22%;
-        }
-        .response td strong { color: var(--primary); }
-        .explicacao, .conclusao, .exemplo {
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 5px solid var(--primary);
-            background: rgba(26, 115, 232, 0.05);
-            position: relative;
-        }
-        .exemplo {
-            background: #f1f3f4;
-            border-left-color: #666;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
-        .exemplo code {
-            background: #e2e8f0;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        .conclusao {
-            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(26, 115, 232, 0.05));
             font-weight: 600;
-            color: var(--primary);
-            border-left: 5px solid var(--primary);
         }
         .chip {
             display: inline-block;
             padding: 6px 12px;
-            background: rgba(26, 115, 232, 0.15);
+            background: rgba(26,115,232,0.15);
             color: var(--primary);
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             margin: 4px 6px 4px 0;
         }
+        .exemplo {
+            background: #f1f3f4;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #666;
+        }
+        .conclusao {
+            background: linear-gradient(135deg, rgba(26,115,232,0.1), rgba(26,115,232,0.05));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            font-weight: 600;
+            color: var(--primary);
+            margin: 20px 0;
+        }
         .loading {
-            display: none;
             text-align: center;
             padding: 40px;
-            color: var(--text-light);
+            color: #4a5568;
+            display: none;
         }
         .spinner {
             width: 40px;
@@ -237,460 +165,153 @@
             border-top: 4px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 15px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        footer {
-            margin-top: 48px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #718096;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-        }
-        .suggestions {
-            margin-top: 24px;
-            padding: 20px;
-            background: #f8f9fc;
-            border-radius: 12px;
-            border: 1px dashed var(--border);
-        }
-        .suggestions h4 {
-            margin-bottom: 12px;
-            color: var(--primary);
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .suggestion {
             display: inline-block;
             margin: 6px;
-            padding: 8px 16px;
+            padding: 10px 18px;
             background: white;
             border: 1px solid var(--border);
             border-radius: 8px;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: var(--transition);
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
         .suggestion:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <a href="index.html" class="back-link">
-            <i class="material-icons">arrow_back</i> Voltar
-        </a>
-        <h1>Software Expert</h1>
-        <p class="subtitle">Explique, compare, aprenda — tudo sobre tecnologia com profundidade e clareza.</p>
-    </div>
 
-    <form id="perguntaForm">
-        <label for="tipo">Área de Interesse:</label>
-        <input type="text" id="tipo" placeholder="Ex: Sistema Operacional, Linguagem, IDE, Banco de Dados..." required>
-        
-        <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: O que é Python? Windows ou Linux? Como funciona o VS Code? MySQL vs MongoDB?" required></textarea>
-        
+<div class="container">
+    <h1>Software Expert</h1>
+    <p class="subtitle">Explico. Comparo. Ensino. Tudo sobre tecnologia.</p>
+
+    <form id="form">
+        <label>Área:</label>
+        <input type="text" id="tipo" placeholder="Ex: Linguagem, SO, IDE..." required>
+
+        <label>Pergunta:</label>
+        <textarea id="pergunta" placeholder="Ex: O que é Python? Windows ou Linux?" required></textarea>
+
         <button type="submit">
-            <i class="material-icons">smart_toy</i> Perguntar ao Expert
+            <span class="material-icons">smart_toy</span> Perguntar
         </button>
     </form>
 
     <div id="loading" class="loading">
         <div class="spinner"></div>
-        <p>Analisando sua pergunta com precisão...</p>
+        <p>Processando...</p>
     </div>
 
-    <div id="aviso" class="aviso"></div>
     <div id="resposta" class="response"></div>
 
-    <div class="suggestions">
-        <h4>Perguntas rápidas:</h4>
-        <div class="suggestion" data-tipo="Sistema Operacional" data-pergunta="O que é Linux?">O que é Linux?</div>
-        <div class="suggestion" data-tipo="Linguagem" data-pergunta="Python ou JavaScript?">Python ou JS?</div>
-        <div class="suggestion" data-tipo="IDE" data-pergunta="VS Code é melhor?">VS Code é melhor?</div>
-        <div class="suggestion" data-tipo="Banco de Dados" data-pergunta="SQL vs NoSQL">SQL vs NoSQL</div>
+    <div style="margin-top: 30px; padding: 20px; background: #f8f9fc; border-radius: 12px;">
+        <strong>Perguntas rápidas:</strong><br><br>
+        <div class="suggestion" onclick="perguntar('Linguagem', 'O que é Python?')">O que é Python?</div>
+        <div class="suggestion" onclick="perguntar('SO', 'Windows ou Linux?')">Windows ou Linux?</div>
+        <div class="suggestion" onclick="perguntar('IDE', 'VS Code é melhor?')">VS Code é melhor?</div>
+        <div class="suggestion" onclick="perguntar('Banco de Dados', 'SQL vs NoSQL')">SQL vs NoSQL</div>
     </div>
 
-    <footer><p>Engenharia da Computação © 2025 • Feito com precisão e paixão</p></footer>
+    <footer>Engenharia da Computação © 2025</footer>
 </div>
 
 <script>
-// ========== BANCO DE CONHECIMENTO AVANÇADO ==========
-const CONHECIMENTO = {
+// CONHECIMENTO
+const DB = {
     so: {
-        itens: {
-            windows: {
-                nome: "Windows",
-                explicacao: `
-                    <h3>Windows (Microsoft)</h3>
-                    <div class="explicacao">
-                        <p><strong>Arquitetura:</strong> Kernel híbrido (NT). Gerencia processos, memória e hardware com abstração completa.</p>
-                        <p><strong>História:</strong> Lançado em 1985. Windows 11 (2021) trouxe interface moderna, suporte a apps Android e foco em segurança.</p>
-                        <p><strong>Ecossistema:</strong> DirectX para jogos, WSL2 para Linux, PowerShell, .NET Framework.</p>
-                        <p><strong>Segurança:</strong> Windows Defender + BitLocker. Atualizações mensais obrigatórias.</p>
-                    </div>
-                    <div class="exemplo">
-                        <strong>Comando PowerShell:</strong><br>
-                        <code>Get-Process | Where-Object {$_.CPU -gt 100} | Sort-Object CPU -Descending | Select -First 5</code>
-                    </div>
-                `,
-                pros: "Jogos • Office • Drivers fáceis • Interface intuitiva",
-                contras: "Licença paga • Mais vulnerável • Atualizações forçadas"
-            },
-            linux: {
-                nome: "Linux",
-                explicacao: `
-                    <h3>Linux (Kernel Open Source)</h3>
-                    <div class="explicacao">
-                        <p><strong>Kernel:</strong> Monolítico, criado por Linus Torvalds (1991). Tudo é arquivo (/proc, /dev).</p>
-                        <p><strong>Distribuições:</strong> Ubuntu (fácil), Debian (estável), Arch (personalizável), Fedora (cutting-edge).</p>
-                        <p><strong>Gerenciamento:</strong> apt (Debian), dnf (Fedora), pacman (Arch). Sistema de permissões robusto (chmod, chown).</p>
-                        <p><strong>Servidores:</strong> 96% dos top 500 supercomputadores, 80% dos sites (Apache/Nginx).</p>
-                    </div>
-                    <div class="exemplo">
-                        <strong>Script Bash:</strong><br>
-                        <code>#!/bin/bash<br>df -h | grep -E 'nvme|sd' | awk '{print $1\": \"$5\" usado\"}'</code>
-                    </div>
-                `,
-                pros: "Grátis • Seguro • Leve • Customizável",
-                contras: "Curva de aprendizado • Menos jogos • Drivers complexos"
-            },
-            macos: {
-                nome: "macOS",
-                explicacao: `
-                    <h3>macOS (Apple)</h3>
-                    <div class="explicacao">
-                        <p><strong>Base:</strong> Unix (BSD). Kernel XNU (híbrido). Certificado POSIX.</p>
-                        <p><strong>Integração:</strong> Continuity, Handoff, AirDrop com iPhone/iPad.</p>
-                        <p><strong>Ferramentas:</strong> Xcode, Final Cut Pro, Logic Pro. Homebrew para pacotes.</p>
-                        <p><strong>Segurança:</strong> Gatekeeper, XProtect, FileVault 2 (criptografia full-disk).</p>
-                    </div>
-                    <div class="exemplo">
-                        <strong>Terminal:</strong><br>
-                        <code>brew install python node git && echo "Setup concluído!"</code>
-                    </div>
-                `,
-                pros: "Estável • Design premium • Integração Apple",
-                contras: "Só em Macs • Caro • Menos jogos"
-            }
-        },
-        comparacao: `
-            <h3>Comparação: Sistemas Operacionais</h3>
-            <table>
-                <tr><th>Sistema</th><th>Prós</th><th>Contras</th><th>Melhor Para</th></tr>
-                <tr>
-                    <td><strong>Windows</strong></td>
-                    <td>${CONHECIMENTO.so.itens.windows.pros}</td>
-                    <td>${CONHECIMENTO.so.itens.windows.contras}</td>
-                    <td>Gamers, Office, uso geral</td>
-                </tr>
-                <tr>
-                    <td><strong>Linux</strong></td>
-                    <td>${CONHECIMENTO.so.itens.linux.pros}</td>
-                    <td>${CONHECIMENTO.so.itens.linux.contras}</td>
-                    <td>Servidores, DevOps, privacidade</td>
-                </tr>
-                <tr>
-                    <td><strong>macOS</strong></td>
-                    <td>${CONHECIMENTO.so.itens.macos.pros}</td>
-                    <td>${CONHECIMENTO.so.itens.macos.contras}</td>
-                    <td>Criação, design, desenvolvedores Apple</td>
-                </tr>
-            </table>
-            <div class="conclusao">
-                <strong>Recomendação Final:</strong><br>
-                • <strong>Windows</strong>: jogos, softwares comuns<br>
-                • <strong>Linux</strong>: programação, servidores, custo zero<br>
-                • <strong>macOS</strong>: criação profissional com ecossistema Apple
-            </div>
-        `
+        windows: { nome: "Windows", pros: "Jogos, Office, fácil", contras: "Pago, vulnerável", uso: "Gamers, empresas" },
+        linux: { nome: "Linux", pros: "Grátis, seguro, leve", contras: "Curva de aprendizado", uso: "Servidores, devs" },
+        macos: { nome: "macOS", pros: "Estável, design", contras: "Caro, só Apple", uso: "Criação" }
     },
     linguagem: {
-        itens: {
-            python: {
-                nome: "Python",
-                explicacao: `
-                    <h3>Python</h3>
-                    <div class="explicacao">
-                        <p><strong>Criador:</strong> Guido van Rossum (1991). Filosofia: "Código legível é melhor que código esperto" (Zen of Python).</p>
-                        <p><strong>Tipo:</strong> Interpretada, tipagem dinâmica, multi-paradigma (OO, funcional).</p>
-                        <p><strong>Ecossistema:</strong> PyPI (200k+ pacotes), pip, virtualenv.</p>
-                        <p><strong>Uso real:</strong> Google (backend), Instagram (Django), NASA (análise), Netflix (ML).</p>
+        python: { nome: "Python", uso: "IA, dados, automação", ex: "print('Olá')" },
+        javascript: { nome: "JavaScript", uso: "Web, full-stack", ex: "console.log('Oi')" }
+    }
+};
+
+// FUNÇÃO PRINCIPAL
+function perguntar(tipo, pergunta) {
+    document.getElementById('tipo').value = tipo;
+    document.getElementById('pergunta').value = pergunta;
+    document.getElementById('form').dispatchEvent(new Event('submit'));
+}
+
+// SUBMIT SEM RECARREGAR
+document.getElementById('form').onsubmit = function(e) {
+    e.preventDefault();
+    const tipo = document.getElementById('tipo').value.trim().toLowerCase();
+    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase();
+    
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('resposta').innerHTML = '';
+
+    setTimeout(() => {
+        let html = '';
+
+        // EXPLICAÇÃO
+        if (pergunta.includes('o que é') || pergunta.includes('explique')) {
+            if (tipo.includes('linguagem') && pergunta.includes('python')) {
+                html = `<h3>Python</h3>
+                        <p>Python é uma linguagem interpretada, de alto nível, criada em 1991 por Guido van Rossum. Famosa por sua simplicidade e legibilidade.</p>
                         <div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Automação</div>
-                    </div>
-                    <div class="exemplo">
-                        <strong>Exemplo IA:</strong><br>
-                        <code>from sklearn import datasets<br>iris = datasets.load_iris()<br>print(f"Espécies: {iris.target_names}")</code>
-                    </div>
-                `
-            },
-            javascript: {
-                nome: "JavaScript",
-                explicacao: `
-                    <h3>JavaScript (JS)</h3>
-                    <div class="explicacao">
-                        <p><strong>Criador:</strong> Brendan Eich (1995, 10 dias). Originalmente "Mocha", depois "LiveScript".</p>
-                        <p><strong>Motor:</strong> V8 (Chrome), SpiderMonkey (Firefox). Roda em navegadores e servidores (Node.js).</p>
-                        <p><strong>Características:</strong> Assíncrona (promises, async/await), prototipada, single-thread com event loop.</p>
-                        <p><strong>Frameworks:</strong> React, Vue, Angular, Express, Next.js.</p>
-                        <div class="chip">Web</div><div class="chip">Full-stack</div><div class="chip">Real-time</div>
-                    </div>
-                    <div class="exemplo">
-                        <strong>API com Node.js:</strong><br>
-                        <code>app.get('/api/users', async (req, res) => {<br>  const users = await db.find();<br>  res.json(users);<br>});</code>
-                    </div>
-                `
+                        <div class="exemplo"><strong>Exemplo:</strong><br><code>print("Olá, mundo!")</code></div>`;
             }
-        },
-        pythonVsJs: `
-            <h3>Python vs JavaScript: Batalha das Titãs</h3>
-            <table>
-                <tr><th>Critério</th><th>Python</th><th>JavaScript</th><th>Vencedor</th></tr>
-                <tr>
-                    <td><strong>Facilidade</strong></td>
-                    <td>Sintaxe limpa, indentação</td>
-                    <td>Assincronia complexa</td>
-                    <td>Python</td>
-                </tr>
-                <tr>
-                    <td><strong>Velocidade</strong></td>
-                    <td>Média (CPython)</td>
-                    <td>Rápida (V8)</td>
-                    <td>JavaScript</td>
-                </tr>
-                <tr>
-                    <td><strong>Web</strong></td>
-                    <td>Django/Flask</td>
-                    <td>React + Node.js</td>
-                    <td>JavaScript</td>
-                </tr>
-                <tr>
-                    <td><strong>IA/Dados</strong></td>
-                    <td>TensorFlow, Pandas</td>
-                    <td>TensorFlow.js</td>
-                    <td>Python</td>
-                </tr>
-            </table>
-            <div class="conclusao">
-                <strong>Conclusão:</strong> Aprenda <strong>ambos</strong>. Python para ciência, JS para web.
-            </div>
-        `,
-        comparacao: `
-            <h3>Top 5 Linguagens (2025)</h3>
-            <table>
-                <tr><th>Linguagem</th><th>Uso Principal</th><th>Velocidade</th><th>Empresas</th></tr>
-                <tr><td><strong>Python</strong></td><td>IA, Dados</td><td>Média</td><td>Google, Netflix</td></tr>
-                <tr><td><strong>JavaScript</strong></td><td>Web</td><td>Rápida</td><td>Meta, Uber</td></tr>
-                <tr><td><strong>Java</strong></td><td>Android, Enterprise</td><td>Rápida</td><td>Bancos</td></tr>
-                <tr><td><strong>TypeScript</strong></td><td>Web escalável</td><td>Rápida</td><td>Microsoft</td></tr>
-                <tr><td><strong>Rust</strong></td><td>Sistemas</td><td>Muito rápida</td><td>Mozilla</td></tr>
-            </table>
-        `
-    },
-    ide: {
-        itens: {
-            vscode: {
-                nome: "VS Code",
-                explicacao: `
-                    <h3>Visual Studio Code</h3>
-                    <div class="explicacao">
-                        <p><strong>Desenvolvedor:</strong> Microsoft (2015). Baseado em Electron (Chromium + Node.js).</p>
-                        <p><strong>Extensões:</strong> 30.000+ (Python, GitLens, Live Share, Docker).</p>
-                        <p><strong>Recursos:</strong> IntelliSense, debug integrado, terminal, Git nativo.</p>
-                        <p><strong>Uso:</strong> 73% dos desenvolvedores (Stack Overflow 2024).</p>
-                    </div>
-                    <div class="exemplo">
-                        <strong>Configuração Python:</strong><br>
-                        <code>{ "python.defaultInterpreterPath": "venv/bin/python", "editor.formatOnSave": true }</code>
-                    </div>
-                `
+            if (tipo.includes('so') && pergunta.includes('linux')) {
+                html = `<h3>Linux</h3>
+                        <p>Kernel criado por Linus Torvalds em 1991. Sistema open-source, seguro e usado em 96% dos supercomputadores.</p>
+                        <div class="exemplo"><strong>Bash:</strong><br><code>ls -la</code></div>`;
             }
-        },
-        comparacao: `
-            <h3>VS Code vs Outros</h3>
-            <table>
-                <tr><th>IDE</th><th>Peso</th><th>Extensões</th><th>Melhor Para</th></tr>
-                <tr><td><strong>VS Code</strong></td><td>Leve (60MB)</td><td>30.000+</td><td>Tudo</td></tr>
-                <tr><td><strong>PyCharm</strong></td><td>Pesado (1GB+)</td><td>Limitadas</td><td>Python avançado</td></tr>
-                <tr><td><strong>IntelliJ</strong></td><td>Pesado</td><td>Java-focused</td><td>Java/Kotlin</td></tr>
-            </table>
-            <div class="conclusao">VS Code vence em versatilidade.</div>
-        `
-    },
-    banco: {
-        comparacao: `
-            <h3>SQL vs NoSQL</h3>
-            <table>
-                <tr><th>Tipo</th><th>Exemplos</th><th>Quando Usar</th><th>Escalabilidade</th></tr>
-                <tr><td><strong>SQL</strong></td><td>MySQL, PostgreSQL</td><td>Finanças, ERP</td><td>Vertical</td></tr>
-                <tr><td><strong>NoSQL</strong></td><td>MongoDB, Redis</td><td>Big Data, Real-time</td><td>Horizontal</td></tr>
-            </table>
-            <div class="conclusao">SQL → consistência. NoSQL → velocidade.</div>
-        `
-    }
+        }
+
+        // COMPARAÇÃO
+        else if (pergunta.includes('ou') || pergunta.includes('vs') || pergunta.includes('melhor')) {
+            if (tipo.includes('so') && (pergunta.includes('windows') || pergunta.includes('linux'))) {
+                html = `<h3>Windows vs Linux</h3>
+                        <table>
+                            <tr><th></th><th>Windows</th><th>Linux</th></tr>
+                            <tr><td><strong>Prós</strong></td><td>Jogos, Office</td><td>Grátis, seguro</td></tr>
+                            <tr><td><strong>Contras</strong></td><td>Pago</td><td>Curva de aprendizado</td></tr>
+                            <tr><td><strong>Ideal</strong></td><td>Uso geral</td><td>Servidores</td></tr>
+                        </table>
+                        <div class="conclusao">Windows para jogos. Linux para programação e servidores.</div>`;
+            }
+            if (tipo.includes('linguagem') && (pergunta.includes('python') || pergunta.includes('javascript'))) {
+                html = `<h3>Python vs JavaScript</h3>
+                        <table>
+                            <tr><th>Critério</th><th>Python</th><th>JavaScript</th></tr>
+                            <tr><td>Facilidade</td><td>Alta</td><td>Média</td></tr>
+                            <tr><td>Web</td><td>Django</td><td>React/Node</td></tr>
+                            <tr><td>IA</td><td>Excelente</td><td>Bom (TensorFlow.js)</td></tr>
+                        </table>
+                        <div class="conclusao">Aprenda ambos: Python para ciência, JS para web.</div>`;
+            }
+        }
+
+        // PADRÃO
+        if (!html) {
+            html = `<p>Desculpe, não entendi. Tente: <strong>"O que é Python?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
+        }
+
+        document.getElementById('resposta').innerHTML = html;
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('resposta').scrollIntoView({ behavior: 'smooth' });
+    }, 600);
 };
-
-// ========== INTELIGÊNCIA ARTIFICIAL LOCAL ==========
-const IA = {
-    ofensas: [/porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético/i],
-
-    sinonimos: {
-        so: /sistema operacional|os|windows|linux|macos|ubuntu|fedora|android|ios|mac os|apple/i,
-        linguagem: /linguagem|programação|code|python|java|js|javascript|c\+\+|c#|php|go|rust|typescript/i,
-        ide: /ide|editor|vscode|vs code|sublime|intellij|pycharm|visual studio/i,
-        banco: /banco de dados|bd|db|sql|mysql|postgres|mongodb|nosql|redis/i
-    },
-
-    normalizar: t => t.toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9\s]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim(),
-
-    ehOfensa: texto => IA.ofensas.some(r => r.test(texto)),
-
-    detectarCategoria: texto => {
-        for (const [cat, regex] of Object.entries(IA.sinonimos)) {
-            if (regex.test(texto)) return cat;
-        }
-        return null;
-    },
-
-    detectarItens: (texto, cat) => {
-        const itens = [];
-        if (!CONHECIMENTO[cat]?.itens) return itens;
-        for (const [key, item] of Object.entries(CONHECIMENTO[cat].itens)) {
-            const regex = new RegExp(key, 'i');
-            if (regex.test(texto)) itens.push({ key, ...item });
-        }
-        return itens;
-    },
-
-    ehPergunta: {
-        explicacao: /o que é|explique|como funciona|definição|significado|para que serve|detalhe|conceito|o que significa/i,
-        comparacao: /ou|vs|versus|melhor|comparar|diferença|contra|qual é melhor|vale mais a pena|qual escolher/i,
-        exemplo: /exemplo|demonstração|mostre|prático|como fazer|código|script/i
-    }
-};
-
-// ========== RENDERIZAÇÃO ==========
-const UI = {
-    mostrarLoading: () => {
-        document.getElementById('loading').style.display = 'block';
-        document.getElementById('resposta').style.display = 'none';
-        document.getElementById('aviso').style.display = 'none';
-    },
-    esconderLoading: () => document.getElementById('loading').style.display = 'none',
-    aviso: msg => {
-        const el = document.getElementById('aviso');
-        el.textContent = msg;
-        el.style.display = 'block';
-        UI.esconderLoading();
-    },
-    resposta: html => {
-        const el = document.getElementById('resposta');
-        el.innerHTML = html;
-        el.style.display = 'block';
-        el.scrollIntoView({ behavior: 'smooth' });
-        UI.esconderLoading();
-    }
-};
-
-// ========== MOTOR DE RESPOSTA ==========
-const Motor = {
-    processar: (tipo, pergunta) => {
-        const texto = IA.normalizar(tipo + " " + pergunta);
-        
-        if (IA.ehOfensa(tipo + pergunta)) {
-            return UI.aviso("Por favor, use uma linguagem respeitosa. Vamos manter o foco no conhecimento.");
-        }
-
-        const categoria = IA.detectarCategoria(texto);
-        if (!categoria) {
-            return UI.resposta(`
-                <h3>Não identifiquei a categoria</h3>
-                <p>Use palavras como: <strong>Sistema Operacional</strong>, <strong>Linguagem</strong>, <strong>IDE</strong>, <strong>Banco de Dados</strong>.</p>
-            `);
-        }
-
-        const itens = IA.detectarItens(texto, categoria);
-        let resposta = '';
-
-        // 1. Explicação específica
-        if (IA.ehPergunta.explicacao.test(texto)) {
-            if (itens.length > 0) {
-                itens.forEach(item => resposta += item.explicacao);
-            } else {
-                resposta = `<div class="explicacao"><strong>Não encontrei detalhes específicos.</strong> Tente: "O que é Python?" ou "Como funciona o Linux?"</div>`;
-            }
-        }
-        // 2. Comparação
-        else if (IA.ehPergunta.comparacao.test(texto)) {
-            if (categoria === 'linguagem' && /python.*javascript|javascript.*python/i.test(texto)) {
-                resposta = CONHECIMENTO.linguagem.pythonVsJs;
-            } else if (CONHECIMENTO[categoria]?.comparacao) {
-                resposta = CONHECIMENTO[categoria].comparacao;
-            } else {
-                resposta = `<div class="explicacao">Comparação não disponível para esta categoria. Tente: "Python ou JavaScript?"</div>`;
-            }
-        }
-        // 3. Padrão: visão geral
-        else {
-            if (itens.length > 0) {
-                resposta += `<h3>Sobre ${itens.map(i => i.nome).join(' e ')}</h3>`;
-                itens.forEach(item => resposta += item.explicacao);
-            } else if (CONHECIMENTO[categoria]?.comparacao) {
-                resposta += `<h3>Visão geral sobre ${categoria.toUpperCase()}</h3>`;
-                resposta += CONHECIMENTO[categoria].comparacao;
-            } else {
-                resposta = `<p>Funcionalidade em desenvolvimento. Tente perguntas como "O que é X?" ou "X ou Y?"</p>`;
-            }
-        }
-
-        UI.resposta(resposta || `<p>Não consegui processar. Tente ser mais específico.</p>`);
-    }
-};
-
-// ========== EVENTOS ==========
-document.getElementById('perguntaForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Impede o reload da página
-    const tipo = document.getElementById('tipo').value.trim();
-    const pergunta = document.getElementById('pergunta').value.trim();
-    if (!tipo || !pergunta) {
-        UI.aviso("Preencha ambos os campos!");
-        return;
-    }
-    UI.mostrarLoading();
-    setTimeout(() => Motor.processar(tipo, pergunta), 600);
-});
-
-// Sugestões com data-attributes
-document.querySelectorAll('.suggestion').forEach(sug => {
-    sug.addEventListener('click', function() {
-        const tipo = this.getAttribute('data-tipo');
-        const pergunta = this.getAttribute('data-pergunta');
-        document.getElementById('tipo').value = tipo;
-        document.getElementById('pergunta').value = pergunta;
-        document.getElementById('perguntaForm').dispatchEvent(new Event('submit'));
-    });
-});
-
-// Inicialização
-window.addEventListener('load', () => {
-    console.log("Software Expert carregado com sucesso! Sem reload da página.");
-});
 </script>
+
 </body>
 </html>

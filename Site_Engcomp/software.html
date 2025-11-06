@@ -33,7 +33,7 @@
             padding: 40px 50px;
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,.1);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
         }
@@ -140,6 +140,13 @@
             color: var(--primary);
             border-left: 4px solid var(--primary);
         }
+        .explicacao {
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(26, 115, 232, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-12px); }
             to { opacity: 1; transform: translateY(0); }
@@ -157,12 +164,12 @@
         <i class="material-icons">arrow_back</i> Voltar ao início
     </a>
     <h1>Software</h1>
-    <p>Pergunte sobre sistemas, linguagens, ferramentas, segurança e mais!</p>
+    <p>Explique ou compare sistemas, linguagens, ferramentas, segurança e mais!</p>
     <form id="perguntaForm">
         <label for="tipo">Tipo de Software:</label>
         <input type="text" id="tipo" placeholder="Ex: SO, Linguagem, IDE, Banco..." required>
         <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: Python ou JavaScript? VS Code é melhor?" required></textarea>
+        <textarea id="pergunta" placeholder="Ex: O que é Python? Python ou JavaScript? VS Code é melhor?" required></textarea>
         <button type="submit">
             <i class="material-icons">send</i> Enviar Pergunta
         </button>
@@ -192,9 +199,47 @@ const CONFIG = {
     }
 };
 
-/* ========== RESPOSTAS COM EXPLICAÇÕES DETALHADAS ========== */
+/* ========== RESPOSTAS COM EXPLICAÇÕES E COMPARAÇÕES ========== */
 const RESPOSTAS = {
     so: {
+        explicacao: {
+            windows: `
+                <div class="explicacao">
+                    <strong>Windows (Microsoft)</strong><br>
+                    Sistema operacional mais usado no mundo (~70% dos desktops). 
+                    Interface gráfica amigável, suporte nativo a jogos (DirectX), Office, Adobe e milhares de programas. 
+                    <br><br>
+                    <strong>Como funciona:</strong> Kernel híbrido (NT). Gerencia hardware, processos e arquivos. 
+                    Atualizações automáticas mantêm segurança, mas podem reiniciar o PC. 
+                    <br><br>
+                    <strong>Vantagens:</strong> Compatibilidade ampla, drivers fáceis, ideal para iniciantes e gamers.
+                    <strong>Desvantagens:</strong> Licença paga, vulnerável a vírus, menos customizável.
+                </div>
+            `,
+            linux: `
+                <div class="explicacao">
+                    <strong>Linux (Kernel open-source)</strong><br>
+                    Família de SOs baseados no kernel Linux. Distribuições: Ubuntu (fácil), Fedora (moderna), Arch (avançada).
+                    <br><br>
+                    <strong>Como funciona:</strong> Kernel monolítico, tudo é arquivo (/dev, /proc). 
+                    Gerenciador de pacotes (apt, dnf) instala softwares. Terminal poderoso.
+                    <br><br>
+                    <strong>Vantagens:</strong> Grátis, seguro, leve, usado em servidores (96% dos top 500 supercomputadores).
+                    <strong>Desvantagens:</strong> Curva de aprendizado, menos jogos nativos.
+                </div>
+            `,
+            macos: `
+                <div class="explicacao">
+                    <strong>macOS (Apple)</strong><br>
+                    SO exclusivo para Macs. Baseado em Unix (BSD), com interface fluida e design premium.
+                    <br><br>
+                    <strong>Como funciona:</strong> Kernel XNU (híbrido). Integração total com iPhone/iPad (AirDrop, Continuity).
+                    <br><br>
+                    <strong>Vantagens:</strong> Estabilidade, otimização hardware+software, ótimo para criação (Final Cut, Logic).
+                    <strong>Desvantagens:</strong> Só roda em hardware Apple, caro.
+                </div>
+            `
+        },
         comparacao: `
             <strong>Comparação Completa: Sistemas Operacionais</strong><br>
             <table>
@@ -209,8 +254,8 @@ const RESPOSTAS = {
                     <td>Interface amigável<br>Suporte a jogos<br>Muitos softwares</td>
                     <td>Custo da licença<br>Menor segurança<br>Atualizações forçadas</td>
                     <td>
-                        O Windows domina o mercado desktop (~70%). É ideal para usuários comuns e gamers devido ao DirectX e compatibilidade com Steam, Adobe, Office. 
-                        Porém, é alvo constante de vírus e exige antivírus. Atualizações podem reiniciar o PC sem aviso.
+                        Domina o mercado desktop. Ideal para gamers (Steam, DirectX) e usuários comuns. 
+                        Alvo de vírus — exige antivírus. Atualizações podem interromper.
                     </td>
                 </tr>
                 <tr>
@@ -218,9 +263,8 @@ const RESPOSTAS = {
                     <td>100% grátis<br>Altamente seguro<br>Totalmente customizável</td>
                     <td>Curva de aprendizado<br>Menos jogos nativos<br>Drivers complexos</td>
                     <td>
-                        Baseado em Unix, é usado em 96% dos supercomputadores e servidores web. 
-                        O kernel é open-source, permitindo modificações. Distribuições como Ubuntu facilitam o uso. 
-                        Ótimo para programadores, DevOps e servidores.
+                        Baseado em Unix. 96% dos servidores web. Kernel open-source. 
+                        Ubuntu é amigável. Perfeito para programadores e DevOps.
                     </td>
                 </tr>
                 <tr>
@@ -228,23 +272,49 @@ const RESPOSTAS = {
                     <td>Design premium<br>Integração com iPhone<br>Estabilidade</td>
                     <td>Só roda em Macs<br>Caro<br>Menos jogos</td>
                     <td>
-                        Construído sobre Unix (BSD), oferece terminal poderoso. 
-                        Perfeito para edição de vídeo (Final Cut), design (Figma, Adobe) e desenvolvedores Apple. 
-                        Hardware + software otimizados = desempenho fluido.
+                        Unix-like. Terminal poderoso. Otimizado para edição de vídeo, design e devs Apple.
                     </td>
                 </tr>
             </table>
             <div class="conclusao">
                 <strong>Recomendação:</strong> 
-                Use <strong>Windows</strong> para jogos e uso geral. 
-                Escolha <strong>Linux</strong> para programação, servidores ou privacidade. 
-                Prefira <strong>macOS</strong> se você já tem um Mac e trabalha com criação.
+                Windows → jogos/uso geral. 
+                Linux → programação/privacidade. 
+                macOS → criação com hardware Apple.
             </div>
         `
     },
     linguagem: {
+        explicacao: {
+            python: `
+                <div class="explicacao">
+                    <strong>Python</strong><br>
+                    Linguagem de alto nível, interpretada, criada por Guido van Rossum (1991).
+                    <br><br>
+                    <strong>Características:</strong> Sintaxe limpa (indentação), tipagem dinâmica, multi-paradigma.
+                    <strong>Bibliotecas:</strong> Pandas (dados), TensorFlow (IA), Django (web).
+                    <br><br>
+                    <strong>Uso:</strong> Automação, ciência de dados, machine learning, backend.
+                    <strong>Exemplo:</strong><br>
+                    <code>print("Olá, mundo!")</code>
+                </div>
+            `,
+            javascript: `
+                <div class="explicacao">
+                    <strong>JavaScript (JS)</strong><br>
+                    Linguagem do navegador, criada por Brendan Eich (1995). Roda no cliente e servidor (Node.js).
+                    <br><br>
+                    <strong>Características:</strong> Assíncrona (promises, async/await), prototipada, dinâmica.
+                    <strong>Frameworks:</strong> React (UI), Express (backend).
+                    <br><br>
+                    <strong>Uso:</strong> Sites interativos, apps web, full-stack.
+                    <strong>Exemplo:</strong><br>
+                    <code>console.log("Olá, mundo!");</code>
+                </div>
+            `
+        },
         pythonVsJs: `
-            <strong>Python vs JavaScript: Comparação Detalhada</strong><br>
+            <strong>Python vs JavaScript: Análise Completa</strong><br>
             <table>
                 <tr>
                     <th>Critério</th>
@@ -254,79 +324,76 @@ const RESPOSTAS = {
                 </tr>
                 <tr>
                     <td><strong>Uso Principal</strong></td>
-                    <td>IA, automação, ciência de dados</td>
-                    <td>Web (frontend + backend com Node.js)</td>
-                    <td>
-                        Python domina em machine learning (TensorFlow, PyTorch) e scripts. 
-                        JavaScript é a única linguagem nativa dos navegadores — essencial para sites interativos.
-                    </td>
+                    <td>IA, dados, automação</td>
+                    <td>Web interativa</td>
+                    <td>Python domina ciência; JS é essencial para navegadores.</td>
                 </tr>
                 <tr>
                     <td><strong>Facilidade</strong></td>
-                    <td>Muito fácil (sintaxe limpa)</td>
-                    <td>Média (assíncrono confunde iniciantes)</td>
-                    <td>
-                        Python usa indentação e palavras em inglês ("if", "for"). 
-                        JS tem callbacks, promises e async/await — mais complexo no início.
-                    </td>
+                    <td>Muito fácil</td>
+                    <td>Média</td>
+                    <td>Python: sintaxe em inglês. JS: assincronia confunde iniciantes.</td>
                 </tr>
                 <tr>
                     <td><strong>Velocidade</strong></td>
-                    <td>Média (interpretado)</td>
-                    <td>Rápida no navegador (V8 engine)</td>
-                    <td>
-                        JS é otimizado para web. Python é mais lento, mas bibliotecas como NumPy compensam em cálculos.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Ecossistema</strong></td>
-                    <td>Django, Flask, Pandas</td>
-                    <td>React, Vue, Node.js, Express</td>
-                    <td>
-                        Python para backend científico. JS para apps full-stack modernos.
-                    </td>
+                    <td>Média</td>
+                    <td>Rápida (V8)</td>
+                    <td>JS otimizado para web; Python compensa com bibliotecas.</td>
                 </tr>
             </table>
             <div class="conclusao">
                 <strong>Conclusão:</strong> 
-                Aprenda <strong>Python</strong> se quer IA, automação ou análise de dados. 
-                Aprenda <strong>JavaScript</strong> se quer criar sites, apps web ou trabalhar como full-stack.
+                Python → IA/dados. 
+                JavaScript → web/full-stack.
             </div>
         `,
         comparacao: `
-            <strong>Top 4 Linguagens: Análise Completa</strong><br>
+            <strong>Top 4 Linguagens: Análise</strong><br>
             <table>
                 <tr><th>Linguagem</th><th>Melhor Para</th><th>Velocidade</th><th>Explicação</th></tr>
                 <tr>
                     <td><strong>Python</strong></td>
-                    <td>IA, scripts, dados</td>
+                    <td>IA, dados</td>
                     <td>Média</td>
-                    <td>Sintaxe simples + bibliotecas poderosas. Usada por Google, Netflix, NASA.</td>
+                    <td>Sintaxe simples. Usada por NASA, Netflix.</td>
                 </tr>
                 <tr>
                     <td><strong>JavaScript</strong></td>
-                    <td>Web interativa</td>
+                    <td>Web</td>
                     <td>Rápida</td>
-                    <td>Única linguagem do navegador. Com Node.js, roda no servidor também.</td>
+                    <td>Única no navegador. Node.js no backend.</td>
                 </tr>
                 <tr>
                     <td><strong>Java</strong></td>
-                    <td>Apps Android, enterprise</td>
+                    <td>Android, enterprise</td>
                     <td>Rápida</td>
-                    <td>Compilada, robusta. Usada em bancos, sistemas corporativos.</td>
+                    <td>Robusta, compilada. Bancos e corporações.</td>
                 </tr>
                 <tr>
                     <td><strong>C</strong></td>
-                    <td>Sistemas, embutidos</td>
+                    <td>Sistemas</td>
                     <td>Muito rápida</td>
-                    <td>Baixo nível, controle total do hardware. Base do Linux, drivers.</td>
+                    <td>Baixo nível. Base do Linux.</td>
                 </tr>
             </table>
         `
     },
     ide: {
+        explicacao: {
+            vscode: `
+                <div class="explicacao">
+                    <strong>VS Code (Microsoft)</strong><br>
+                    Editor de código leve e gratuito. Baseado em Electron.
+                    <br><br>
+                    <strong>Recursos:</strong> Extensões (Python, Git, Live Share), terminal integrado, debug.
+                    <br><br>
+                    <strong>Vantagens:</strong> Rápido, customizável, 73% dos devs usam (Stack Overflow).
+                    <strong>Desvantagens:</strong> Não é IDE completa (precisa de extensões).
+                </div>
+            `
+        },
         comparacao: `
-            <strong>VS Code vs PyCharm vs IntelliJ: Qual escolher?</strong><br>
+            <strong>VS Code vs PyCharm vs IntelliJ</strong><br>
             <table>
                 <tr>
                     <th>IDE</th>
@@ -336,41 +403,31 @@ const RESPOSTAS = {
                 </tr>
                 <tr>
                     <td><strong>VS Code</strong></td>
-                    <td>Todas as linguagens</td>
-                    <td>Leve (60MB)</td>
-                    <td>
-                        Editor gratuito da Microsoft. Extensões para tudo: Python, React, Git. 
-                        Rápido até em notebooks antigos. Preferido por 73% dos devs (Stack Overflow 2024).
-                    </td>
+                    <td>Tudo</td>
+                    <td>Leve</td>
+                    <td>Extensões para qualquer linguagem. Rápido.</td>
                 </tr>
                 <tr>
                     <td><strong>PyCharm</strong></td>
-                    <td>Projetos Python</td>
-                    <td>Pesado (1GB+)</td>
-                    <td>
-                        Feito pela JetBrains. Refatoração inteligente, debug avançado, suporte a Django. 
-                        Versão Community é grátis, mas Professional é paga.
-                    </td>
+                    <td>Python</td>
+                    <td>Pesado</td>
+                    <td>Refatoração inteligente, Django.</td>
                 </tr>
                 <tr>
-                    <td><strong>IntelliJ IDEA</strong></td>
-                    <td>Java, Kotlin, Android</td>
+                    <td><strong>IntelliJ</strong></td>
+                    <td>Java</td>
                     <td>Pesado</td>
-                    <td>
-                        O melhor para Java. Autocomplete "mágico", análise de código profunda. 
-                        Community grátis, Ultimate pago.
-                    </td>
+                    <td>Autocomplete avançado.</td>
                 </tr>
             </table>
             <div class="conclusao">
-                <strong>Dica:</strong> Comece com <strong>VS Code</strong> — é grátis, leve e faz tudo. 
-                Use PyCharm/IntelliJ só em projetos grandes e específicos.
+                <strong>Dica:</strong> Comece com VS Code. Use as outras em projetos específicos.
             </div>
         `
     },
     banco: {
         comparacao: `
-            <strong>SQL vs NoSQL: Quando usar cada um?</strong><br>
+            <strong>SQL vs NoSQL</strong><br>
             <table>
                 <tr>
                     <th>Tipo</th>
@@ -381,39 +438,30 @@ const RESPOSTAS = {
                 <tr>
                     <td><strong>SQL</strong></td>
                     <td>MySQL, PostgreSQL</td>
-                    <td>Finanças, ERP, relatórios</td>
-                    <td>
-                        Dados estruturados em tabelas com relações (chave primária/estrangeira). 
-                        Transações ACID garantem consistência. Ideal para sistemas críticos.
-                    </td>
+                    <td>Finanças, ERP</td>
+                    <td>Dados estruturados, transações ACID.</td>
                 </tr>
                 <tr>
                     <td><strong>NoSQL</strong></td>
                     <td>MongoDB, Redis</td>
-                    <td>Apps em tempo real, big data</td>
-                    <td>
-                        Dados flexíveis (JSON). Escala horizontalmente (milhares de servidores). 
-                        Perfeito para redes sociais, IoT, logs.
-                    </td>
+                    <td>Big data, real-time</td>
+                    <td>Dados flexíveis, escala horizontal.</td>
                 </tr>
             </table>
             <div class="conclusao">
-                <strong>Resumo:</strong> 
-                Use <strong>SQL</strong> quando precisar de consistência e relações complexas. 
-                Use <strong>NoSQL</strong> para velocidade, escala e dados não estruturados.
+                SQL → consistência. NoSQL → escala/velocidade.
             </div>
         `
     },
     default: `
-        <strong>Não entendi sua pergunta.</strong><br>
-        Tente exemplos como:<br>
+        <strong>Pergunta não reconhecida.</strong><br>
+        Exemplos:<br>
         <ul style="margin: 10px 0; padding-left: 20px;">
+            <li><em>O que é Python?</em></li>
+            <li><em>Explique como funciona o Linux</em></li>
             <li><em>Python ou JavaScript?</em></li>
-            <li><em>Windows ou Linux?</em></li>
-            <li><em>VS Code é melhor que PyCharm?</em></li>
-            <li><em>MySQL vs MongoDB</em></li>
+            <li><em>VS Code é melhor?</em></li>
         </ul>
-        <em>Quanto mais claro, melhor a resposta!</em>
     `
 };
 
@@ -426,10 +474,24 @@ const normalizar = t => t.toLowerCase()
     .trim();
 
 const ehComparacao = t => /melhor|ou|vs|versus|comparar|qual é melhor|diferença|contra|melhor que/i.test(t);
+const ehExplicacao = t => /o que é|explique|como funciona|definição|significado|para que serve/i.test(t);
 
 const detectarCategoria = texto => {
     for (const [cat, regex] of Object.entries(CONFIG.sinonimos)) {
         if (regex.test(texto)) return cat;
+    }
+    return null;
+};
+
+const detectarItem = (texto, cat) => {
+    const itens = {
+        so: { windows: /windows|win|microsoft/i, linux: /linux|ubuntu|fedora|arch/i, macos: /macos|mac os|apple os|mac/i },
+        linguagem: { python: /python/i, javascript: /javascript|js|node/i },
+        ide: { vscode: /vscode|vs code|visual studio code/i }
+    };
+    if (!itens[cat]) return null;
+    for (const [item, regex] of Object.entries(itens[cat])) {
+        if (regex.test(texto)) return item;
     }
     return null;
 };
@@ -472,24 +534,43 @@ document.getElementById('perguntaForm').addEventListener('submit', function(e) {
     const cat = detectarCategoria(texto);
     if (!cat) return responder(RESPOSTAS.default);
 
-    let resposta = RESPOSTAS.default;
+    let resposta = '';
 
-    if (ehComparacao(texto)) {
+    // 1. Explicação específica
+    if (ehExplicacao(texto)) {
+        const item = detectarItem(texto, cat);
+        if (item && RESPOSTAS[cat]?.explicacao?.[item]) {
+            resposta += RESPOSTAS[cat].explicacao[item];
+        } else {
+            resposta += `<div class="explicacao"><strong>Funcionalidade em desenvolvimento.</strong> Tente: "O que é Python?" ou "Explique o VS Code".</div>`;
+        }
+    }
+
+    // 2. Comparação
+    else if (ehComparacao(texto)) {
         if (RESPOSTAS[cat]?.comparacao) {
-            resposta = RESPOSTAS[cat].comparacao;
+            resposta += RESPOSTAS[cat].comparacao;
 
             // Casos específicos
             if (cat === 'linguagem' && /python.*javascript|javascript.*python/i.test(texto)) {
                 resposta = RESPOSTAS.linguagem.pythonVsJs;
             }
+        } else {
+            resposta += RESPOSTAS[cat]?.comparacao || RESPOSTAS.default;
         }
-    } else {
-        resposta = `<strong>Funcionalidade em desenvolvimento.</strong><br>
-                    Tente fazer uma <strong>comparaçãostrong> como: 
-                    "<em>${pergunta}</em>" → "<em>Python ou JavaScript?</em>"`;
     }
 
-    responder(resposta);
+    // 3. Padrão: explicação geral ou comparação
+    else {
+        if (RESPOSTAS[cat]?.comparacao) {
+            resposta += `<p><strong>Você parece querer uma visão geral. Aqui está uma comparação:</strong></p>`;
+            resposta += RESPOSTAS[cat].comparacao;
+        } else {
+            resposta += RESPOSTAS.default;
+        }
+    }
+
+    responder(resposta || RESPOSTAS.default);
 });
 </script>
 </body>

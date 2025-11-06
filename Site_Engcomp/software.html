@@ -308,7 +308,7 @@
 
     <div id="loading" class="loading">
         <div class="spinner"></div>
-        <p>Analizando sua pergunta com precisão...</p>
+        <p>Analisando sua pergunta com precisão...</p>
     </div>
 
     <div id="aviso" class="aviso"></div>
@@ -316,10 +316,10 @@
 
     <div class="suggestions">
         <h4>Perguntas rápidas:</h4>
-        <div class="suggestion" onclick="preencher('Sistema Operacional', 'O que é Linux?')">O que é Linux?</div>
-        <div class="suggestion" onclick="preencher('Linguagem', 'Python ou JavaScript?')">Python ou JS?</div>
-        <div class="suggestion" onclick="preencher('IDE', 'VS Code é melhor?')">VS Code é melhor?</div>
-        <div class="suggestion" onclick="preencher('Banco de Dados', 'SQL vs NoSQL')">SQL vs NoSQL</div>
+        <div class="suggestion" data-tipo="Sistema Operacional" data-pergunta="O que é Linux?">O que é Linux?</div>
+        <div class="suggestion" data-tipo="Linguagem" data-pergunta="Python ou JavaScript?">Python ou JS?</div>
+        <div class="suggestion" data-tipo="IDE" data-pergunta="VS Code é melhor?">VS Code é melhor?</div>
+        <div class="suggestion" data-tipo="Banco de Dados" data-pergunta="SQL vs NoSQL">SQL vs NoSQL</div>
     </div>
 
     <footer><p>Engenharia da Computação © 2025 • Feito com precisão e paixão</p></footer>
@@ -487,4 +487,138 @@ const CONHECIMENTO = {
             </div>
         `,
         comparacao: `
-            <h3>Top 5 Lingu
+            <h3>Top 5 Linguagens (2025)</h3>
+            <table>
+                <tr><th>Linguagem</th><th>Uso Principal</th><th>Velocidade</th><th>Empresas</th></tr>
+                <tr><td><strong>Python</strong></td><td>IA, Dados</td><td>Média</td><td>Google, Netflix</td></tr>
+                <tr><td><strong>JavaScript</strong></td><td>Web</td><td>Rápida</td><td>Meta, Uber</td></tr>
+                <tr><td><strong>Java</strong></td><td>Android, Enterprise</td><td>Rápida</td><td>Bancos</td></tr>
+                <tr><td><strong>TypeScript</strong></td><td>Web escalável</td><td>Rápida</td><td>Microsoft</td></tr>
+                <tr><td><strong>Rust</strong></td><td>Sistemas</td><td>Muito rápida</td><td>Mozilla</td></tr>
+            </table>
+        `
+    },
+    ide: {
+        itens: {
+            vscode: {
+                nome: "VS Code",
+                explicacao: `
+                    <h3>Visual Studio Code</h3>
+                    <div class="explicacao">
+                        <p><strong>Desenvolvedor:</strong> Microsoft (2015). Baseado em Electron (Chromium + Node.js).</p>
+                        <p><strong>Extensões:</strong> 30.000+ (Python, GitLens, Live Share, Docker).</p>
+                        <p><strong>Recursos:</strong> IntelliSense, debug integrado, terminal, Git nativo.</p>
+                        <p><strong>Uso:</strong> 73% dos desenvolvedores (Stack Overflow 2024).</p>
+                    </div>
+                    <div class="exemplo">
+                        <strong>Configuração Python:</strong><br>
+                        <code>{ "python.defaultInterpreterPath": "venv/bin/python", "editor.formatOnSave": true }</code>
+                    </div>
+                `
+            }
+        },
+        comparacao: `
+            <h3>VS Code vs Outros</h3>
+            <table>
+                <tr><th>IDE</th><th>Peso</th><th>Extensões</th><th>Melhor Para</th></tr>
+                <tr><td><strong>VS Code</strong></td><td>Leve (60MB)</td><td>30.000+</td><td>Tudo</td></tr>
+                <tr><td><strong>PyCharm</strong></td><td>Pesado (1GB+)</td><td>Limitadas</td><td>Python avançado</td></tr>
+                <tr><td><strong>IntelliJ</strong></td><td>Pesado</td><td>Java-focused</td><td>Java/Kotlin</td></tr>
+            </table>
+            <div class="conclusao">VS Code vence em versatilidade.</div>
+        `
+    },
+    banco: {
+        comparacao: `
+            <h3>SQL vs NoSQL</h3>
+            <table>
+                <tr><th>Tipo</th><th>Exemplos</th><th>Quando Usar</th><th>Escalabilidade</th></tr>
+                <tr><td><strong>SQL</strong></td><td>MySQL, PostgreSQL</td><td>Finanças, ERP</td><td>Vertical</td></tr>
+                <tr><td><strong>NoSQL</strong></td><td>MongoDB, Redis</td><td>Big Data, Real-time</td><td>Horizontal</td></tr>
+            </table>
+            <div class="conclusao">SQL → consistência. NoSQL → velocidade.</div>
+        `
+    }
+};
+
+// ========== INTELIGÊNCIA ARTIFICIAL LOCAL ==========
+const IA = {
+    ofensas: [/porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético/i],
+
+    sinonimos: {
+        so: /sistema operacional|os|windows|linux|macos|ubuntu|fedora|android|ios|mac os|apple/i,
+        linguagem: /linguagem|programação|code|python|java|js|javascript|c\+\+|c#|php|go|rust|typescript/i,
+        ide: /ide|editor|vscode|vs code|sublime|intellij|pycharm|visual studio/i,
+        banco: /banco de dados|bd|db|sql|mysql|postgres|mongodb|nosql|redis/i
+    },
+
+    normalizar: t => t.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim(),
+
+    ehOfensa: texto => IA.ofensas.some(r => r.test(texto)),
+
+    detectarCategoria: texto => {
+        for (const [cat, regex] of Object.entries(IA.sinonimos)) {
+            if (regex.test(texto)) return cat;
+        }
+        return null;
+    },
+
+    detectarItens: (texto, cat) => {
+        const itens = [];
+        if (!CONHECIMENTO[cat]?.itens) return itens;
+        for (const [key, item] of Object.entries(CONHECIMENTO[cat].itens)) {
+            const regex = new RegExp(key, 'i');
+            if (regex.test(texto)) itens.push({ key, ...item });
+        }
+        return itens;
+    },
+
+    ehPergunta: {
+        explicacao: /o que é|explique|como funciona|definição|significado|para que serve|detalhe|conceito|o que significa/i,
+        comparacao: /ou|vs|versus|melhor|comparar|diferença|contra|qual é melhor|vale mais a pena|qual escolher/i,
+        exemplo: /exemplo|demonstração|mostre|prático|como fazer|código|script/i
+    }
+};
+
+// ========== RENDERIZAÇÃO ==========
+const UI = {
+    mostrarLoading: () => {
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('resposta').style.display = 'none';
+        document.getElementById('aviso').style.display = 'none';
+    },
+    esconderLoading: () => document.getElementById('loading').style.display = 'none',
+    aviso: msg => {
+        const el = document.getElementById('aviso');
+        el.textContent = msg;
+        el.style.display = 'block';
+        UI.esconderLoading();
+    },
+    resposta: html => {
+        const el = document.getElementById('resposta');
+        el.innerHTML = html;
+        el.style.display = 'block';
+        el.scrollIntoView({ behavior: 'smooth' });
+        UI.esconderLoading();
+    }
+};
+
+// ========== MOTOR DE RESPOSTA ==========
+const Motor = {
+    processar: (tipo, pergunta) => {
+        const texto = IA.normalizar(tipo + " " + pergunta);
+        
+        if (IA.ehOfensa(tipo + pergunta)) {
+            return UI.aviso("Por favor, use uma linguagem respeitosa. Vamos manter o foco no conhecimento.");
+        }
+
+        const categoria = IA.detectarCategoria(texto);
+        if (!categoria) {
+            return UI.resposta(`
+                <h3>Não identifiquei a categoria</h3>
+                <p>Use palavras como: <strong>Sistema Operacional</strong>, <strong

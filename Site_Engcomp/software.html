@@ -621,4 +621,76 @@ const Motor = {
         if (!categoria) {
             return UI.resposta(`
                 <h3>Não identifiquei a categoria</h3>
-                <p>Use palavras como: <strong>Sistema Operacional</strong>, <strong
+                <p>Use palavras como: <strong>Sistema Operacional</strong>, <strong>Linguagem</strong>, <strong>IDE</strong>, <strong>Banco de Dados</strong>.</p>
+            `);
+        }
+
+        const itens = IA.detectarItens(texto, categoria);
+        let resposta = '';
+
+        // 1. Explicação específica
+        if (IA.ehPergunta.explicacao.test(texto)) {
+            if (itens.length > 0) {
+                itens.forEach(item => resposta += item.explicacao);
+            } else {
+                resposta = `<div class="explicacao"><strong>Não encontrei detalhes específicos.</strong> Tente: "O que é Python?" ou "Como funciona o Linux?"</div>`;
+            }
+        }
+        // 2. Comparação
+        else if (IA.ehPergunta.comparacao.test(texto)) {
+            if (categoria === 'linguagem' && /python.*javascript|javascript.*python/i.test(texto)) {
+                resposta = CONHECIMENTO.linguagem.pythonVsJs;
+            } else if (CONHECIMENTO[categoria]?.comparacao) {
+                resposta = CONHECIMENTO[categoria].comparacao;
+            } else {
+                resposta = `<div class="explicacao">Comparação não disponível para esta categoria. Tente: "Python ou JavaScript?"</div>`;
+            }
+        }
+        // 3. Padrão: visão geral
+        else {
+            if (itens.length > 0) {
+                resposta += `<h3>Sobre ${itens.map(i => i.nome).join(' e ')}</h3>`;
+                itens.forEach(item => resposta += item.explicacao);
+            } else if (CONHECIMENTO[categoria]?.comparacao) {
+                resposta += `<h3>Visão geral sobre ${categoria.toUpperCase()}</h3>`;
+                resposta += CONHECIMENTO[categoria].comparacao;
+            } else {
+                resposta = `<p>Funcionalidade em desenvolvimento. Tente perguntas como "O que é X?" ou "X ou Y?"</p>`;
+            }
+        }
+
+        UI.resposta(resposta || `<p>Não consegui processar. Tente ser mais específico.</p>`);
+    }
+};
+
+// ========== EVENTOS ==========
+document.getElementById('perguntaForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Impede o reload da página
+    const tipo = document.getElementById('tipo').value.trim();
+    const pergunta = document.getElementById('pergunta').value.trim();
+    if (!tipo || !pergunta) {
+        UI.aviso("Preencha ambos os campos!");
+        return;
+    }
+    UI.mostrarLoading();
+    setTimeout(() => Motor.processar(tipo, pergunta), 600);
+});
+
+// Sugestões com data-attributes
+document.querySelectorAll('.suggestion').forEach(sug => {
+    sug.addEventListener('click', function() {
+        const tipo = this.getAttribute('data-tipo');
+        const pergunta = this.getAttribute('data-pergunta');
+        document.getElementById('tipo').value = tipo;
+        document.getElementById('pergunta').value = pergunta;
+        document.getElementById('perguntaForm').dispatchEvent(new Event('submit'));
+    });
+});
+
+// Inicialização
+window.addEventListener('load', () => {
+    console.log("Software Expert carregado com sucesso! Sem reload da página.");
+});
+</script>
+</body>
+</html>

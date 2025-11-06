@@ -14,7 +14,9 @@
             --card: #ffffff;
             --text: #2d3748;
             --success: #e8f5e8;
+            --warning: #ffebee;
             --border: #e2e8f0;
+            --danger: #c62828;
             --radius: 14px;
             --shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
@@ -90,14 +92,22 @@
             background: var(--primary-dark);
             transform: translateY(-1px);
         }
-        .response {
+        .response, .aviso {
             margin-top: 30px;
             padding: 30px;
-            background: var(--success);
-            border-left: 6px solid #2e7d32;
             border-radius: var(--radius);
             animation: fadeIn 0.5s ease-out;
             line-height: 1.8;
+        }
+        .response {
+            background: var(--success);
+            border-left: 6px solid #2e7d32;
+        }
+        .aviso {
+            background: var(--warning);
+            border-left: 6px solid var(--danger);
+            color: var(--danger);
+            font-weight: 600;
         }
         .response h3 {
             color: var(--primary);
@@ -197,7 +207,7 @@
 
 <div class="container">
     <h1>Software Expert</h1>
-    <p class="subtitle">Explico. Comparo. Ensino. Tudo sobre tecnologia.</p>
+    <p class="subtitle">Explico. Comparo. Ensino. Com respeito e clareza.</p>
 
     <form id="form">
         <label>Área:</label>
@@ -216,7 +226,8 @@
         <p>Processando...</p>
     </div>
 
-    <div id="resposta" class="response"></div>
+    <div id="aviso" class="aviso" style="display:none;"></div>
+    <div id="resposta" class="response" style="display:none;"></div>
 
     <div style="margin-top: 30px; padding: 20px; background: #f8f9fc; border-radius: 12px;">
         <strong>Perguntas rápidas:</strong><br><br>
@@ -230,6 +241,9 @@
 </div>
 
 <script>
+// PALAVRAS OFENSIVAS
+const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético/i;
+
 // CONHECIMENTO
 const DB = {
     so: {
@@ -243,7 +257,7 @@ const DB = {
     }
 };
 
-// FUNÇÃO PRINCIPAL
+// FUNÇÃO DE PERGUNTA RÁPIDA
 function perguntar(tipo, pergunta) {
     document.getElementById('tipo').value = tipo;
     document.getElementById('pergunta').value = pergunta;
@@ -253,24 +267,39 @@ function perguntar(tipo, pergunta) {
 // SUBMIT SEM RECARREGAR
 document.getElementById('form').onsubmit = function(e) {
     e.preventDefault();
-    const tipo = document.getElementById('tipo').value.trim().toLowerCase();
-    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase();
     
+    const tipo = document.getElementById('tipo').value.trim();
+    const pergunta = document.getElementById('pergunta').value.trim();
+    const textoCompleto = (tipo + " " + pergunta).toLowerCase();
+
+    // REPREENSÃO POR OFENSA
+    if (OFENSAS.test(textoCompleto)) {
+        document.getElementById('aviso').innerHTML = 
+            `<strong>Respeito é essencial.</strong><br>
+             Use uma linguagem educada. Aqui é um espaço de aprendizado, não de ofensas.`;
+        document.getElementById('aviso').style.display = 'block';
+        document.getElementById('resposta').style.display = 'none';
+        document.getElementById('loading').style.display = 'none';
+        return;
+    }
+
     document.getElementById('loading').style.display = 'block';
-    document.getElementById('resposta').innerHTML = '';
+    document.getElementById('resposta').style.display = 'none';
+    document.getElementById('aviso').style.display = 'none';
 
     setTimeout(() => {
         let html = '';
+        const lower = textoCompleto;
 
         // EXPLICAÇÃO
-        if (pergunta.includes('o que é') || pergunta.includes('explique')) {
-            if (tipo.includes('linguagem') && pergunta.includes('python')) {
+        if (lower.includes('o que é') || lower.includes('explique') || lower.includes('como funciona')) {
+            if (lower.includes('python')) {
                 html = `<h3>Python</h3>
                         <p>Python é uma linguagem interpretada, de alto nível, criada em 1991 por Guido van Rossum. Famosa por sua simplicidade e legibilidade.</p>
                         <div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Automação</div>
                         <div class="exemplo"><strong>Exemplo:</strong><br><code>print("Olá, mundo!")</code></div>`;
             }
-            if (tipo.includes('so') && pergunta.includes('linux')) {
+            if (lower.includes('linux')) {
                 html = `<h3>Linux</h3>
                         <p>Kernel criado por Linus Torvalds em 1991. Sistema open-source, seguro e usado em 96% dos supercomputadores.</p>
                         <div class="exemplo"><strong>Bash:</strong><br><code>ls -la</code></div>`;
@@ -278,8 +307,8 @@ document.getElementById('form').onsubmit = function(e) {
         }
 
         // COMPARAÇÃO
-        else if (pergunta.includes('ou') || pergunta.includes('vs') || pergunta.includes('melhor')) {
-            if (tipo.includes('so') && (pergunta.includes('windows') || pergunta.includes('linux'))) {
+        else if (lower.includes('ou') || lower.includes('vs') || lower.includes('melhor') || lower.includes('comparar')) {
+            if ((lower.includes('windows') || lower.includes('linux')) && lower.includes('so')) {
                 html = `<h3>Windows vs Linux</h3>
                         <table>
                             <tr><th></th><th>Windows</th><th>Linux</th></tr>
@@ -289,13 +318,13 @@ document.getElementById('form').onsubmit = function(e) {
                         </table>
                         <div class="conclusao">Windows para jogos. Linux para programação e servidores.</div>`;
             }
-            if (tipo.includes('linguagem') && (pergunta.includes('python') || pergunta.includes('javascript'))) {
+            if (lower.includes('python') && lower.includes('javascript')) {
                 html = `<h3>Python vs JavaScript</h3>
                         <table>
                             <tr><th>Critério</th><th>Python</th><th>JavaScript</th></tr>
                             <tr><td>Facilidade</td><td>Alta</td><td>Média</td></tr>
                             <tr><td>Web</td><td>Django</td><td>React/Node</td></tr>
-                            <tr><td>IA</td><td>Excelente</td><td>Bom (TensorFlow.js)</td></tr>
+                            <tr><td>IA</td><td>Excelente</td><td>Bom</td></tr>
                         </table>
                         <div class="conclusao">Aprenda ambos: Python para ciência, JS para web.</div>`;
             }
@@ -303,10 +332,11 @@ document.getElementById('form').onsubmit = function(e) {
 
         // PADRÃO
         if (!html) {
-            html = `<p>Desculpe, não entendi. Tente: <strong>"O que é Python?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
+            html = `<p>Tente: <strong>"O que é Python?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
         }
 
         document.getElementById('resposta').innerHTML = html;
+        document.getElementById('resposta').style.display = 'block';
         document.getElementById('loading').style.display = 'none';
         document.getElementById('resposta').scrollIntoView({ behavior: 'smooth' });
     }, 600);

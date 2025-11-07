@@ -3,233 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardware Expert - Engenharia da Computação</title>
+    <title>Hardware Expert - Respeito e Precisão</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1a73e8;
-            --primary-dark: #1557b0;
-            --accent: #0d47a1;
-            --bg: #f8f9fc;
+            --primary: #d81b60;
+            --primary-dark: #b0003a;
+            --bg: #fdf4f6;
             --card: #ffffff;
             --text: #2d3748;
-            --text-light: #4a5568;
             --success: #e8f5e8;
-            --warning: #fff8e1;
-            --danger: #c62828;
+            --warning: #ffebee;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 12px 32px rgba(0,0,0,0.15);
+            --danger: #c62828;
             --radius: 14px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 8px 24px rgba(0,0,0,0.1);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%);
             color: var(--text);
-            line-height: 1.7;
-            min-height: 100vh;
-            padding: 24px;
+            padding: 30px;
         }
         .container {
-            background: var(--card);
-            padding: 48px 60px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
             max-width: 1000px;
             margin: 0 auto;
-            position: relative;
-            overflow: hidden;
+            background: var(--card);
+            padding: 50px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
-        .back-link:hover { color: var(--primary-dark); text-decoration: underline; }
-        .back-link i { font-size: 1.2em; }
         h1 {
-            color: var(--primary);
             font-size: 2.8rem;
-            font-weight: 700;
-            margin: 12px 0;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary), #880e4f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 10px;
         }
         .subtitle {
-            color: var(--text-light);
-            font-size: 1.15rem;
-            margin-top: 8px;
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 40px;
         }
         form {
-            margin: 40px 0;
-            background: #f8f9fc;
-            padding: 32px;
+            background: #fdf4f6;
+            padding: 30px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
+            margin-bottom: 30px;
         }
         label {
             display: block;
-            margin: 20px 0 8px;
+            margin: 15px 0 8px;
             font-weight: 600;
-            color: #2d3748;
-            font-size: 1.1rem;
         }
-        input[type="text"], textarea {
+        input, textarea {
             width: 100%;
-            padding: 16px 18px;
+            padding: 14px 16px;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            font-size: 1.05rem;
-            transition: var(--transition);
-            background: white;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
-            transform: translateY(-1px);
+            box-shadow: 0 0 0 4px rgba(216,27,96,0.15);
         }
-        textarea { 
-            height: 130px; 
-            resize: vertical;
-            font-family: inherit;
-        }
+        textarea { height: 120px; resize: vertical; }
         button {
-            margin-top: 28px;
-            padding: 16px 36px;
+            margin-top: 20px;
+            padding: 14px 32px;
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 1.15rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-sm);
+            gap: 8px;
+            transition: all 0.2s;
         }
-        button:hover { 
-            background: var(--primary-dark); 
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
-        button:active { transform: translateY(0); }
-        button i { font-size: 1.3em; }
         .response, .aviso {
-            margin-top: 32px;
-            padding: 28px;
+            margin-top: 30px;
+            padding: 30px;
             border-radius: var(--radius);
             animation: fadeIn 0.5s ease-out;
-            font-size: 1.05rem;
             line-height: 1.8;
-            position: relative;
-            overflow: hidden;
         }
         .response {
             background: var(--success);
             border-left: 6px solid #2e7d32;
-            box-shadow: var(--shadow-sm);
         }
         .aviso {
             background: var(--warning);
             border-left: 6px solid var(--danger);
-            color: #b00020;
-            box-shadow: var(--shadow-sm);
-            font-weight: 600;
-        }
-        .response h3, .response h4 {
-            color: var(--primary);
-            margin: 20px 0 12px;
+            color: var(--danger);
             font-weight: 600;
         }
         .response h3 {
+            color: var(--primary);
+            margin: 20px 0 10px;
             font-size: 1.5rem;
-            border-bottom: 2px solid rgba(26, 115, 232, 0.2);
+            border-bottom: 2px solid rgba(216,27,96,0.2);
             padding-bottom: 8px;
         }
-        .response h4 { font-size: 1.25rem; }
-        .response table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            font-size: 0.98rem;
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .response th, .response td {
+        th, td {
             padding: 16px;
             text-align: left;
-            vertical-align: top;
             border-bottom: 1px solid #e2e8f0;
         }
-        .response th {
-            background: rgba(26, 115, 232, 0.1);
-            font-weight: 600;
+        th {
+            background: rgba(216,27,96,0.1);
             color: var(--primary);
-            width: 22%;
-        }
-        .response td strong { color: var(--primary); }
-        .explicacao, .conclusao, .exemplo {
-            margin: 20px 0;
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 5px solid var(--primary);
-            background: rgba(26, 115, 232, 0.05);
-            position: relative;
-        }
-        .exemplo {
-            background: #f1f3f4;
-            border-left-color: #666;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-        }
-        .exemplo code {
-            background: #e2e8f0;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        .conclusao {
-            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(26, 115, 232, 0.05));
             font-weight: 600;
-            color: var(--primary);
-            border-left: 5px solid var(--primary);
         }
         .chip {
             display: inline-block;
             padding: 6px 12px;
-            background: rgba(26, 115, 232, 0.15);
+            background: rgba(216,27,96,0.15);
             color: var(--primary);
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
             margin: 4px 6px 4px 0;
         }
+        .exemplo {
+            background: #f1f3f4;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 4px solid #666;
+        }
+        .conclusao {
+            background: linear-gradient(135deg, rgba(216,27,96,0.1), rgba(216,27,96,0.05));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            font-weight: 600;
+            color: var(--primary);
+            margin: 20px 0;
+        }
         .loading {
-            display: none;
             text-align: center;
             padding: 40px;
-            color: var(--text-light);
+            color: #4a5568;
+            display: none;
         }
         .spinner {
             width: 40px;
@@ -238,106 +175,207 @@
             border-top: 4px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 15px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        footer {
-            margin-top: 48px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #718096;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-        }
-        .suggestions {
-            margin-top: 24px;
-            padding: 20px;
-            background: #f8f9fc;
-            border-radius: 12px;
-            border: 1px dashed var(--border);
-        }
-        .suggestions h4 {
-            margin-bottom: 12px;
-            color: var(--primary);
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .suggestion {
             display: inline-block;
             margin: 6px;
-            padding: 8px 16px;
+            padding: 10px 18px;
             background: white;
             border: 1px solid var(--border);
             border-radius: 8px;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: var(--transition);
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
         .suggestion:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #718096;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <a href="index.html" class="back-link">
-            <i class="material-icons">arrow_back</i> Voltar
-        </a>
-        <h1>Hardware Expert</h1>
-        <p class="subtitle">Tudo sobre CPU, GPU, SSD, RAM, placas-mãe e mais — com profundidade e comparações reais.</p>
-    </div>
 
-    <form id="perguntaForm">
-        <label for="tipo">Componente:</label>
-        <input type="text" id="tipo" placeholder="Ex: CPU, GPU, SSD, RAM, Placa-mãe..." required>
-        
-        <label for="pergunta">Sua Pergunta:</label>
-        <textarea id="pergunta" placeholder="Ex: O que é NVMe? Intel ou AMD? 16GB RAM é suficiente? RTX 3060 vs RX 6700 XT?" required></textarea>
-        
+<div class="container">
+    <h1>Hardware Expert</h1>
+    <p class="subtitle">Respeito, clareza e aprendizado. Sempre.</p>
+
+    <form id="form">
+        <label>Área:</label>
+        <input type="text" id="tipo" placeholder="Ex: CPU, Placa-mãe, SSD..." required>
+
+        <label>Pergunta:</label>
+        <textarea id="pergunta" placeholder="Ex: O que é CPU? SSD ou HDD?" required></textarea>
+
         <button type="submit">
-            <i class="material-icons">smart_toy</i> Perguntar ao Expert
+            <span class="material-icons">memory</span> Perguntar
         </button>
     </form>
 
     <div id="loading" class="loading">
         <div class="spinner"></div>
-        <p>Analisando hardware com precisão...</p>
+        <p>Processando com precisão...</p>
     </div>
 
     <div id="aviso" class="aviso" style="display:none;"></div>
     <div id="resposta" class="response" style="display:none;"></div>
 
-    <div class="suggestions">
-        <h4>Perguntas rápidas:</h4>
+    <div style="margin-top: 30px; padding: 20px; background: #fdf4f6; border-radius: 12px;">
+        <strong>Perguntas rápidas:</strong><br><br>
         <div class="suggestion" onclick="perguntar('CPU', 'O que é CPU?')">O que é CPU?</div>
-        <div class="suggestion" onclick="perguntar('CPU', 'Intel ou AMD?')">Intel ou AMD?</div>
-        <div class="suggestion" onclick="perguntar('GPU', 'NVIDIA ou AMD?')">NVIDIA ou AMD?</div>
-        <div class="suggestion" onclick="perguntar('SSD', 'SSD vs HDD')">SSD vs HDD</div>
-        <div class="suggestion" onclick="perguntar('RAM', '16GB ou 32GB?')">16GB ou 32GB?</div>
+        <div class="suggestion" onclick="perguntar('Armazenamento', 'SSD ou HDD?')">SSD ou HDD?</div>
+        <div class="suggestion" onclick="perguntar('GPU', 'RTX 3060 é boa?')">RTX 3060 é boa?</div>
+        <div class="suggestion" onclick="perguntar('RAM', '8GB ou 16GB?')">8GB ou 16GB?</div>
     </div>
 
-    <footer><p>Engenharia da Computação © 2025 • Feito com precisão e paixão</p></footer>
+    <footer>Engenharia da Computação © 2025</footer>
 </div>
 
 <script>
-// ========== LISTA DE OFENSAS (REPREENSÃO IMEDIATA) ==========
-const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm|bosta|merd|porcaria|lixo humano/i;
+// LISTA DE XINGAMENTOS E OFENSAS
+const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
 
-// ========== BANCO DE CONHECIMENTO HARDWARE ==========
-const CONHECIMENTO = {
+// BANCO DE DADOS DE HARDWARE
+const DB = {
     cpu: {
-        explicacao: `
-            <h3>CPU - Unidade Central de Processamento</h3>
-            <div class="explicacao">
-                <p><strong>Função:</strong> Cérebro do PC. Executa instruções, cálculos e controle.</p>
-                <p><strong>Arquitetura:</strong> Núcleos (cores), threads, clock (GHz), cache (L1/L2/L3).</p>
-                <p><strong>Marcas:</strong> Intel (Core i3/i5/i7/i9), AMD (Ryzen 3/5/7/9).</p>
-                <
+        intel: { nome: "Intel Core", pros: "Desempenho single-core, jogos", contras: "Mais caro, quente", uso: "Gamers, edição" },
+        amd: { nome: "AMD Ryzen", pros: "Preço, multi-core", contras: "Menor clock base", uso: "Produtividade, custo-benefício" }
+    },
+    armazenamento: {
+        ssd: { nome: "SSD NVMe", pros: "Rápido, silencioso", contras: "Mais caro por GB", uso: "Sistema, jogos" },
+        hdd: { nome: "HDD", pros: "Barato, alta capacidade", contras: "Lento, mecânico", uso: "Armazenamento em massa" }
+    },
+    gpu: {
+        nvidia: { nome: "NVIDIA RTX", pros: "Ray Tracing, DLSS", contras: "Preço alto", uso: "Jogos, IA" },
+        amd: { nome: "AMD Radeon", pros: "Custo-benefício", contras: "Menos recursos", uso: "Jogos médios" }
+    },
+    ram: {
+        ddr4: { nome: "DDR4", pros: "Compatível, barata", contras: "Fim de ciclo", uso: "PCs atuais" },
+        ddr5: { nome: "DDR5", pros: "Rápida, futuro", contras: "Cara, exige nova placa", uso: "Novos builds" }
+    }
+};
+
+// FUNÇÃO DE PERGUNTA RÁPIDA
+function perguntar(tipo, pergunta) {
+    document.getElementById('tipo').value = tipo;
+    document.getElementById('pergunta').value = pergunta;
+    document.getElementById('form').dispatchEvent(new Event('submit'));
+}
+
+// SUBMIT SEM RECARREGAR
+document.getElementById('form').onsubmit = function(e) {
+    e.preventDefault();
+    
+    const tipo = document.getElementById('tipo').value.trim();
+    const pergunta = document.getElementById('pergunta').value.trim();
+    const textoCompleto = (tipo + " " + pergunta).toLowerCase();
+
+    // REPREENSÃO IMEDIATA POR XINGAMENTO
+    if (OFENSAS.test(textoCompleto)) {
+        const aviso = document.getElementById('aviso');
+        aviso.innerHTML = `
+            <strong>🚫 LINGUAGEM INACEITÁVEL</strong><br><br>
+            Aqui não toleramos ofensas, xingamentos ou desrespeito.<br>
+            Este é um espaço de <strong>aprendizado, respeito e conhecimento</strong>.<br><br>
+            <em>Reformule sua pergunta com educação. Estou aqui para ajudar — com respeito mútuo.</em>
+        `;
+        aviso.style.display = 'block';
+        document.getElementById('resposta').style.display = 'none';
+        document.getElementById('loading').style.display = 'none';
+        aviso.scrollIntoView({ behavior: 'smooth' });
+        return;
+    }
+
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('resposta').style.display = 'none';
+    document.getElementById('aviso').style.display = 'none';
+
+    setTimeout(() => {
+        let html = '';
+        const lower = textoCompleto;
+
+        // EXPLICAÇÃO (O QUE É, COMO FUNCIONA)
+        if (/o que é|explique|como funciona|definição|conceito/.test(lower)) {
+            if (lower.includes('cpu')) {
+                html = `<h3>CPU (Unidade Central de Processamento)</h3>
+                        <p>A CPU é o "cérebro" do computador. Executa instruções, faz cálculos e gerencia tarefas. Criada em 1971 pela Intel (4004).</p>
+                        <div class="chip">Núcleos</div><div class="chip">Clock</div><div class="chip">Cache</div>
+                        <div class="exemplo"><strong>Exemplo:</strong><br>Intel i7-13700K: 16 núcleos, até 5.4 GHz</div>`;
+            }
+            if (lower.includes('ssd')) {
+                html = `<h3>SSD (Solid State Drive)</h3>
+                        <p>Armazenamento sem partes móveis. Usa memória flash NAND. Até 10x mais rápido que HDD.</p>
+                        <div class="exemplo"><strong>Velocidade:</strong><br>Leitura: 7000 MB/s (NVMe)</div>`;
+            }
+            if (lower.includes('gpu')) {
+                html = `<h3>GPU (Placa de Vídeo)</h3>
+                        <p>Processador gráfico especializado. Renderiza imagens, vídeos e acelera IA. Essencial para jogos e edição.</p>
+                        <div class="chip">CUDA</div><div class="chip">Ray Tracing</div><div class="chip">VRAM</div>`;
+            }
+            if (lower.includes('ram')) {
+                html = `<h3>RAM (Memória de Acesso Aleatório)</h3>
+                        <p>Memória volátil de alta velocidade. Armazena dados em uso. Quanto mais, melhor multitarefa.</p>
+                        <div class="exemplo"><strong>Tipo:</strong><br>DDR4 3200 MHz ou DDR5 6000 MHz</div>`;
+            }
+        }
+
+        // COMPARAÇÃO
+        else if (/ou|vs|versus|melhor|comparar|diferença/.test(lower)) {
+            if ((lower.includes('ssd') && lower.includes('hdd')) || lower.includes('armazenamento')) {
+                html = `<h3>SSD vs HDD</h3>
+                        <table>
+                            <tr><th></th><th>SSD</th><th>HDD</th></tr>
+                            <tr><td><strong>Velocidade</strong></td><td>5000+ MB/s</td><td>100-200 MB/s</td></tr>
+                            <tr><td><strong>Preço/GB</strong></td><td>Alto</td><td>Baixo</td></tr>
+                            <tr><td><strong>Durabilidade</strong></td><td>Resiste a quedas</td><td>Frágil</td></tr>
+                            <tr><td><strong>Ideal para</strong></td><td>Sistema, jogos</td><td>Backup, arquivos</td></tr>
+                        </table>
+                        <div class="conclusao">SSD para velocidade. HDD para capacidade barata.</div>`;
+            }
+            if ((lower.includes('intel') || lower.includes('amd')) && lower.includes('cpu')) {
+                html = `<h3>Intel vs AMD</h3>
+                        <table>
+                            <tr><th>Critério</th><th>Intel</th><th>AMD</th></tr>
+                            <tr><td>Jogos</td><td>Melhor single-core</td><td>Bom custo</td></tr>
+                            <tr><td>Produtividade</td><td>Bom</td><td>Excelente multi-core</td></tr>
+                            <tr><td>Preço</td><td>Mais caro</td><td>Melhor custo-benefício</td></tr>
+                        </table>
+                        <div class="conclusao">Intel para jogos puros. AMD para tudo + economia.</div>`;
+            }
+            if (lower.includes('8gb') && lower.includes('16gb') || lower.includes('ram')) {
+                html = `<h3>8GB vs 16GB de RAM</h3>
+                        <table>
+                            <tr><th>Uso</th><th>8GB</th><th>16GB</th></tr>
+                            <tr><td>Navegação</td><td>Suficiente</td><td>Sobra</td></tr>
+                            <tr><td>Jogos</td><td>Limite</td><td>Recomendado</td></tr>
+                            <tr><td>Edição</td><td>Trava</td><td>Ideal</td></tr>
+                        </table>
+                        <div class="conclusao">16GB é o mínimo atual para conforto.</div>`;
+            }
+        }
+
+        // PADRÃO (NÃO ENTENDIDO)
+        if (!html) {
+            html = `<p>Não entendi. Tente: <strong>"O que é CPU?"</strong> ou <strong>"SSD ou HDD?"</strong></p>`;
+        }
+
+        const resposta = document.getElementById('resposta');
+        resposta.innerHTML = html;
+        resposta.style.display = 'block';
+        document.getElementById('loading').style.display = 'none';
+        resposta.scrollIntoView({ behavior: 'smooth' });
+    }, 600);
+};
+</script>
+
+</body>
+</html>

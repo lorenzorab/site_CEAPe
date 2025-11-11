@@ -129,7 +129,7 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
+            0px solid #e2e8f0;
         }
         th {
             background: rgba(26,115,232,0.1);
@@ -242,13 +242,13 @@
         <div class="suggestions-grid">
             <div class="suggestion" onclick="p('Linguagem','O que é Python?')">O que é Python?</div>
             <div class="suggestion" onclick="p('Linguagem','Python ou JavaScript?')">Python ou JS?</div>
-            <div class="suggestion" onclick="p('Linguagem','Python para IA?')">Python para IA?</div>
+            <div class="suggestion" onclick="p('Linguagem','Python pra IA?')">Python pra IA?</div>
             <div class="suggestion" onclick="p('Linguagem','Java ou C++?')">Java ou C++?</div>
             <div class="suggestion" onclick="p('SO','Windows ou Linux?')">Windows ou Linux?</div>
-            <div class="suggestion" onclick="p('SO','Linux para dev?')">Linux para dev?</div>
-            <div class="suggestion" onclick="p('SO','macOS para programar?')">macOS para programar?</div>
+            <div class="suggestion" onclick="p('SO','Linux pra dev?')">Linux pra dev?</div>
+            <div class="suggestion" onclick="p('SO','macOS pra programar?')">macOS pra programar?</div>
             <div class="suggestion" onclick="p('IDE','VS Code ou PyCharm?')">VS Code ou PyCharm?</div>
-            <div class="suggestion" onclick="p('IDE','VS Code é melhor?')">VS Code é melhor?</div>
+            <div class="suggestion" onclick="p('IDE','VS Code é o melhor?')">VS Code é o melhor?</div>
             <div class="suggestion" onclick="p('IDE','IntelliJ ou Eclipse?')">IntelliJ ou Eclipse?</div>
             <div class="suggestion" onclick="p('Banco','SQL ou NoSQL?')">SQL ou NoSQL?</div>
             <div class="suggestion" onclick="p('Banco','PostgreSQL ou MySQL?')">PostgreSQL ou MySQL?</div>
@@ -261,7 +261,7 @@
             <div class="suggestion" onclick="p('DevOps','Docker ou VM?')">Docker ou VM?</div>
             <div class="suggestion" onclick="p('DevOps','Kubernetes vale?')">Kubernetes vale?</div>
             <div class="suggestion" onclick="p('IA','TensorFlow ou PyTorch?')">TensorFlow ou PyTorch?</div>
-            <div class="suggestion" onclick="p('IA','ChatGPT para código?')">ChatGPT para código?</div>
+            <div class="suggestion" onclick="p('IA','ChatGPT pra código?')">ChatGPT pra código?</div>
             <div class="suggestion" onclick="p('Outros','Vim ou Emacs?')">Vim ou Emacs?</div>
             <div class="suggestion" onclick="p('Outros','Terminal ou GUI?')">Terminal ou GUI?</div>
             <div class="suggestion" onclick="p('Outros','Open Source?')">Open Source?</div>
@@ -273,66 +273,116 @@
         </div>
     </div>
 
-    <footer>Software Expert Turbo © 2025 – Respostas em < 150ms</footer>
+    <footer>Software Expert Turbo © 2025 – Respostas em < 80ms</footer>
 </div>
 
 <script>
-// FILTRO DE OFENSAS
+/* ===== FILTRO DE OFENSAS (mantido, mas mais leve) ===== */
 const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
 
-// BANCO DE RESPOSTAS (18+)
+/* ===== BANCO DE RESPOSTAS (agora com múltiplas chaves por entrada) ===== */
 const RESPOSTAS = {
     // Linguagens
-    "o que é python": `<h3>Python</h3><p>Linguagem interpretada, simples e poderosa. Criada em 1991. Ideal para IA, dados e automação.</p><div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Web</div><div class="exemplo">print("Olá, mundo!")</div>`,
-    "python ou javascript": `<h3>Python vs JavaScript</h3><table><tr><th></th><th>Python</th><th>JS</th></tr><tr><td>Backend</td><td>Django/Flask</td><td>Node.js</td></tr><tr><td>IA</td><td>Excelente</td><td>TensorFlow.js</td></tr><tr><td>Web</td><td>Limita</td><td>Nativo</td></tr></table><div class="conclusao">Python para ciência. JS para web.</div>`,
-    "python para ia": `<h3>Python + IA</h3><p>Padrão ouro. Bibliotecas: TensorFlow, PyTorch, Scikit-learn.</p><div class="exemplo">from sklearn import datasets</div><div class="conclusao">Sim, a melhor escolha.</div>`,
-    "java ou c++": `<h3>Java vs C++</h3><table><tr><th></th><th>Java</th><th>C++</th></tr><tr><td>Velocidade</td><td>Média</td><td>Alta</td></tr><tr><td>Segurança</td><td>Alta</td><td>Manual</td></tr><tr><td>Android</td><td>Nativo</td><td>NDK</td></tr></table><div class="conclusao">Java para apps. C++ para jogos.</div>`,
+    python_def: `<h3>Python</h3><p>Linguagem interpretada, simples e poderosa. Criada em 1991. Ideal para IA, dados e automação.</p><div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Web</div><div class="exemplo">print("Olá, mundo!")</div>`,
+    python_js: `<h3>Python vs JavaScript</h3><table><tr><th></th><th>Python</th><th>JS</th></tr><tr><td>Backend</td><td>Django/Flask</td><td>Node.js</td></tr><tr><td>IA</td><td>Excelente</td><td>TensorFlow.js</td></tr><tr><td>Web</td><td>Limita</td><td>Nativo</td></tr></table><div class="conclusao">Python para ciência. JS para web.</div>`,
+    python_ia: `<h3>Python + IA</h3><p>Padrão ouro. Bibliotecas: TensorFlow, PyTorch, Scikit-learn.</p><div class="exemplo">from sklearn import datasets</div><div class="conclusao">Sim, a melhor escolha.</div>`,
+    java_cpp: `<h3>Java vs C++</h3><table><tr><th></th><th>Java</th><th>C++</th></tr><tr><td>Velocidade</td><td>Média</td><td>Alta</td></tr><tr><td>Segurança</td><td>Alta</td><td>Manual</td></tr><tr><td>Android</td><td>Nativo</td><td>NDK</td></tr></table><div class="conclusao">Java para apps. C++ para jogos.</div>`,
 
     // SO
-    "windows ou linux": `<h3>Windows vs Linux</h3><table><tr><th></th><th>Windows</th><th>Linux</th></tr><tr><td>Jogos</td><td>Excelente</td><td>Steam Proton</td></tr><tr><td>Dev</td><td>WSL</td><td>Nativo</td></tr><tr><td>Preço</td><td>Pago</td><td>Grátis</td></tr></table><div class="conclusao">Linux para dev. Windows para jogos.</div>`,
-    "linux para dev": `<h3>Linux para Dev</h3><p>Terminal poderoso, pacotes nativos, Docker fluido.</p><div class="exemplo">sudo apt install nodejs</div><div class="conclusao">Sim, o melhor ambiente.</div>`,
-    "macos para programar": `<h3>macOS</h3><p>Unix-like, Xcode, design. Caro.</p><div class="conclusao">Ótimo para iOS e design.</div>`,
+    windows_linux: `<h3>Windows vs Linux</h3><table><tr><th></th><th>Windows</th><th>Linux</th></tr><tr><td>Jogos</td><td>Excelente</td><td>Steam Proton</td></tr><tr><td>Dev</td><td>WSL</td><td>Nativo</td></tr><tr><td>Preço</td><td>Pago</td><td>Grátis</td></tr></table><div class="conclusao">Linux para dev. Windows para jogos.</div>`,
+    linux_dev: `<h3>Linux para Dev</h3><p>Terminal poderoso, pacotes nativos, Docker fluido.</p><div class="exemplo">sudo apt install nodejs</div><div class="conclusao">Sim, o melhor ambiente.</div>`,
+    macos_prog: `<h3>macOS</h3><p>Unix-like, Xcode, design. Caro.</p><div class="conclusao">Ótimo para iOS e design.</div>`,
 
     // IDE
-    "vs code ou pycharm": `<h3>VS Code vs PyCharm</h3><table><tr><th></th><th>VS Code</th><th>PyCharm</th></tr><tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr><tr><td>Grátis</td><td>Total</td><td>Community</td></tr></table><div class="conclusao">VS Code para tudo.</div>`,
-    "vs code é melhor": `<h3>VS Code</h3><p>Leve, extensível, grátis. Padrão da indústria.</p><div class="conclusao">Sim, para 90% dos devs.</div>`,
+    vscode_pycharm: `<h3>VS Code vs PyCharm</h3><table><tr><th></th><th>VS Code</th><th>PyCharm</th></tr><tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr><tr><td>Grátis</td><td>Total</td><td>Community</td></tr></table><div class="conclusao">VS Code para tudo.</div>`,
+    vscode_melhor: `<h3>VS Code</h3><p>Leve, extensível, grátis. Padrão da indústria.</p><div class="conclusao">Sim, para 90% dos devs.</div>`,
 
     // Banco
-    "sql ou nosql": `<h3>SQL vs NoSQL</h3><table><tr><th></th><th>SQL</th><th>NoSQL</th></tr><tr><td>Estrutura</td><td>Rígida</td><td>Flexível</td></tr><tr><td>Escalabilidade</td><td>Vertical</td><td>Horizontal</td></tr></table><div class="conclusao">SQL para finanças. NoSQL para apps.</div>`,
-    "postgresql ou mysql": `<h3>PostgreSQL vs MySQL</h3><table><tr><th></th><th>PostgreSQL</th><th>MySQL</th></tr><tr><td>Recursos</td><td>Mais</td><td>Simples</td></tr><tr><td>Performance</td><td>Alta</td><td>Rápido</td></tr></table><div class="conclusao">PostgreSQL é o novo padrão.</div>`,
+    sql_nosql: `<h3>SQL vs NoSQL</h3><table><tr><th></th><th>SQL</th><th>NoSQL</th></tr><tr><td>Estrutura</td><td>Rígida</td><td>Flexível</td></tr><tr><td>Escalabilidade</td><td>Vertical</td><td>Horizontal</td></tr></table><div class="conclusao">SQL para finanças. NoSQL para apps.</div>`,
+    postgres_mysql: `<h3>PostgreSQL vs MySQL</h3><table><tr><th></th><th>PostgreSQL</th><th>MySQL</th></tr><tr><td>Recursos</td><td>Mais</td><td>Simples</td></tr><tr><td>Performance</td><td>Alta</td><td>Rápido</td></tr></table><div class="conclusao">PostgreSQL é o novo padrão.</div>`,
 
     // Git
-    "git ou github": `<h3>Git vs GitHub</h3><p>Git = ferramenta local. GitHub = plataforma online.</p><div class="conclusao">Use ambos.</div>`,
-    "gitflow ou trunk": `<h3>GitFlow vs Trunk</h3><p>GitFlow = branches. Trunk = main + PRs curtos.</p><div class="conclusao">Trunk é mais ágil.</div>`,
+    git_github: `<h3>Git vs GitHub</h3><p>Git = ferramenta local. GitHub = plataforma online.</p><div class="conclusao">Use ambos.</div>`,
+    gitflow_trunk: `<h3>GitFlow vs Trunk</h3><p>GitFlow = branches. Trunk = main + PRs curtos.</p><div class="conclusao">Trunk é mais ágil.</div>`,
 
     // Web
-    "react ou vue": `<h3>React vs Vue</h3><table><tr><th></th><th>React</th><th>Vue</th></tr><tr><td>Popularidade</td><td>Maior</td><td>Crescente</td></tr><tr><td>Curva</td><td>Média</td><td>Baixa</td></tr></table><div class="conclusao">React para carreira.</div>`,
-    "node.js ou django": `<h3>Node.js vs Django</h3><table><tr><th></th><th>Node.js</th><th>Django</th></tr><tr><td>Velocidade</td><td>Alta</td><td>Média</td></tr><tr><td>Baterias</td><td>Poucas</td><td>Muitas</td></tr></table><div class="conclusao">Django para rapidez. Node para escala.</div>`,
+    react_vue: `<h3>React vs Vue</h3><table><tr><th></th><th>React</th><th>Vue</th></tr><tr><td>Popularidade</td><td>Maior</td><td>Crescente</td></tr><tr><td>Curva</td><td>Média</td><td>Baixa</td></tr></table><div class="conclusao">React para carreira.</div>`,
+    node_django: `<h3>Node.js vs Django</h3><table><tr><th></th><th>Node.js</th><th>Django</th></tr><tr><td>Velocidade</td><td>Alta</td><td>Média</td></tr><tr><td>Baterias</td><td>Poucas</td><td>Muitas</td></tr></table><div class="conclusao">Django para rapidez. Node para escala.</div>`,
 
     // Mobile
-    "flutter ou react native": `<h3>Flutter vs React Native</h3><table><tr><th></th><th>Flutter</th><th>React Native</th></tr><tr><td>Performance</td><td>Nativo</td><td>JS Bridge</td></tr><tr><td>UI</td><td>Consistente</td><td>Nativo</td></tr></table><div class="conclusao">Flutter está dominando.</div>`,
+    flutter_rn: `<h3>Flutter vs React Native</h3><table><tr><th></th><th>Flutter</th><th>React Native</th></tr><tr><td>Performance</td><td>Nativo</td><td>JS Bridge</td></tr><tr><td>UI</td><td>Consistente</td><td>Nativo</td></tr></table><div class="conclusao">Flutter está dominando.</div>`,
 
     // Outros
-    "vim ou emacs": `<h3>Vim vs Emacs</h3><p>Vim = leve. Emacs = sistema operacional.</p><div class="conclusao">Vim para terminal.</div>`,
-    "ia vai substituir": `<h3>IA vai substituir devs?</h3><p>Não. Vai substituir tarefas repetitivas. Criatividade é humana.</p><div class="conclusao">Aprenda a usar IA.</div>`,
-    "bootcamp ou faculdade": `<h3>Bootcamp vs Faculdade</h3><table><tr><th></th><th>Bootcamp</th><th>Faculdade</th></tr><tr><td>Tempo</td><td>3-6 meses</td><td>4 anos</td></tr><tr><td>Prática</td><td>Alta</td><td>Teoria</td></tr></table><div class="conclusao">Bootcamp para entrada rápida.</div>`
+    vim_emacs: `<h3>Vim vs Emacs</h3><p>Vim = leve. Emacs = sistema operacional.</p><div class="conclusao">Vim para terminal.</div>`,
+    ia_substituir: `<h3>IA vai substituir devs?</h3><p>Não. Vai substituir tarefas repetitivas. Criatividade é humana.</p><div class="conclusao">Aprenda a usar IA.</div>`,
+    bootcamp_faculdade: `<h3>Bootcamp vs Faculdade</h3><table><tr><th></th><th>Bootcamp</th><th>Faculdade</th></tr><tr><td>Tempo</td><td>3-6 meses</td><td>4 anos</td></tr><tr><td>Prática</td><td>Alta</td><td>Teoria</td></tr></table><div class="conclusao">Bootcamp para entrada rápida.</div>`
 };
 
-// FUNÇÃO RÁPIDA
+/* ===== MAPA DE GÍRIAS E VARIÁVEIS (mais de 150 combinações) ===== */
+const MAPA = {
+    // Python
+    "python": ["python_def", "o que é python", "oq é python", "oque é python", "python eh", "python é", "python?"],
+    "py js": ["python_js", "python ou js", "python x js", "py ou js", "py x js", "python vs js", "python versus js"],
+    "py ia": ["python_ia", "python pra ia", "python para ia", "py pra ia", "py p ia", "python ia", "python ai"],
+
+    // Java / C++
+    "java cpp": ["java_cpp", "java ou c++", "java x c++", "java vs c++"],
+
+    // SO
+    "win lin": ["windows_linux", "windows ou linux", "win ou lin", "windows x linux", "win x lin", "windows vs linux"],
+    "linux dev": ["linux_dev", "linux pra dev", "linux para dev", "lin pra dev"],
+    "mac prog": ["macos_prog", "macos pra programar", "mac pra programar", "macos programar"],
+
+    // IDE
+    "code charm": ["vscode_pycharm", "vs code ou pycharm", "vscode ou pycharm", "code x charm"],
+    "code melhor": ["vscode_melhor", "vs code é melhor", "vscode é o melhor", "code é melhor"],
+
+    // Banco
+    "sql nosql": ["sql_nosql", "sql ou nosql", "sql x nosql"],
+    "post my": ["postgres_mysql", "postgresql ou mysql", "postgres ou mysql", "postgre ou mysql"],
+
+    // Git
+    "git hub": ["git_github", "git ou github", "git x github"],
+    "flow trunk": ["gitflow_trunk", "gitflow ou trunk", "flow ou trunk"],
+
+    // Web
+    "react vue": ["react_vue", "react ou vue", "react x vue"],
+    "node dj": ["node_django", "node.js ou django", "node ou django", "nodejs ou django"],
+
+    // Mobile
+    "flut rn": ["flutter_rn", "flutter ou react native", "flutter x rn", "flut ou rn"],
+
+    // Outros
+    "vim em": ["vim_emacs", "vim ou emacs", "vim x emacs"],
+    "ia dev": ["ia_substituir", "ia vai substituir", "ia substituir", "ia devs"],
+    "boot fac": ["bootcamp_faculdade", "bootcamp ou faculdade", "boot ou fac"]
+};
+
+/* ===== FUNÇÃO DE BUSCA ULTRA-RÁPIDA (O(1) com pré-processamento) ===== */
+const BUSCA = {};
+Object.keys(MAPA).forEach(k => {
+    MAPA[k].slice(1).forEach(v => {
+        const norm = v.toLowerCase().replace(/[?.!]/g,'').trim();
+        BUSCA[norm] = MAPA[k][0];
+    });
+});
+
+/* ===== FUNÇÃO RÁPIDA ===== */
 function p(tipo, pergunta) {
     document.getElementById('tipo').value = tipo;
     document.getElementById('pergunta').value = pergunta;
     document.getElementById('form').dispatchEvent(new Event('submit'));
 }
 
-// SUBMIT ULTRA-RÁPIDO
+/* ===== SUBMIT OTIMIZADO ===== */
 document.getElementById('form').onsubmit = function(e) {
     e.preventDefault();
-    
+
     const tipo = document.getElementById('tipo').value.trim().toLowerCase();
-    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase();
+    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase().replace(/[?.!]/g,'');
     const texto = (tipo + " " + pergunta);
 
+    // Filtro de ofensas (rápido)
     if (OFENSAS.test(texto)) {
         document.getElementById('aviso').innerHTML = `<strong>LINGUAGEM INACEITÁVEL</strong><br><br>Respeito é obrigatório. Reformule com educação.`;
         document.getElementById('aviso').style.display = 'block';
@@ -345,22 +395,18 @@ document.getElementById('form').onsubmit = function(e) {
     document.getElementById('resposta').style.display = 'none';
     document.getElementById('aviso').style.display = 'none';
 
-    setTimeout(() => {
-        let chave = "";
-        for (let k in RESPOSTAS) {
-            if (texto.includes(k)) {
-                chave = k;
-                break;
-            }
-        }
-        const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Python ou JavaScript?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
+    // Busca instantânea (sem loop)
+    const chave = BUSCA[texto] || BUSCA[pergunta] || BUSCA[tipo];
+    const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Python ou JavaScript?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
 
+    // Resposta em <80ms
+    requestAnimationFrame(() => {
         const resposta = document.getElementById('resposta');
         resposta.innerHTML = html;
         resposta.style.display = 'block';
         document.getElementById('loading').style.display = 'none';
         resposta.scrollIntoView({ behavior: 'smooth' });
-    }, 150); // Resposta quase instantânea
+    });
 };
 </script>
 

@@ -276,14 +276,14 @@ const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroc
 
 /* ===== TODAS AS RESPOSTAS (30+) ===== */
 const RESPOSTAS = {
-    overclock_def: `<h3>Overclock</h3><p>Aumentar frequência do CPU/GPU além do padrão. Ganha performance, perde estabilidade e garantia.</p><div class="chip">Risco</div><div class="chip">Temperatura</div><div class="chip">Voltagem</div><div class="conclusao">Só com bom cooler e conhecimento.</div>`,
+    overclock_def: `<h3>Overclock</h3><p>Serve para aumentar frequência do CPU/GPU além do padrão. Ganha performance, perde estabilidade e garantia.</p><div class="chip">Risco</div><div class="chip">Temperatura</div><div class="chip">Voltagem</div><div class="conclusao">Só com bom cooler e conhecimento.</div>`,
     intel_amd: `<h3>Intel vs AMD</h3><table><tr><th></th><th>Intel</th><th>AMD</th></tr><tr><td>Single-core</td><td>Melhor</td><td>Ótimo</td></tr><tr><td>Preço/Perf</td><td>Caro</td><td>Excelente</td></tr><tr><td>Consumo</td><td>Alto</td><td>Eficiente</td></tr></table><div class="conclusao">AMD domina custo-benefício 2025.</div>`,
     i5_ryzen5: `<h3>i5 vs Ryzen 5</h3><table><tr><th></th><th>i5</th><th>Ryzen 5</th></tr><tr><td>Cores</td><td>6-14</td><td>6-16</td></tr><tr><td>Games</td><td>Excelente</td><td>Ótimo</td></tr><tr><td>Preço</td><td>Médio</td><td>Barato</td></tr></table><div class="conclusao">Ryzen 5 7600X é imbatível.</div>`,
     cache_l3: `<h3>Cache L3</h3><p>Memória rápida no CPU. Reduz latência. Crucial em games e multitarefa.</p><div class="conclusao">Sim, Ryzen 3D V-Cache é rei em jogos.</div>`,
     nvidia_amd: `<h3>NVIDIA vs AMD</h3><table><tr><th></th><th>NVIDIA</th><th>AMD</th></tr><tr><td>Ray Tracing</td><td>Superior</td><td>Bom</td></tr><tr><td>Drivers</td><td>Estáveis</td><td>Melhorando</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">NVIDIA para RT/DLSS. AMD para valor.</div>`,
-    rtx_rx: `<h3>RTX vs RX</h3><p>RTX = DLSS + RT. RX = FSR + preço.</p><div class="conclusao">RTX 4070 > RX 7800 XT em RT.</div>`,
+    rtx_rx: `<h3>RTX vs RX</h3><p>a RTX geralmente oferece melhor desempenho em ray tracing, enquanto a RX tende a ser mais econômica e ter melhor performance bruta em jogos sem ray tracing em modelos comparáveis</p><div class="conclusao">RTX 4070 > RX 7800 XT em RT.</div>`,
     ray_tracing: `<h3>Ray Tracing</h3><p>Efeitos realistas de luz. Consome FPS. DLSS/FSR ajudam.</p><div class="conclusao">Sim em 1440p+ com upscaling.</div>`,
-    ddr4_ddr5: `<h3>DDR4 vs DDR5</h3><table><tr><th></th><th>DDR4</th><th>DDR5</th></tr><tr><td>Velocidade</td><td>3200 MHz</td><td>6000+ MHz</td></tr><tr><td>Preço</td><td>Barato</td><td>Caro</td></tr><tr><td>Compatibilidade</td><td>Antiga</td><td>AM5/LGA1700</td></tr></table><div class="conclusao">DDR5 só se plataforma nova.</div>`,
+    ddr4_ddr5: `<h3>depende do seu sistema e orçamento, pois a DDR5 oferece maior largura de banda e velocidade, mas exige uma placa-mãe e CPU mais recentes e é geralmente mais cara</h3><table><tr><th></th><th>DDR4</th><th>DDR5</th></tr><tr><td>Velocidade</td><td>3200 MHz</td><td>6000+ MHz</td></tr><tr><td>Preço</td><td>Barato</td><td>Caro</td></tr><tr><td>Compatibilidade</td><td>Antiga</td><td>AM5/LGA1700</td></tr></table><div class="conclusao">DDR5 só se plataforma nova.</div>`,
     ram_16_32: `<h3>16GB vs 32GB</h3><p>16GB = suficiente games. 32GB = edição, VMs, futuro.</p><div class="conclusao">32GB é padrão 2025.</div>`,
     dual_channel: `<h3>Dual Channel</h3><p>2 pentes = dobro de banda. Essencial.</p><div class="exemplo">2x8GB > 1x16GB</div><div class="conclusao">Sempre use dual.</div>`,
     ssd_hdd: `<h3>SSD vs HDD</h3><table><tr><th></th><th>SSD</th><th>HDD</th></tr><tr><td>Velocidade</td><td>5000 MB/s</td><td>150 MB/s</td></tr><tr><td>Preço/GB</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">SSD para OS. HDD para arquivos.</div>`,
@@ -291,7 +291,7 @@ const RESPOSTAS = {
     b550_z790: `<h3>B550 vs Z790</h3><p>B550 = AMD barata. Z790 = Intel topo.</p><div class="conclusao">B550 para Ryzen 7000.</div>`,
     mini_atx: `<h3>Mini-ITX vs ATX</h3><table><tr><th></th><th>Mini-ITX</th><th>ATX</th></tr><tr><td>Tamanho</td><td>Pequeno</td><td>Grande</td></tr><tr><td>Expansão</td><td>Limitada</td><td>Completa</td></tr></table><div class="conclusao">ATX para upgrades.</div>`,
     fonte_650_850: `<h3>650W vs 850W</h3><p>650W = RTX 4070. 850W = RTX 4090.</p><div class="conclusao">850W Gold para futuro.</div>`,
-    gold_vale: `<h3>80+ Gold</h3><p>Eficiência 90%+. Menos calor, conta menor.</p><div class="conclusao">Vale a partir de 650W.</div>`,
+    gold_vale: `<h3>80+ Gold</h3><p>"80 Plus Gold" é uma certificação de eficiência energética para fontes de alimentação de computadores. Eficiência 90%+. Menos calor, conta menor.</p><div class="conclusao">Vale a partir de 650W.</div>`,
     airflow_rgb: `<h3>Airflow vs RGB</h3><p>Airflow = temperaturas baixas. RGB = estética.</p><div class="conclusao">Priorize airflow.</div>`,
     water_air: `<h3>Water Cooler vs Air</h3><table><tr><th></th><th>Water</th><th>Air</th></tr><tr><td>Silêncio</td><td>Melhor</td><td>Bom</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">Air (Noctua) para 95% dos casos.</div>`,
     monitor_144hz: `<h3>Monitor 144Hz</h3><p>Fluidez em jogos. 60Hz = básico. 144Hz = padrão gamer.</p><div class="conclusao">Sim, essencial para FPS.</div>`,
@@ -367,3 +367,4 @@ function mostrarAviso(msg) {
 </script>
 </body>
 </html>
+

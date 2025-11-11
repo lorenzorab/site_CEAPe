@@ -3,171 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engenharia da Computação</title>
+    <meta name="description" content="Engenharia da Computação: a ponte entre hardware e software. Conheça o curso, áreas de atuação e disciplinas.">
+    <meta name="author" content="Lorenzo Vieira & Murilo Augusto">
+    <meta name="theme-color" content="#1a73e8">
+    <title>Engenharia da Computação | Hardware + Software</title>
+
+    <!-- Google Fonts: Inter (moderna e legível) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Material Symbols (ícones leves e modernos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Estilos básicos para centralização e aparência */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #0d47a1;
+            --primary-light: #e3f2fd;
+            --text: #1a1a1a;
+            --text-light: #555;
+            --bg: #f8fbff;
+            --card: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --transition: all 0.25s ease;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            color: var(--text);
+            line-height: 1.7;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 20px;
         }
 
         .container {
-            text-align: center;
-            background-color: white;
-            padding: 40px 60px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
+            margin: 0 auto;
+            background: var(--card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            animation: fadeUp 0.6s ease-out;
+        }
+
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0,10 Q25,0 50,10 T100,10 L100,20 L0,20 Z" fill="rgba(255,255,255,0.1)"/></svg>') bottom/100% 20px no-repeat;
+            opacity: 0.3;
         }
 
         h1 {
-            color: #1a73e8;
-            margin-bottom: 15px;
-            font-size: 2.4em;
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .subtitle {
-            font-size: 1.1em;
-            color: #555;
-            margin-bottom: 30px;
-            font-style: italic;
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Conteúdo principal */
+        main {
+            padding: 40px 30px;
         }
 
         .intro {
-            text-align: left;
-            background-color: #f0f7ff;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid #1a73e8;
-            margin-bottom: 30px;
-            line-height: 1.7;
-            font-size: 1.05em;
-        }
-
-        .section {
-            text-align: left;
-            margin: 25px 0;
-        }
-
-        .section h2 {
-            color: #1a73e8;
-            font-size: 1.5em;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #1a73e8;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-
-        .section ul {
-            padding-left: 20px;
-            line-height: 1.7;
-        }
-
-        .section ul li {
-            margin: 8px 0;
-        }
-
-        nav {
-            margin: 35px 0;
-        }
-
-        nav a {
-            display: block;
-            margin: 15px 0;
-            padding: 14px 20px;
-            background-color: #1a73e8;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(26, 115, 232, 0.2);
-        }
-
-        nav a:hover {
-            background-color: #1557b0;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
-        }
-
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
+            background: var(--primary-light);
+            padding: 22px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 32px;
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #1e40af;
         }
 
         .highlight {
-            background-color: #e3f2fd;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            color: #0d47a1;
+            background: #bbdefb;
+            color: var(--primary-dark);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
         }
+
+        .section {
+            margin: 32px 0;
+        }
+
+        .section h2 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .material-symbols-rounded {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 4px;
+        }
+
+        .section ul li {
+            padding: 10px 0 10px 32px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .section ul li:last-child {
+            border-bottom: none;
+        }
+
+        .section ul li::before {
+            content: 'check_circle';
+            font-family: 'Material Symbols Rounded';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .section ul li:hover {
+            background: #f5f9ff;
+            padding-left: 36px;
+            border-radius: 8px;
+            margin: 0 -8px;
+            padding: 10px 8px;
+        }
+
+        /* Navegação */
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 40px 0;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.6s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+
+        nav a .material-symbols-rounded {
+            font-size: 1.4rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1.1rem; }
+            main { padding: 30px 20px; }
+            nav { flex-direction: column; }
+            nav a { font-size: 1rem; padding: 14px; }
+        }
+
+        /* Animações */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            animation: fadeUp 0.6s ease-out forwards;
+            opacity: 0;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        .section:nth-child(1) { --i: 1; }
+        .section:nth-child(2) { --i: 2; }
+        .section:nth-child(3) { --i: 3; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Engenharia da Computação</h1>
-        <p class="subtitle">A ponte entre hardware e software</p>
+        <header>
+            <h1>Engenharia da Computação</h1>
+            <p class="subtitle">A ponte entre hardware e software</p>
+        </header>
 
-        <div class="intro">
-            <p><strong>Engenharia da Computação</strong> é a área da engenharia que une <span class="highlight">eletrônica</span>, <span class="highlight">programação</span> e <span class="highlight">sistemas digitais</span> para projetar, desenvolver e otimizar computadores, dispositivos embarcados e sistemas inteligentes.</p>
-            <p>É uma das profissões mais versáteis e demandadas do século XXI, atuando desde o chip até a nuvem.</p>
-        </div>
+        <main>
+            <div class="intro">
+                <p><strong>Engenharia da Computação</strong> é a área da engenharia que une <span class="highlight">eletrônica</span>, <span class="highlight">programação</span> e <span class="highlight">sistemas digitais</span> para projetar, desenvolver e otimizar computadores, dispositivos embarcados e sistemas inteligentes.</p>
+                <p>É uma das profissões mais versáteis e demandadas do século XXI, atuando desde o chip até a nuvem.</p>
+            </div>
 
-        <div class="section">
-            <h2>O que é?</h2>
-            <p>É a engenharia que:</p>
-            <ul>
-                <li>Projeta <strong>processadores, placas-mãe e circuitos</strong> (hardware)</li>
-                <li>Desenvolve <strong>sistemas operacionais, drivers e firmware</strong> (software de baixo nível)</li>
-                <li>Cria <strong>robôs, IoT, carros autônomos e drones</strong></li>
-                <li>Integra <strong>hardware + software</strong> para soluções eficientes</li>
-            </ul>
-        </div>
+            <div class="section" style="--i: 1">
+                <h2><span class="material-symbols-rounded">memory</span> O que é?</h2>
+                <p>É a engenharia que:</p>
+                <ul>
+                    <li>Projeta <strong>processadores, placas-mãe e circuitos</strong> (hardware)</li>
+                    <li>Desenvolve <strong>sistemas operacionais, drivers e firmware</strong> (software de baixo nível)</li>
+                    <li>Cria <strong>robôs, IoT, carros autônomos e drones</strong></li>
+                    <li>Integra <strong>hardware + software</strong> para soluções eficientes</li>
+                </ul>
+            </div>
 
-        <div class="section">
-            <h2>Áreas de Atuação</h2>
-            <ul>
-                <li><strong>Sistemas Embarcados:</strong> Arduino, ESP32, carros, eletrodomésticos inteligentes</li>
-                <li><strong>Inteligência Artificial:</strong> Redes neurais, visão computacional, processamento em GPU</li>
-                <li><strong>Redes e Telecomunicações:</strong> 5G, roteadores, segurança cibernética</li>
-                <li><strong>Desenvolvimento de Software:</strong> Apps, jogos, cloud computing</li>
-                <li><strong>Automação Industrial:</strong> PLCs, robótica, indústria 4.0</li>
-            </ul>
-        </div>
+            <div class="section" style="--i: 2">
+                <h2><span class="material-symbols-rounded">workspaces</span> Áreas de Atuação</h2>
+                <ul>
+                    <li><strong>Sistemas Embarcados:</strong> Arduino, ESP32, carros, eletrodomésticos inteligentes</li>
+                    <li><strong>Inteligência Artificial:</strong> Redes neurais, visão computacional, processamento em GPU</li>
+                    <li><strong>Redes e Telecomunicações:</strong> 5G, roteadores, segurança cibernética</li>
+                    <li><strong>Desenvolvimento de Software:</strong> Apps, jogos, cloud computing</li>
+                    <li><strong>Automação Industrial:</strong> PLCs, robótica, indústria 4.0</li>
+                </ul>
+            </div>
 
-        <div class="section">
-            <h2>Principais Disciplinas</h2>
-            <ul>
-                <li>Circuitos Elétricos e Eletrônica Digital</li>
-                <li>Arquitetura de Computadores</li>
-                <li>Sistemas Operacionais</li>
-                <li>Programação (C, C++, Python, Assembly)</li>
-                <li>Redes de Computadores</li>
-                <li>Engenharia de Software</li>
-                <li>Inteligência Artificial e Machine Learning</li>
-            </ul>
-        </div>
+            <div class="section" style="--i: 3">
+                <h2><span class="material-symbols-rounded">school</span> Principais Disciplinas</h2>
+                <ul>
+                    <li>Circuitos Elétricos e Eletrônica Digital</li>
+                    <li>Arquitetura de Computadores</li>
+                    <li>Sistemas Operacionais</li>
+                    <li>Programação (C, C++, Python, Assembly)</li>
+                    <li>Redes de Computadores</li>
+                    <li>Engenharia de Software</li>
+                    <li>Inteligência Artificial e Machine Learning</li>
+                </ul>
+            </div>
 
-        <nav>
-            <a href="hardware.html">Explorar Hardware</a>
-            <a href="software.html">Explorar Software</a>
-        </nav>
+            <nav>
+                <a href="hardware.html">
+                    <span class="material-symbols-rounded">memory</span>
+                    Explorar Hardware
+                </a>
+                <a href="software.html">
+                    <span class="material-symbols-rounded">code</span>
+                    Explorar Software
+                </a>
+            </nav>
+        </main>
 
         <footer>
-            <p>Site educativo sobre Engenharia da Computação &copy; 2025 DESENVOLVIDO POR LORENZO VIEIRA E MURILO AUGUSTO</p>
+            <p>Site educativo sobre Engenharia da Computação &copy; 2025 <br>
+            <strong>DESENVOLVIDO POR LORENZO VIEIRA E MURILO AUGUSTO</strong></p>
         </footer>
     </div>
+
+    <!-- Animação ao rolar (opcional, leve) -->
+    <script>
+        // Ativar animações ao rolar
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(sec => {
+            sec.style.opacity = 0;
+            sec.style.transform = 'translateY(20px)';
+            sec.style.transition = 'all 0.6s ease-out';
+            observer.observe(sec);
+        });
+    </script>
 </body>
 </html>
-

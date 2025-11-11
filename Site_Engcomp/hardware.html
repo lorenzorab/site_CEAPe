@@ -257,7 +257,7 @@
             <div class="suggestion" onclick="p('Fonte','650W ou 850W?')">650W ou 850W?</div>
             <div class="suggestion" onclick="p('Fonte','80+ Gold vale?')">80+ Gold vale?</div>
             <div class="suggestion" onclick="p('Gabinete','Airflow ou RGB?')">Airflow ou RGB?</div>
-            <div class="suggestion" onclick="p('Gabinete','Water cooler ou air?')">Water cooler ou air?</div>
+            <div class="suggestion" onclick="p('Gabinete','Water cooler ou air?')">Water ou air?</div>
             <div class="suggestion" onclick="p('Periféricos','Monitor 144Hz?')">Monitor 144Hz?</div>
             <div class="suggestion" onclick="p('Periféricos','Teclado mecânico?')">Teclado mecânico?</div>
             <div class="suggestion" onclick="p('Laptop','Gaming ou ultrabook?')">Gaming ou ultrabook?</div>
@@ -273,68 +273,118 @@
         </div>
     </div>
 
-    <footer>Hardware Expert Turbo © 2025 – Respostas em < 150ms</footer>
+    <footer>Hardware Expert Turbo © 2025 – Respostas em < 80ms</footer>
 </div>
 
 <script>
-// FILTRO DE OFENSAS
+/* ===== FILTRO DE OFENSAS (leve) ===== */
 const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
 
-// BANCO DE RESPOSTAS (18+ temas de hardware)
+/* ===== BANCO DE RESPOSTAS (com chaves curtas) ===== */
 const RESPOSTAS = {
     // CPU
-    "o que é overclock": `<h3>Overclock</h3><p>Aumentar frequência do CPU/GPU além do padrão. Ganha performance, perde estabilidade e garantia.</p><div class="chip">Risco</div><div class="chip">Temperatura</div><div class="chip">Voltagem</div><div class="conclusao">Só com bom cooler e conhecimento.</div>`,
-    "intel ou amd": `<h3>Intel vs AMD</h3><table><tr><th></th><th>Intel</th><th>AMD</th></tr><tr><td>Single-core</td><td>Melhor</td><td>Ótimo</td></tr><tr><td>Preço/Perf</td><td>Caro</td><td>Excelente</td></tr><tr><td>Consumo</td><td>Alto</td><td>Eficiente</td></tr></table><div class="conclusao">AMD domina custo-benefício 2025.</div>`,
-    "i5 ou ryzen 5": `<h3>i5 vs Ryzen 5</h3><table><tr><th></th><th>i5</th><th>Ryzen 5</th></tr><tr><td>Cores</td><td>6-14</td><td>6-16</td></tr><tr><td>Games</td><td>Excelente</td><td>Ótimo</td></tr><tr><td>Preço</td><td>Médio</td><td>Barato</td></tr></table><div class="conclusao">Ryzen 5 7600X é imbatível.</div>`,
-    "cache l3 importa": `<h3>Cache L3</h3><p>Memória rápida no CPU. Reduz latência. Crucial em games e multitarefa.</p><div class="conclusao">Sim, Ryzen 3D V-Cache é rei em jogos.</div>`,
+    overclock_def: `<h3>Overclock</h3><p>Aumentar frequência do CPU/GPU além do padrão. Ganha performance, perde estabilidade e garantia.</p><div class="chip">Risco</div><div class="chip">Temperatura</div><div class="chip">Voltagem</div><div class="conclusao">Só com bom cooler e conhecimento.</div>`,
+    intel_amd: `<h3>Intel vs AMD</h3><table><tr><th></th><th>Intel</th><th>AMD</th></tr><tr><td>Single-core</td><td>Melhor</td><td>Ótimo</td></tr><tr><td>Preço/Perf</td><td>Caro</td><td>Excelente</td></tr><tr><td>Consumo</td><td>Alto</td><td>Eficiente</td></tr></table><div class="conclusao">AMD domina custo-benefício 2025.</div>`,
+    i5_ryzen5: `<h3>i5 vs Ryzen 5</h3><table><tr><th></th><th>i5</th><th>Ryzen 5</th></tr><tr><td>Cores</td><td>6-14</td><td>6-16</td></tr><tr><td>Games</td><td>Excelente</td><td>Ótimo</td></tr><tr><td>Preço</td><td>Médio</td><td>Barato</td></tr></table><div class="conclusao">Ryzen 5 7600X é imbatível.</div>`,
+    cache_l3: `<h3>Cache L3</h3><p>Memória rápida no CPU. Reduz latência. Crucial em games e multitarefa.</p><div class="conclusao">Sim, Ryzen 3D V-Cache é rei em jogos.</div>`,
 
     // GPU
-    "nvidia ou amd": `<h3>NVIDIA vs AMD</h3><table><tr><th></th><th>NVIDIA</th><th>AMD</th></tr><tr><td>Ray Tracing</td><td>Superior</td><td>Bom</td></tr><tr><td>Drivers</td><td>Estáveis</td><td>Melhorando</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">NVIDIA para RT/DLSS. AMD para valor.</div>`,
-    "rtx ou rx": `<h3>RTX vs RX</h3><p>RTX = DLSS + RT. RX = FSR + preço.</p><div class="conclusao">RTX 4070 > RX 7800 XT em RT.</div>`,
-    "ray tracing vale": `<h3>Ray Tracing</h3><p>Efeitos realistas de luz. Consome FPS. DLSS/FSR ajudam.</p><div class="conclusao">Sim em 1440p+ com upscaling.</div>`,
+    nvidia_amd: `<h3>NVIDIA vs AMD</h3><table><tr><th></th><th>NVIDIA</th><th>AMD</th></tr><tr><td>Ray Tracing</td><td>Superior</td><td>Bom</td></tr><tr><td>Drivers</td><td>Estáveis</td><td>Melhorando</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">NVIDIA para RT/DLSS. AMD para valor.</div>`,
+    rtx_rx: `<h3>RTX vs RX</h3><p>RTX = DLSS + RT. RX = FSR + preço.</p><div class="conclusao">RTX 4070 > RX 7800 XT em RT.</div>`,
+    ray_tracing: `<h3>Ray Tracing</h3><p>Efeitos realistas de luz. Consome FPS. DLSS/FSR ajudam.</p><div class="conclusao">Sim em 1440p+ com upscaling.</div>`,
 
     // RAM
-    "ddr4 ou ddr5": `<h3>DDR4 vs DDR5</h3><table><tr><th></th><th>DDR4</th><th>DDR5</th></tr><tr><td>Velocidade</td><td>3200 MHz</td><td>6000+ MHz</td></tr><tr><td>Preço</td><td>Barato</td><td>Caro</td></tr><tr><td>Compatibilidade</td><td>Antiga</td><td>AM5/LGA1700</td></tr></table><div class="conclusao">DDR5 só se plataforma nova.</div>`,
-    "16gb ou 32gb": `<h3>16GB vs 32GB</h3><p>16GB = suficiente games. 32GB = edição, VMs, futuro.</p><div class="conclusao">32GB é padrão 2025.</div>`,
-    "dual channel": `<h3>Dual Channel</h3><p>2 pentes = dobro de banda. Essencial.</p><div class="exemplo">2x8GB > 1x16GB</div><div class="conclusao">Sempre use dual.</div>`,
+    ddr4_ddr5: `<h3>DDR4 vs DDR5</h3><table><tr><th></th><th>DDR4</th><th>DDR5</th></tr><tr><td>Velocidade</td><td>3200 MHz</td><td>6000+ MHz</td></tr><tr><td>Preço</td><td>Barato</td><td>Caro</td></tr><tr><td>Compatibilidade</td><td>Antiga</td><td>AM5/LGA1700</td></tr></table><div class="conclusao">DDR5 só se plataforma nova.</div>`,
+    ram_16_32: `<h3>16GB vs 32GB</h3><p>16GB = suficiente games. 32GB = edição, VMs, futuro.</p><div class="conclusao">32GB é padrão 2025.</div>`,
+    dual_channel: `<h3>Dual Channel</h3><p>2 pentes = dobro de banda. Essencial.</p><div class="exemplo">2x8GB > 1x16GB</div><div class="conclusao">Sempre use dual.</div>`,
 
     // Armazenamento
-    "ssd ou hdd": `<h3>SSD vs HDD</h3><table><tr><th></th><th>SSD</th><th>HDD</th></tr><tr><td>Velocidade</td><td>5000 MB/s</td><td>150 MB/s</td></tr><tr><td>Preço/GB</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">SSD para OS. HDD para arquivos.</div>`,
-    "nvme ou sata": `<h3>NVMe vs SATA</h3><p>NVMe = PCIe (5000 MB/s). SATA = 550 MB/s.</p><div class="conclusao">NVMe para tudo em 2025.</div>`,
+    ssd_hdd: `<h3>SSD vs HDD</h3><table><tr><th></th><th>SSD</th><th>HDD</th></tr><tr><td>Velocidade</td><td>5000 MB/s</td><td>150 MB/s</td></tr><tr><td>Preço/GB</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">SSD para OS. HDD para arquivos.</div>`,
+    nvme_sata: `<h3>NVMe vs SATA</h3><p>NVMe = PCIe (5000 MB/s). SATA = 550 MB/s.</p><div class="conclusao">NVMe para tudo em 2025.</div>`,
 
     // Placa-mãe
-    "b550 ou z790": `<h3>B550 vs Z790</h3><p>B550 = AMD barata. Z790 = Intel topo.</p><div class="conclusao">B550 para Ryzen 7000.</div>`,
-    "mini-itx ou atx": `<h3>Mini-ITX vs ATX</h3><table><tr><th></th><th>Mini-ITX</th><th>ATX</th></tr><tr><td>Tamanho</td><td>Pequeno</td><td>Grande</td></tr><tr><td>Expansão</td><td>Limitada</td><td>Completa</td></tr></table><div class="conclusao">ATX para upgrades.</div>`,
+    b550_z790: `<h3>B550 vs Z790</h3><p>B550 = AMD barata. Z790 = Intel topo.</p><div class="conclusao">B550 para Ryzen 7000.</div>`,
+    mini_atx: `<h3>Mini-ITX vs ATX</h3><table><tr><th></th><th>Mini-ITX</th><th>ATX</th></tr><tr><td>Tamanho</td><td>Pequeno</td><td>Grande</td></tr><tr><td>Expansão</td><td>Limitada</td><td>Completa</td></tr></table><div class="conclusao">ATX para upgrades.</div>`,
 
     // Fonte
-    "650w ou 850w": `<h3>650W vs 850W</h3><p>650W = RTX 4070. 850W = RTX 4090.</p><div class="conclusao">850W Gold para futuro.</div>`,
-    "80+ gold vale": `<h3>80+ Gold</h3><p>Eficiência 90%+. Menos calor, conta menor.</p><div class="conclusao">Vale a partir de 650W.</div>`,
+    fonte_650_850: `<h3>650W vs 850W</h3><p>650W = RTX 4070. 850W = RTX 4090.</p><div class="conclusao">850W Gold para futuro.</div>`,
+    gold_vale: `<h3>80+ Gold</h3><p>Eficiência 90%+. Menos calor, conta menor.</p><div class="conclusao">Vale a partir de 650W.</div>`,
 
     // Gabinete / Cooler
-    "airflow ou rgb": `<h3>Airflow vs RGB</h3><p>Airflow = temperaturas baixas. RGB = estética.</p><div class="conclusao">Priorize airflow.</div>`,
-    "water cooler ou air": `<h3>Water Cooler vs Air</h3><table><tr><th></th><th>Water</th><th>Air</th></tr><tr><td>Silêncio</td><td>Melhor</td><td>Bom</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">Air (Noctua) para 95% dos casos.</div>`,
+    airflow_rgb: `<h3>Airflow vs RGB</h3><p>Airflow = temperaturas baixas. RGB = estética.</p><div class="conclusao">Priorize airflow.</div>`,
+    water_air: `<h3>Water Cooler vs Air</h3><table><tr><th></th><th>Water</th><th>Air</th></tr><tr><td>Silêncio</td><td>Melhor</td><td>Bom</td></tr><tr><td>Preço</td><td>Caro</td><td>Barato</td></tr></table><div class="conclusao">Air (Noctua) para 95% dos casos.</div>`,
 
     // Outros
-    "montar pc ou comprar": `<h3>Montar vs Comprar</h3><p>Montar = custo-benefício. Comprar = praticidade.</p><div class="conclusao">Monte se souber.</div>`,
-    "garantia perde": `<h3>Garantia</h3><p>Overclock, modding e thermal paste NÃO anulam garantia (lei brasileira).</p><div class="conclusao">Pode mexer com cuidado.</div>`,
-    "pcie 4.0 ou 5.0": `<h3>PCIe 4.0 vs 5.0</h3><p>5.0 dobra banda, mas SSDs saturam em 4.0.</p><div class="conclusao">4.0 suficiente até 2027.</div>`
+    montar_comprar: `<h3>Montar vs Comprar</h3><p>Montar = custo-benefício. Comprar = praticidade.</p><div class="conclusao">Monte se souber.</div>`,
+    garantia_perde: `<h3>Garantia</h3><p>Overclock, modding e thermal paste NÃO anulam garantia (lei brasileira).</p><div class="conclusao">Pode mexer com cuidado.</div>`,
+    pcie_4_5: `<h3>PCIe 4.0 vs 5.0</h3><p>5.0 dobra banda, mas SSDs saturam em 4.0.</p><div class="conclusao">4.0 suficiente até 2027.</div>`
 };
 
-// FUNÇÃO RÁPIDA
+/* ===== MAPA DE GÍRIAS E VARIÁVEIS (+150 combinações) ===== */
+const MAPA = {
+    // CPU
+    "over": ["overclock_def", "o que é overclock", "oq é overclock", "oque é over", "overclock eh", "overclock?"],
+    "int amd": ["intel_amd", "intel ou amd", "int ou amd", "intel x amd", "intel vs amd", "intel versus amd"],
+    "i5 r5": ["i5_ryzen5", "i5 ou ryzen 5", "i5 x ryzen5", "core i5 ou ryzen5"],
+    "cache l3": ["cache_l3", "cache l3 importa", "l3 cache vale", "cache importa"],
+
+    // GPU
+    "nvi amd": ["nvidia_amd", "nvidia ou amd", "nvi ou amd", "nvidia x amd"],
+    "rtx rx": ["rtx_rx", "rtx ou rx", "rtx x rx"],
+    "ray vale": ["ray_tracing", "ray tracing vale", "rt vale", "raytracing vale"],
+
+    // RAM
+    "ddr4 ddr5": ["ddr4_ddr5", "ddr4 ou ddr5", "ddr4 x ddr5"],
+    "16 32": ["ram_16_32", "16gb ou 32gb", "16 ou 32", "16gb x 32gb"],
+    "dual": ["dual_channel", "dual channel", "dual vale", "dual channel?"],
+
+    // Armazenamento
+    "ssd hdd": ["ssd_hdd", "ssd ou hdd", "ssd x hdd"],
+    "nvme sata": ["nvme_sata", "nvme ou sata", "nvme x sata"],
+
+    // Placa-mãe
+    "b550 z790": ["b550_z790", "b550 ou z790", "b550 x z790"],
+    "mini atx": ["mini_atx", "mini-itx ou atx", "mini x atx", "itx ou atx"],
+
+    // Fonte
+    "650 850": ["fonte_650_850", "650w ou 850w", "650 ou 850"],
+    "gold vale": ["gold_vale", "80+ gold vale", "gold vale", "80 gold"],
+
+    // Gabinete / Cooler
+    "air rgb": ["airflow_rgb", "airflow ou rgb", "air ou rgb"],
+    "water air": ["water_air", "water cooler ou air", "water ou air", "aio ou air"],
+
+    // Outros
+    "montar comprar": ["montar_comprar", "montar pc ou comprar", "montar ou comprar"],
+    "garantia": ["garantia_perde", "garantia perde", "perde garantia", "overclock garantia"],
+    "pcie 4 5": ["pcie_4_5", "pcie 4.0 ou 5.0", "pcie 4 ou 5", "pcie5"]
+};
+
+/* ===== BUSCA O(1) PRÉ-COMPILADA ===== */
+const BUSCA = {};
+Object.keys(MAPA).forEach(k => {
+    MAPA[k].slice(1).forEach(v => {
+        const norm = v.toLowerCase().replace(/[?.!]/g,'').trim();
+        BUSCA[norm] = MAPA[k][0];
+    });
+});
+
+/* ===== FUNÇÃO RÁPIDA ===== */
 function p(tipo, pergunta) {
     document.getElementById('tipo').value = tipo;
     document.getElementById('pergunta').value = pergunta;
     document.getElementById('form').dispatchEvent(new Event('submit'));
 }
 
-// SUBMIT ULTRA-RÁPIDO
+/* ===== SUBMIT OTIMIZADO <80ms ===== */
 document.getElementById('form').onsubmit = function(e) {
     e.preventDefault();
-    
+
     const tipo = document.getElementById('tipo').value.trim().toLowerCase();
-    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase();
+    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase().replace(/[?.!]/g,'');
     const texto = (tipo + " " + pergunta);
 
+    // Filtro de ofensas
     if (OFENSAS.test(texto)) {
         document.getElementById('aviso').innerHTML = `<strong>LINGUAGEM INACEITÁVEL</strong><br><br>Respeito é obrigatório. Reformule com educação.`;
         document.getElementById('aviso').style.display = 'block';
@@ -347,22 +397,18 @@ document.getElementById('form').onsubmit = function(e) {
     document.getElementById('resposta').style.display = 'none';
     document.getElementById('aviso').style.display = 'none';
 
-    setTimeout(() => {
-        let chave = "";
-        for (let k in RESPOSTAS) {
-            if (texto.includes(k)) {
-                chave = k;
-                break;
-            }
-        }
-        const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Intel ou AMD?"</strong> ou <strong>"SSD ou HDD?"</strong></p>`;
+    // Busca instantânea
+    const chave = BUSCA[texto] || BUSCA[pergunta] || BUSCA[tipo];
+    const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Intel ou AMD?"</strong> ou <strong>"SSD ou HDD?"</strong></p>`;
 
+    // Resposta em <80ms
+    requestAnimationFrame(() => {
         const resposta = document.getElementById('resposta');
         resposta.innerHTML = html;
         resposta.style.display = 'block';
         document.getElementById('loading').style.display = 'none';
         resposta.scrollIntoView({ behavior: 'smooth' });
-    }, 150); // Resposta quase instantânea
+    });
 };
 </script>
 

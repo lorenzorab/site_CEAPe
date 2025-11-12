@@ -117,6 +117,15 @@
             border-bottom: 2px solid rgba(26,115,232,0.2);
             padding-bottom: 6px;
         }
+        .explicacao {
+            background: #f8f9fc;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 16px 0;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+            color: #2d3748;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -214,7 +223,7 @@
 <body>
 <div class="container">
     <h1>Software Expert</h1>
-    <p class="subtitle">Respostas instantâneas. +30 perguntas. +18 temas. Respeito sempre.</p>
+    <p class="subtitle">Respostas instantâneas. +30 perguntas explicadas. Respeito sempre.</p>
     <form id="form">
         <label>Área:</label>
         <input type="text" id="tipo" placeholder="Ex: Python, Windows, VS Code, Git..." required>
@@ -231,140 +240,415 @@
     <div id="aviso" class="aviso" style="display:none;"></div>
     <div id="resposta" class="response" style="display:none;"></div>
 
-    <!-- 30+ Perguntas Rápidas (TODAS FUNCIONAM) -->
+    <!-- 30+ Perguntas Rápidas -->
     <div style="margin-top: 30px; padding: 20px; background: #f8f9fc; border-radius: 12px;">
         <strong>Perguntas rápidas (30+):</strong>
-        <div class="suggestions-grid">
-            <div class="suggestion" data-key="python_def">O que é Python?</div>
-            <div class="suggestion" data-key="python_js">Python ou JavaScript?</div>
-            <div class="suggestion" data-key="python_ia">Python pra IA?</div>
-            <div class="suggestion" data-key="java_cpp">Java ou C++?</div>
-            <div class="suggestion" data-key="windows_linux">Windows ou Linux?</div>
-            <div class="suggestion" data-key="linux_dev">Linux pra dev?</div>
-            <div class="suggestion" data-key="macos_prog">macOS pra programar?</div>
-            <div class="suggestion" data-key="vscode_pycharm">VS Code ou PyCharm?</div>
-            <div class="suggestion" data-key="vscode_melhor">VS Code é o melhor?</div>
-            <div class="suggestion" data-key="intellij_eclipse">IntelliJ ou Eclipse?</div>
-            <div class="suggestion" data-key="sql_nosql">SQL ou NoSQL?</div>
-            <div class="suggestion" data-key="postgres_mysql">PostgreSQL ou MySQL?</div>
-            <div class="suggestion" data-key="git_github">Git ou GitHub?</div>
-            <div class="suggestion" data-key="gitflow_trunk">GitFlow ou Trunk?</div>
-            <div class="suggestion" data-key="react_vue">React ou Vue?</div>
-            <div class="suggestion" data-key="node_django">Node.js ou Django?</div>
-            <div class="suggestion" data-key="flutter_rn">Flutter ou React Native?</div>
-            <div class="suggestion" data-key="kotlin_swift">Kotlin ou Swift?</div>
-            <div class="suggestion" data-key="docker_vm">Docker ou VM?</div>
-            <div class="suggestion" data-key="kubernetes">Kubernetes vale?</div>
-            <div class="suggestion" data-key="tensorflow_pytorch">TensorFlow ou PyTorch?</div>
-            <div class="suggestion" data-key="chatgpt_codigo">ChatGPT pra código?</div>
-            <div class="suggestion" data-key="vim_emacs">Vim ou Emacs?</div>
-            <div class="suggestion" data-key="terminal_gui">Terminal ou GUI?</div>
-            <div class="suggestion" data-key="open_source">Open Source?</div>
-            <div class="suggestion" data-key="ia_substituir">IA vai substituir?</div>
-            <div class="suggestion" data-key="aprender_c">Aprender C?</div>
-            <div class="suggestion" data-key="backend_frontend">Backend ou Frontend?</div>
-            <div class="suggestion" data-key="full_stack">Full Stack?</div>
-            <div class="suggestion" data-key="bootcamp_faculdade">Bootcamp ou faculdade?</div>
-        </div>
+        <div class="suggestions-grid" id="suggestions"></div>
     </div>
-    <footer>Software Expert Turbo © 2025 – Respostas em < 80ms</footer>
+    <footer>Software Expert Turbo © 2025 – Respostas em &lt; 80ms</footer>
 </div>
 
 <script>
 /* ===== FILTRO DE OFENSAS ===== */
-const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
+const OFENSAS = /\b(porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm)\b/i;
 
-/* ===== TODAS AS RESPOSTAS (30+) ===== */
+/* ===== RESPOSTAS COM EXPLICAÇÃO + RESPOSTA RÁPIDA ===== */
 const RESPOSTAS = {
-    python_def: `<h3>Python</h3><p>Linguagem interpretada, simples e poderosa. Criada em 1991. Ideal para IA, dados e automação.</p><div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Web</div><div class="exemplo">print("Olá, mundo!")</div>`,
-    python_js: `<h3>Python vs JavaScript</h3><table><tr><th></th><th>Python</th><th>JS</th></tr><tr><td>Backend</td><td>Django/Flask</td><td>Node.js</td></tr><tr><td>IA</td><td>Excelente</td><td>TensorFlow.js</td></tr><tr><td>Web</td><td>Limita</td><td>Nativo</td></tr></table><div class="conclusao">Python para ciência. JS para web.</div>`,
-    python_ia: `<h3>Python + IA</h3><p>Padrão ouro. Bibliotecas: TensorFlow, PyTorch, Scikit-learn.</p><div class="exemplo">from sklearn import datasets</div><div class="conclusao">Sim, a melhor escolha.</div>`,
-    java_cpp: `<h3>Java vs C++</h3><table><tr><th></th><th>Java</th><th>C++</th></tr><tr><td>Velocidade</td><td>Média</td><td>Alta</td></tr><tr><td>Segurança</td><td>Alta</td><td>Manual</td></tr><tr><td>Android</td><td>Nativo</td><td>NDK</td></tr></table><div class="conclusao">Java para apps. C++ para jogos.</div>`,
-    windows_linux: `<h3>Windows vs Linux</h3><table><tr><th></th><th>Windows</th><th>Linux</th></tr><tr><td>Jogos</td><td>Excelente</td><td>Steam Proton</td></tr><tr><td>Dev</td><td>WSL</td><td>Nativo</td></tr><tr><td>Preço</td><td>Pago</td><td>Grátis</td></tr></table><div class="conclusao">Linux para dev. Windows para jogos.</div>`,
-    linux_dev: `<h3>Linux para Dev</h3><p>Terminal poderoso, pacotes nativos, Docker fluido.</p><div class="exemplo">sudo apt install nodejs</div><div class="conclusao">Sim, o melhor ambiente.</div>`,
-    macos_prog: `<h3>macOS</h3><p>Unix-like, Xcode, design. Caro.</p><div class="conclusao">Ótimo para iOS e design.</div>`,
-    vscode_pycharm: `<h3>VS Code vs PyCharm</h3><table><tr><th></th><th>VS Code</th><th>PyCharm</th></tr><tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr><tr><td>Grátis</td><td>Total</td><td>Community</td></tr></table><div class="conclusao">VS Code para tudo.</div>`,
-    vscode_melhor: `<h3>VS Code</h3><p>Leve, extensível, grátis. Padrão da indústria.</p><div class="conclusao">Sim, para 90% dos devs.</div>`,
-    intellij_eclipse: `<h3>IntelliJ vs Eclipse</h3><table><tr><th></th><th>IntelliJ</th><th>Eclipse</th></tr><tr><td>UX</td><td>Moderna</td><td>Clássica</td></tr><tr><td>Java</td><td>Melhor</td><td>Tradicional</td></tr></table><div class="conclusao">IntelliJ é o novo padrão.</div>`,
-    sql_nosql: `<h3>SQL vs NoSQL</h3><table><tr><th></th><th>SQL</th><th>NoSQL</th></tr><tr><td>Estrutura</td><td>Rígida</td><td>Flexível</td></tr><tr><td>Escalabilidade</td><td>Vertical</td><td>Horizontal</td></tr></table><div class="conclusao">SQL para finanças. NoSQL para apps.</div>`,
-    postgres_mysql: `<h3>PostgreSQL vs MySQL</h3><table><tr><th></th><th>PostgreSQL</th><th>MySQL</th></tr><tr><td>Recursos</td><td>Mais</td><td>Simples</td></tr><tr><td>Performance</td><td>Alta</td><td>Rápido</td></tr></table><div class="conclusao">PostgreSQL é o novo padrão.</div>`,
-    git_github: `<h3>Git vs GitHub</h3><p>Git = ferramenta local. GitHub = plataforma online.</p><div class="conclusao">Use ambos.</div>`,
-    gitflow_trunk: `<h3>GitFlow vs Trunk</h3><p>GitFlow = branches. Trunk = main + PRs curtos.</p><div class="conclusao">Trunk é mais ágil.</div>`,
-    react_vue: `<h3>React vs Vue</h3><table><tr><th></th><th>React</th><th>Vue</th></tr><tr><td>Popularidade</td><td>Maior</td><td>Crescente</td></tr><tr><td>Curva</td><td>Média</td><td>Baixa</td></tr></table><div class="conclusao">React para carreira.</div>`,
-    node_django: `<h3>Node.js vs Django</h3><table><tr><th></th><th>Node.js</th><th>Django</th></tr><tr><td>Velocidade</td><td>Alta</td><td>Média</td></tr><tr><td>Baterias</td><td>Poucas</td><td>Muitas</td></tr></table><div class="conclusao">Django para rapidez. Node para escala.</div>`,
-    flutter_rn: `<h3>Flutter vs React Native</h3><table><tr><th></th><th>Flutter</th><th>React Native</th></tr><tr><td>Performance</td><td>Nativo</td><td>JS Bridge</td></tr><tr><td>UI</td><td>Consistente</td><td>Nativo</td></tr></table><div class="conclusao">Flutter está dominando.</div>`,
-    kotlin_swift: `<h3>Kotlin vs Swift</h3><table><tr><th></th><th>Kotlin</th><th>Swift</th></tr><tr><td>Android</td><td>Nativo</td><td>iOS</td></tr><tr><td>Null Safety</td><td>Sim</td><td>Sim</td></tr></table><div class="conclusao">Kotlin para Android. Swift para iOS.</div>`,
-    docker_vm: `<h3>Docker vs VM</h3><table><tr><th></th><th>Docker</th><th>VM</th></tr><tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr><tr><td>Isolamento</td><td>Processos</td><td>Sistema</td></tr></table><div class="conclusao">Docker para dev. VM para produção.</div>`,
-    kubernetes: `<h3>Kubernetes</h3><p>Orquestrador de containers. Escala, resiliência.</p><div class="conclusao">Vale para apps grandes.</div>`,
-    tensorflow_pytorch: `<h3>TensorFlow vs PyTorch</h3><table><tr><th></th><th>TensorFlow</th><th>PyTorch</th></tr><tr><td>Produção</td><td>Melhor</td><td>Pesquisa</td></tr><tr><td>Curva</td><td>Alta</td><td>Baixa</td></tr></table><div class="conclusao">PyTorch está ganhando.</div>`,
-    chatgpt_codigo: `<h3>ChatGPT pra código?</h3><p>Sim! Gera, explica, refatora.</p><div class="conclusao">Use como assistente.</div>`,
-    vim_emacs: `<h3>Vim vs Emacs</h3><p>Vim = leve. Emacs = sistema operacional.</p><div class="conclusao">Vim para terminal.</div>`,
-    terminal_gui: `<h3>Terminal vs GUI</h3><p>Terminal = rápido. GUI = visual.</p><div class="conclusao">Aprenda ambos.</div>`,
-    open_source: `<h3>Open Source</h3><p>Grátis, colaborativo, transparente.</p><div class="conclusao">Futuro do software.</div>`,
-    ia_substituir: `<h3>IA vai substituir devs?</h3><p>Não. Vai substituir tarefas repetitivas. Criatividade é humana.</p><div class="conclusao">Aprenda a usar IA.</div>`,
-    aprender_c: `<h3>Aprender C?</h3><p>Sim! Entende baixo nível, performance.</p><div class="conclusao">Fundamental para sistemas.</div>`,
-    backend_frontend: `<h3>Backend vs Frontend</h3><table><tr><th></th><th>Backend</th><th>Frontend</th></tr><tr><td>Foco</td><td>Lógica</td><td>UI</td></tr><tr><td>Salário</td><td>Alto</td><td>Alto</td></tr></table><div class="conclusao">Ambos são essenciais.</div>`,
-    full_stack: `<h3>Full Stack</h3><p>Domina frontend + backend.</p><div class="conclusao">Versátil e valorizado.</div>`,
-    bootcamp_faculdade: `<h3>Bootcamp vs Faculdade</h3><table><tr><th></th><th>Bootcamp</th><th>Faculdade</th></tr><tr><td>Tempo</td><td>3-6 meses</td><td>4 anos</td></tr><tr><td>Prática</td><td>Alta</td><td>Teoria</td></tr></table><div class="conclusao">Bootcamp para entrada rápida.</div>`
+    python_def: `
+        <h3>O que é Python?</h3>
+        <div class="explicacao">
+            <p><strong>Por que perguntam?</strong> É a linguagem mais popular do mundo. Iniciantes querem saber se vale aprender.</p>
+            <p><strong>Contexto:</strong> Criada por Guido van Rossum em 1991. Foco em legibilidade e produtividade.</p>
+        </div>
+        <p>Linguagem interpretada, simples e poderosa. Ideal para IA, dados e automação.</p>
+        <div class="chip">IA</div><div class="chip">Dados</div><div class="chip">Web</div>
+        <div class="exemplo">print("Olá, mundo!")</div>
+        <div class="conclusao">Melhor linguagem para começar e crescer.</div>
+    `,
+    python_js: `
+        <h3>Python ou JavaScript?</h3>
+        <div class="explicacao">
+            <p><strong>Conflito clássico:</strong> Python domina ciência e backend. JS domina frontend e Node.</p>
+        </div>
+        <table><tr><th></th><th>Python</th><th>JS</th></tr>
+        <tr><td>Backend</td><td>Django/Flask</td><td>Node.js</td></tr>
+        <tr><td>IA</td><td>Excelente</td><td>TensorFlow.js</td></tr>
+        <tr><td>Web</td><td>Limita</td><td>Nativo</td></tr></table>
+        <div class="conclusao">Python para ciência. JS para web.</div>
+    `,
+    python_ia: `
+        <h3>Python pra IA?</h3>
+        <div class="explicacao">
+            <p><strong>Domínio absoluto:</strong> 90% dos projetos de IA usam Python. Bibliotecas maduras.</p>
+        </div>
+        <p>Padrão ouro. Bibliotecas: TensorFlow, PyTorch, Scikit-learn.</p>
+        <div class="exemplo">from sklearn import datasets</div>
+        <div class="conclusao">Sim, a melhor escolha.</div>
+    `,
+    java_cpp: `
+        <h3>Java ou C++?</h3>
+        <div class="explicacao">
+            <p><strong>Clássicos:</strong> Java é seguro e portátil. C++ é rápido e baixo nível.</p>
+        </div>
+        <table><tr><th></th><th>Java</th><th>C++</th></tr>
+        <tr><td>Velocidade</td><td>Média</td><td>Alta</td></tr>
+        <tr><td>Segurança</td><td>Alta</td><td>Manual</td></tr>
+        <tr><td>Android</td><td>Nativo</td><td>NDK</td></tr></table>
+        <div class="conclusao">Java para apps. C++ para jogos.</div>
+    `,
+    windows_linux: `
+        <h3>Windows ou Linux?</h3>
+        <div class="explicacao">
+            <p><strong>SO mais usado x SO mais poderoso:</strong> Windows tem jogos. Linux tem controle total.</p>
+        </div>
+        <table><tr><th></th><th>Windows</th><th>Linux</th></tr>
+        <tr><td>Jogos</td><td>Excelente</td><td>Steam Proton</td></tr>
+        <tr><td>Dev</td><td>WSL</td><td>Nativo</td></tr>
+        <tr><td>Preço</td><td>Pago</td><td>Grátis</td></tr></table>
+        <div class="conclusao">Linux para dev. Windows para jogos.</div>
+    `,
+    linux_dev: `
+        <h3>Linux pra dev?</h3>
+        <div class="explicacao">
+            <p><strong>Ambiente nativo:</strong> Docker, Git, terminal — tudo roda melhor.</p>
+        </div>
+        <p>Terminal poderoso, pacotes nativos, Docker fluido.</p>
+        <div class="exemplo">sudo apt install nodejs</div>
+        <div class="conclusao">Sim, o melhor ambiente.</div>
+    `,
+    macos_prog: `
+        <h3>macOS pra programar?</h3>
+        <div class="explicacao">
+            <p><strong>iOS + Unix:</strong> Xcode só roda no Mac. Terminal é ótimo.</p>
+        </div>
+        <p>Unix-like, Xcode, design. Caro.</p>
+        <div class="conclusao">Ótimo para iOS e design.</div>
+    `,
+    vscode_pycharm: `
+        <h3>VS Code ou PyCharm?</h3>
+        <div class="explicacao">
+            <p><strong>Leve x Completo:</strong> VS Code é modular. PyCharm é tudo incluso.</p>
+        </div>
+        <table><tr><th></th><th>VS Code</th><th>PyCharm</th></tr>
+        <tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr>
+        <tr><td>Grátis</td><td>Total</td><td>Community</td></tr></table>
+        <div class="conclusao">VS Code para tudo.</div>
+    `,
+    vscode_melhor: `
+        <h3>VS Code é o melhor?</h3>
+        <div class="explicacao">
+            <p><strong>Padrão da indústria:</strong> 70%+ dos devs usam. Extensões infinitas.</p>
+        </div>
+        <p>Leve, extensível, grátis. Padrão da indústria.</p>
+        <div class="conclusao">Sim, para 90% dos devs.</div>
+    `,
+    intellij_eclipse: `
+        <h3>IntelliJ ou Eclipse?</h3>
+        <div class="explicacao">
+            <p><strong>Java IDEs:</strong> Eclipse é antigo. IntelliJ é moderno e inteligente.</p>
+        </div>
+        <table><tr><th></th><th>IntelliJ</th><th>Eclipse</th></tr>
+        <tr><td>UX</td><td>Moderna</td><td>Clássica</td></tr>
+        <tr><td>Java</td><td>Melhor</td><td>Tradicional</td></tr></table>
+        <div class="conclusao">IntelliJ é o novo padrão.</div>
+    `,
+    sql_nosql: `
+        <h3>SQL ou NoSQL?</h3>
+        <div class="explicacao">
+            <p><strong>Estrutura x Flexibilidade:</strong> SQL é rígido. NoSQL é escalável.</p>
+        </div>
+        <table><tr><th></th><th>SQL</th><th>NoSQL</th></tr>
+        <tr><td>Estrutura</td><td>Rígida</td><td>Flexível</td></tr>
+        <tr><td>Escalabilidade</td><td>Vertical</td><td>Horizontal</td></tr></table>
+        <div class="conclusao">SQL para finanças. NoSQL para apps.</div>
+    `,
+    postgres_mysql: `
+        <h3>PostgreSQL ou MySQL?</h3>
+        <div class="explicacao">
+            <p><strong>Bancos relacionais:</strong> MySQL é simples. PostgreSQL é completo.</p>
+        </div>
+        <table><tr><th></th><th>PostgreSQL</th><th>MySQL</th></tr>
+        <tr><td>Recursos</td><td>Mais</td><td>Simples</td></tr>
+        <tr><td>Performance</td><td>Alta</td><td>Rápido</td></tr></table>
+        <div class="conclusao">PostgreSQL é o novo padrão.</div>
+    `,
+    git_github: `
+        <h3>Git ou GitHub?</h3>
+        <div class="explicacao">
+            <p><strong>Ferramenta x Plataforma:</strong> Git é local. GitHub é online.</p>
+        </div>
+        <p>Git = ferramenta local. GitHub = plataforma online.</p>
+        <div class="conclusao">Use ambos.</div>
+    `,
+    gitflow_trunk: `
+        <h3>GitFlow ou Trunk?</h3>
+        <div class="explicacao">
+            <p><strong>Workflows:</strong> GitFlow é complexo. Trunk é simples e rápido.</p>
+        </div>
+        <p>GitFlow = branches. Trunk = main + PRs curtos.</p>
+        <div class="conclusao">Trunk é mais ágil.</div>
+    `,
+    react_vue: `
+        <h3>React ou Vue?</h3>
+        <div class="explicacao">
+            <p><strong>Frameworks frontend:</strong> React tem mais vagas. Vue é mais fácil.</p>
+        </div>
+        <table><tr><th></th><th>React</th><th>Vue</th></tr>
+        <tr><td>Popularidade</td><td>Maior</td><td>Crescente</td></tr>
+        <tr><td>Curva</td><td>Média</td><td>Baixa</td></tr></table>
+        <div class="conclusao">React para carreira.</div>
+    `,
+    node_django: `
+        <h3>Node.js ou Django?</h3>
+        <div class="explicacao">
+            <p><strong>Backend:</strong> Node é JS puro. Django é Python com tudo incluso.</p>
+        </div>
+        <table><tr><th></th><th>Node.js</th><th>Django</th></tr>
+        <tr><td>Velocidade</td><td>Alta</td><td>Média</td></tr>
+        <tr><td>Baterias</td><td>Poucas</td><td>Muitas</td></tr></table>
+        <div class="conclusao">Django para rapidez. Node para escala.</div>
+    `,
+    flutter_rn: `
+        <h3>Flutter ou React Native?</h3>
+        <div class="explicacao">
+            <p><strong>Mobile:</strong> Ambos cross-platform. Flutter compila. RN usa JS.</p>
+        </div>
+        <table><tr><th></th><th>Flutter</th><th>React Native</th></tr>
+        <tr><td>Performance</td><td>Nativo</td><td>JS Bridge</td></tr>
+        <tr><td>UI</td><td>Consistente</td><td>Nativo</td></tr></table>
+        <div class="conclusao">Flutter está dominando.</div>
+    `,
+    kotlin_swift: `
+        <h3>Kotlin ou Swift?</h3>
+        <div class="explicacao">
+            <p><strong>Mobile nativo:</strong> Kotlin é Android. Swift é iOS.</p>
+        </div>
+        <table><tr><th></th><th>Kotlin</th><th>Swift</th></tr>
+        <tr><td>Android</td><td>Nativo</td><td>iOS</td></tr>
+        <tr><td>Null Safety</td><td>Sim</td><td>Sim</td></tr></table>
+        <div class="conclusao">Kotlin para Android. Swift para iOS.</div>
+    `,
+    docker_vm: `
+        <h3>Docker ou VM?</h3>
+        <div class="explicacao">
+            <p><strong>Isolamento:</strong> Docker é leve. VM é completo.</p>
+        </div>
+        <table><tr><th></th><th>Docker</th><th>VM</th></tr>
+        <tr><td>Leveza</td><td>Sim</td><td>Pesado</td></tr>
+        <tr><td>Isolamento</td><td>Processos</td><td>Sistema</td></tr></table>
+        <div class="conclusao">Docker para dev. VM para produção.</div>
+    `,
+    kubernetes: `
+        <h3>Kubernetes vale?</h3>
+        <div class="explicacao">
+            <p><strong>Orquestração:</strong> Gerencia centenas de containers. Complexo, mas poderoso.</p>
+        </div>
+        <p>Orquestrador de containers. Escala, resiliência.</p>
+        <div class="conclusao">Vale para apps grandes.</div>
+    `,
+    tensorflow_pytorch: `
+        <h3>TensorFlow ou PyTorch?</h3>
+        <div class="explicacao">
+            <p><strong>IA:</strong> TF é produção. PyTorch é pesquisa e flexibilidade.</p>
+        </div>
+        <table><tr><th></th><th>TensorFlow</th><th>PyTorch</th></tr>
+        <tr><td>Produção</td><td>Melhor</td><td>Pesquisa</td></tr>
+        <tr><td>Curva</td><td>Alta</td><td>Baixa</td></tr></table>
+        <div class="conclusao">PyTorch está ganhando.</div>
+    `,
+    chatgpt_codigo: `
+        <h3>ChatGPT pra código?</h3>
+        <div class="explicacao">
+            <p><strong>IA como copilot:</strong> Gera, explica, refatora. Acelera 30%.</p>
+        </div>
+        <p>Sim! Gera, explica, refatora.</p>
+        <div class="conclusao">Use como assistente.</div>
+    `,
+    vim_emacs: `
+        <h3>Vim ou Emacs?</h3>
+        <div class="explicacao">
+            <p><strong>Guerra eterna:</strong> Vim é modal. Emacs é extensível.</p>
+        </div>
+        <p>Vim = leve. Emacs = sistema operacional.</p>
+        <div class="conclusao">Vim para terminal.</div>
+    `,
+    terminal_gui: `
+        <h3>Terminal ou GUI?</h3>
+        <div class="explicacao">
+            <p><strong>Produtividade:</strong> Terminal é rápido e scriptável.</p>
+        </div>
+        <p>Terminal = rápido. GUI = visual.</p>
+        <div class="conclusao">Aprenda ambos.</div>
+    `,
+    open_source: `
+        <h3>Open Source?</h3>
+        <div class="explicacao">
+            <p><strong>Futuro:</strong> Colaboração global, transparência, custo zero.</p>
+        </div>
+        <p>Grátis, colaborativo, transparente.</p>
+        <div class="conclusao">Futuro do software.</div>
+    `,
+    ia_substituir: `
+        <h3>IA vai substituir devs?</h3>
+        <div class="explicacao">
+            <p><strong>Medo comum:</strong> IA automatiza tarefas. Não criatividade.</p>
+        </div>
+        <p>Não. Vai substituir tarefas repetitivas. Criatividade é humana.</p>
+        <div class="conclusao">Aprenda a usar IA.</div>
+    `,
+    aprender_c: `
+        <h3>Aprender C?</h3>
+        <div class="explicacao">
+            <p><strong>Baixo nível:</strong> Entende memória, ponteiros, performance.</p>
+        </div>
+        <p>Sim! Entende baixo nível, performance.</p>
+        <div class="conclusao">Fundamental para sistemas.</div>
+    `,
+    backend_frontend: `
+        <h3>Backend ou Frontend?</h3>
+        <div class="explicacao">
+            <p><strong>Áreas:</strong> Backend é lógica. Frontend é UI/UX.</p>
+        </div>
+        <table><tr><th></th><th>Backend</th><th>Frontend</th></tr>
+        <tr><td>Foco</td><td>Lógica</td><td>UI</td></tr>
+        <tr><td>Salário</td><td>Alto</td><td>Alto</td></tr></table>
+        <div class="conclusao">Ambos são essenciais.</div>
+    `,
+    full_stack: `
+        <h3>Full Stack?</h3>
+        <div class="explicacao">
+            <p><strong>Versatilidade:</strong> Domina frontend + backend + devops.</p>
+        </div>
+        <p>Domina frontend + backend.</p>
+        <div class="conclusao">Versátil e valorizado.</div>
+    `,
+    bootcamp_faculdade: `
+        <h3>Bootcamp ou faculdade?</h3>
+        <div class="explicacao">
+            <p><strong>Entrada no mercado:</strong> Bootcamp é prático. Faculdade é teórica.</p>
+        </div>
+        <table><tr><th></th><th>Bootcamp</th><th>Faculdade</th></tr>
+        <tr><td>Tempo</td><td>3-6 meses</td><td>4 anos</td></tr>
+        <tr><td>Prática</td><td>Alta</td><td>Teoria</td></tr></table>
+        <div class="conclusao">Bootcamp para entrada rápida.</div>
+    `
 };
 
-/* ===== BUSCA INSTANTÂNEA (O(1)) ===== */
+/* ===== SUGESTÕES E BUSCA ===== */
+const SUGESTOES = [
+    { text: "O que é Python?", key: "python_def" },
+    { text: "Python ou JavaScript?", key: "python_js" },
+    { text: "Python pra IA?", key: "python_ia" },
+    { text: "Java ou C++?", key: "java_cpp" },
+    { text: "Windows ou Linux?", key: "windows_linux" },
+    { text: "Linux pra dev?", key: "linux_dev" },
+    { text: "macOS pra programar?", key: "macos_prog" },
+    { text: "VS Code ou PyCharm?", key: "vscode_pycharm" },
+    { text: "VS Code é o melhor?", key: "vscode_melhor" },
+    { text: "IntelliJ ou Eclipse?", key: "intellij_eclipse" },
+    { text: "SQL ou NoSQL?", key: "sql_nosql" },
+    { text: "PostgreSQL ou MySQL?", key: "postgres_mysql" },
+    { text: "Git ou GitHub?", key: "git_github" },
+    { text: "GitFlow ou Trunk?", key: "gitflow_trunk" },
+    { text: "React ou Vue?", key: "react_vue" },
+    { text: "Node.js ou Django?", key: "node_django" },
+    { text: "Flutter ou React Native?", key: "flutter_rn" },
+    { text: "Kotlin ou Swift?", key: "kotlin_swift" },
+    { text: "Docker ou VM?", key: "docker_vm" },
+    { text: "Kubernetes vale?", key: "kubernetes" },
+    { text: "TensorFlow ou PyTorch?", key: "tensorflow_pytorch" },
+    { text: "ChatGPT pra código?", key: "chatgpt_codigo" },
+    { text: "Vim ou Emacs?", key: "vim_emacs" },
+    { text: "Terminal ou GUI?", key: "terminal_gui" },
+    { text: "Open Source?", key: "open_source" },
+    { text: "IA vai substituir?", key: "ia_substituir" },
+    { text: "Aprender C?", key: "aprender_c" },
+    { text: "Backend ou Frontend?", key: "backend_frontend" },
+    { text: "Full Stack?", key: "full_stack" },
+    { text: "Bootcamp ou faculdade?", key: "bootcamp_faculdade" }
+];
+
+function normalizar(texto) {
+    return texto.toLowerCase().replace(/[?.!]/g, '').replace(/\s+/g, ' ').trim();
+}
+
 const BUSCA = {};
-Object.keys(RESPOSTAS).forEach(key => {
-    const el = document.querySelector(`[data-key="${key}"]`);
-    if (el) {
-        const texto = el.textContent.toLowerCase().replace(/[?.!]/g, '').trim();
-        BUSCA[texto] = key;
+SUGESTOES.forEach(s => {
+    const norm = normalizar(s.text);
+    BUSCA[norm] = s.key;
+    if (norm.includes('ou')) {
+        const partes = norm.split(' ou ');
+        BUSCA[partes.join(' vs ')] = s.key;
+        BUSCA[partes.reverse().join(' ou ')] = s.key;
     }
 });
 
-/* ===== CLIQUE NAS SUGESTÕES ===== */
-document.querySelectorAll('.suggestion').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-key');
-        const resposta = RESPOSTAS[key] || `<p>Resposta não encontrada.</p>`;
-        mostrarResposta(resposta);
-    });
+// Gerar sugestões
+const grid = document.getElementById('suggestions');
+SUGESTOES.forEach(s => {
+    const btn = document.createElement('div');
+    btn.className = 'suggestion';
+    btn.textContent = s.text;
+    btn.onclick = () => {
+        document.getElementById('tipo').value = '';
+        document.getElementById('pergunta').value = s.text;
+        mostrarResposta(RESPOSTAS[s.key]);
+    };
+    grid.appendChild(btn);
 });
 
 /* ===== SUBMIT DO FORM ===== */
 document.getElementById('form').onsubmit = function(e) {
     e.preventDefault();
-    const tipo = document.getElementById('tipo').value.trim().toLowerCase();
-    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase().replace(/[?.!]/g, '');
-    const texto = (tipo + " " + pergunta).trim();
+    const tipo = normalizar(document.getElementById('tipo').value);
+    const pergunta = normalizar(document.getElementById('pergunta').value);
+    const textoCompleto = normalizar(tipo + " " + pergunta);
+    const textoPergunta = pergunta;
 
-    if (OFENSAS.test(texto)) {
+    if (OFENSAS.test(textoCompleto)) {
         mostrarAviso("LINGUAGEM INACEITÁVEL<br>Respeito é obrigatório. Reformule com educação.");
         return;
     }
 
-    const chave = BUSCA[texto] || BUSCA[pergunta] || BUSCA[tipo];
-    const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Python ou JavaScript?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
+    let chave = BUSCA[textoCompleto] || BUSCA[textoPergunta] || BUSCA[tipo];
+    if (!chave && textoPergunta) {
+        for (const [k, v] of Object.entries(BUSCA)) {
+            if (textoPergunta.includes(k.split(' ')[0]) || k.includes(textoPergunta.split(' ')[0])) {
+                chave = v;
+                break;
+            }
+        }
+    }
+
+    const html = chave ? RESPOSTAS[chave] :
+        `<p>Não entendi. Tente: <strong>"Python ou JavaScript?"</strong> ou <strong>"Windows ou Linux?"</strong></p>`;
 
     mostrarResposta(html);
+    setTimeout(() => document.getElementById('form').reset(), 500);
 };
 
 /* ===== FUNÇÕES AUXILIARES ===== */
 function mostrarResposta(html) {
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('resposta').style.display = 'none';
-    document.getElementById('aviso').style.display = 'none';
-
-    requestAnimationFrame(() => {
-        const resposta = document.getElementById('resposta');
+    const loading = document.getElementById('loading');
+    const resposta = document.getElementById('resposta');
+    const aviso = document.getElementById('aviso');
+    loading.style.display = 'block';
+    resposta.style.display = 'none';
+    aviso.style.display = 'none';
+    setTimeout(() => {
         resposta.innerHTML = html;
+        loading.style.display = 'none';
         resposta.style.display = 'block';
-        document.getElementById('loading').style.display = 'none';
         resposta.scrollIntoView({ behavior: 'smooth' });
-    });
+    }, 300);
 }
 
 function mostrarAviso(msg) {
-    document.getElementById('aviso').innerHTML = `<strong>${msg}</strong>`;
-    document.getElementById('aviso').style.display = 'block';
-    document.getElementById('resposta').style.display = 'none';
+    const aviso = document.getElementById('aviso');
+    aviso.innerHTML = `<strong>${msg}</strong>`;
+    aviso.style.display = 'block';
     document.getElementById('loading').style.display = 'none';
+    document.getElementById('resposta').style.display = 'none';
 }
 </script>
 </body>

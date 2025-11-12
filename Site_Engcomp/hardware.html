@@ -26,6 +26,7 @@
             background: linear-gradient(135deg, #f0f4ff 0%, #e6f0ff 100%);
             color: var(--text);
             padding: 20px;
+            min-height: 100vh;
         }
         .container {
             max-width: 1100px;
@@ -231,50 +232,19 @@
     <div id="aviso" class="aviso" style="display:none;"></div>
     <div id="resposta" class="response" style="display:none;"></div>
 
-    <!-- 30+ Perguntas Rápidas (TODAS FUNCIONAM) -->
+    <!-- 30+ Perguntas Rápidas -->
     <div style="margin-top: 30px; padding: 20px; background: #f8f9fc; border-radius: 12px;">
         <strong>Perguntas rápidas (30+):</strong>
-        <div class="suggestions-grid">
-            <div class="suggestion" data-key="overclock_def">O que é overclock?</div>
-            <div class="suggestion" data-key="intel_amd">Intel ou AMD?</div>
-            <div class="suggestion" data-key="i5_ryzen5">i5 ou Ryzen 5?</div>
-            <div class="suggestion" data-key="cache_l3">Cache L3 importa?</div>
-            <div class="suggestion" data-key="nvidia_amd">NVIDIA ou AMD?</div>
-            <div class="suggestion" data-key="rtx_rx">RTX ou RX?</div>
-            <div class="suggestion" data-key="ray_tracing">Ray Tracing vale?</div>
-            <div class="suggestion" data-key="ddr4_ddr5">DDR4 ou DDR5?</div>
-            <div class="suggestion" data-key="ram_16_32">16GB ou 32GB?</div>
-            <div class="suggestion" data-key="dual_channel">Dual channel?</div>
-            <div class="suggestion" data-key="ssd_hdd">SSD ou HDD?</div>
-            <div class="suggestion" data-key="nvme_sata">NVMe ou SATA?</div>
-            <div class="suggestion" data-key="b550_z790">B550 ou Z790?</div>
-            <div class="suggestion" data-key="mini_atx">Mini-ITX ou ATX?</div>
-            <div class="suggestion" data-key="fonte_650_850">650W ou 850W?</div>
-            <div class="suggestion" data-key="gold_vale">80+ Gold vale?</div>
-            <div class="suggestion" data-key="airflow_rgb">Airflow ou RGB?</div>
-            <div class="suggestion" data-key="water_air">Water ou air?</div>
-            <div class="suggestion" data-key="monitor_144hz">Monitor 144Hz?</div>
-            <div class="suggestion" data-key="teclado_mecanico">Teclado mecânico?</div>
-            <div class="suggestion" data-key="laptop_gaming_ultrabook">Gaming ou ultrabook?</div>
-            <div class="suggestion" data-key="macbook_windows">MacBook ou Windows?</div>
-            <div class="suggestion" data-key="rgb_sincronizado">RGB sincronizado?</div>
-            <div class="suggestion" data-key="upgrade_vale">Upgrade vale?</div>
-            <div class="suggestion" data-key="montar_comprar">Montar ou comprar?</div>
-            <div class="suggestion" data-key="garantia_perde">Garantia perde?</div>
-            <div class="suggestion" data-key="thermal_paste">Thermal paste?</div>
-            <div class="suggestion" data-key="pcie_4_5">PCIe 4.0 ou 5.0?</div>
-            <div class="suggestion" data-key="vr_ready">VR Ready?</div>
-            <div class="suggestion" data-key="mini_pc">Mini PC?</div>
-        </div>
+        <div class="suggestions-grid" id="suggestions"></div>
     </div>
-    <footer>Hardware Expert Turbo © 2025 – Respostas em < 80ms</footer>
+    <footer>Hardware Expert Turbo © 2025 – Respostas em &lt; 80ms</footer>
 </div>
 
 <script>
-/* ===== FILTRO DE OFENSAS ===== */
-const OFENSAS = /porra|caralho|f[oó]d[aeo]|puta|merda|cu|bunda|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm/i;
+/* ===== FILTRO DE OFENSAS MELHORADO (evita falsos positivos) ===== */
+const OFENSAS = /\b(porra|caralho|f[oó]d[aeo]|puta|merda|cu|buceta|pau|piroca|viado|bicha|traveco|sapatão|arrombado|filho da puta|vagabundo|idiota|burro|retardado|mongol|deficiente|aleijado|macaco|preto|branco|judeu|árabe|muçulmano|cristão|negro|lixo|escória|nojo|verme|sujo|podre|ridículo|patético|imbecil|estúpido|babaca|otário|palhaço|corno|corninho|fdp|fds|fdm)\b/i;
 
-/* ===== TODAS AS RESPOSTAS (30+) ===== */
+/* ===== RESPOSTAS PRÉ-DEFINIDAS ===== */
 const RESPOSTAS = {
     overclock_def: `<h3>Overclock</h3><p>Aumentar frequência do CPU/GPU além do padrão. Ganha performance, perde estabilidade e garantia.</p><div class="chip">Risco</div><div class="chip">Temperatura</div><div class="chip">Voltagem</div><div class="conclusao">Só com bom cooler e conhecimento.</div>`,
     intel_amd: `<h3>Intel vs AMD</h3><table><tr><th></th><th>Intel</th><th>AMD</th></tr><tr><td>Single-core</td><td>Melhor</td><td>Ótimo</td></tr><tr><td>Preço/Perf</td><td>Caro</td><td>Excelente</td></tr><tr><td>Consumo</td><td>Alto</td><td>Eficiente</td></tr></table><div class="conclusao">AMD domina custo-benefício 2025.</div>`,
@@ -308,61 +278,134 @@ const RESPOSTAS = {
     mini_pc: `<h3>Mini PC</h3><p>Intel NUC, Ryzen APUs. Compacto e eficiente.</p><div class="conclusao">Ótimo para HTPC e escritório.</div>`
 };
 
-/* ===== BUSCA INSTANTÂNEA (O(1)) ===== */
+/* ===== DADOS DAS SUGESTÕES (texto → chave) ===== */
+const SUGESTOES = [
+    { text: "O que é overclock?", key: "overclock_def" },
+    { text: "Intel ou AMD?", key: "intel_amd" },
+    { text: "i5 ou Ryzen 5?", key: "i5_ryzen5" },
+    { text: "Cache L3 importa?", key: "cache_l3" },
+    { text: "NVIDIA ou AMD?", key: "nvidia_amd" },
+    { text: "RTX ou RX?", key: "rtx_rx" },
+    { text: "Ray Tracing vale?", key: "ray_tracing" },
+    { text: "DDR4 ou DDR5?", key: "ddr4_ddr5" },
+    { text: "16GB ou 32GB?", key: "ram_16_32" },
+    { text: "Dual channel?", key: "dual_channel" },
+    { text: "SSD ou HDD?", key: "ssd_hdd" },
+    { text: "NVMe ou SATA?", key: "nvme_sata" },
+    { text: "B550 ou Z790?", key: "b550_z790" },
+    { text: "Mini-ITX ou ATX?", key: "mini_atx" },
+    { text: "650W ou 850W?", key: "fonte_650_850" },
+    { text: "80+ Gold vale?", key: "gold_vale" },
+    { text: "Airflow ou RGB?", key: "airflow_rgb" },
+    { text: "Water ou air?", key: "water_air" },
+    { text: "Monitor 144Hz?", key: "monitor_144hz" },
+    { text: "Teclado mecânico?", key: "teclado_mecanico" },
+    { text: "Gaming ou ultrabook?", key: "laptop_gaming_ultrabook" },
+    { text: "MacBook ou Windows?", key: "macbook_windows" },
+    { text: "RGB sincronizado?", key: "rgb_sincronizado" },
+    { text: "Upgrade vale?", key: "upgrade_vale" },
+    { text: "Montar ou comprar?", key: "montar_comprar" },
+    { text: "Garantia perde?", key: "garantia_perde" },
+    { text: "Thermal paste?", key: "thermal_paste" },
+    { text: "PCIe 4.0 ou 5.0?", key: "pcie_4_5" },
+    { text: "VR Ready?", key: "vr_ready" },
+    { text: "Mini PC?", key: "mini_pc" }
+];
+
+/* ===== BUSCA INTELIGENTE (normaliza texto) ===== */
+function normalizar(texto) {
+    return texto.toLowerCase()
+        .replace(/[?.!]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
 const BUSCA = {};
-document.querySelectorAll('.suggestion').forEach(btn => {
-    const key = btn.getAttribute('data-key');
-    const texto = btn.textContent.toLowerCase().replace(/[?.!]/g, '').trim();
-    BUSCA[texto] = key;
+SUGESTOES.forEach(s => {
+    const norm = normalizar(s.text);
+    BUSCA[norm] = s.key;
+    // Adiciona variações
+    if (norm.includes('ou')) {
+        const partes = norm.split(' ou ');
+        BUSCA[partes.join(' vs ')] = s.key;
+        BUSCA[partes.reverse().join(' ou ')] = s.key;
+    }
 });
 
-/* ===== CLIQUE NAS SUGESTÕES ===== */
-document.querySelectorAll('.suggestion').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-key');
-        const resposta = RESPOSTAS[key] || `<p>Resposta não encontrada.</p>`;
-        mostrarResposta(resposta);
-    });
+/* ===== GERAR SUGESTÕES DINAMICAMENTE ===== */
+const grid = document.getElementById('suggestions');
+SUGESTOES.forEach(s => {
+    const btn = document.createElement('div');
+    btn.className = 'suggestion';
+    btn.textContent = s.text;
+    btn.onclick = () => {
+        document.getElementById('tipo').value = '';
+        document.getElementById('pergunta').value = s.text;
+        mostrarResposta(RESPOSTAS[s.key]);
+    };
+    grid.appendChild(btn);
 });
 
 /* ===== SUBMIT DO FORM ===== */
 document.getElementById('form').onsubmit = function(e) {
     e.preventDefault();
-    const tipo = document.getElementById('tipo').value.trim().toLowerCase();
-    const pergunta = document.getElementById('pergunta').value.trim().toLowerCase().replace(/[?.!]/g, '');
-    const texto = (tipo + " " + pergunta).trim();
+    const tipo = normalizar(document.getElementById('tipo').value);
+    const pergunta = normalizar(document.getElementById('pergunta').value);
+    const textoCompleto = normalizar(tipo + " " + pergunta);
+    const textoPergunta = pergunta;
 
-    if (OFENSAS.test(texto)) {
+    if (OFENSAS.test(textoCompleto)) {
         mostrarAviso("LINGUAGEM INACEITÁVEL<br>Respeito é obrigatório. Reformule com educação.");
         return;
     }
 
-    const chave = BUSCA[texto] || BUSCA[pergunta] || BUSCA[tipo];
-    const html = chave ? RESPOSTAS[chave] : `<p>Não entendi. Tente: <strong>"Intel ou AMD?"</strong> ou <strong>"SSD ou HDD?"</strong></p>`;
+    let chave = BUSCA[textoCompleto] || BUSCA[textoPergunta] || BUSCA[tipo];
+
+    if (!chave && textoPergunta) {
+        // Busca parcial
+        for (const [k, v] of Object.entries(BUSCA)) {
+            if (textoPergunta.includes(k.split(' ')[0]) || k.includes(textoPergunta.split(' ')[0])) {
+                chave = v;
+                break;
+            }
+        }
+    }
+
+    const html = chave ? RESPOSTAS[chave] : 
+        `<p>Não entendi. Tente uma das perguntas rápidas ou reformule.</p><p><small>Ex: <strong>"Intel ou AMD?"</strong>, <strong>"SSD ou HDD?"</strong></small></p>`;
 
     mostrarResposta(html);
+
+    // Limpar formulário
+    setTimeout(() => {
+        document.getElementById('form').reset();
+    }, 500);
 };
 
 /* ===== FUNÇÕES AUXILIARES ===== */
 function mostrarResposta(html) {
-    document.getElementById('loading').style.display = 'block';
-    document.getElementById('resposta').style.display = 'none';
-    document.getElementById('aviso').style.display = 'none';
+    const loading = document.getElementById('loading');
+    const resposta = document.getElementById('resposta');
+    const aviso = document.getElementById('aviso');
 
-    requestAnimationFrame(() => {
-        const resposta = document.getElementById('resposta');
+    loading.style.display = 'block';
+    resposta.style.display = 'none';
+    aviso.style.display = 'none';
+
+    setTimeout(() => {
         resposta.innerHTML = html;
+        loading.style.display = 'none';
         resposta.style.display = 'block';
-        document.getElementById('loading').style.display = 'none';
         resposta.scrollIntoView({ behavior: 'smooth' });
-    });
+    }, 300);
 }
 
 function mostrarAviso(msg) {
-    document.getElementById('aviso').innerHTML = `<strong>${msg}</strong>`;
-    document.getElementById('aviso').style.display = 'block';
-    document.getElementById('resposta').style.display = 'none';
+    const aviso = document.getElementById('aviso');
+    aviso.innerHTML = `<strong>${msg}</strong>`;
+    aviso.style.display = 'block';
     document.getElementById('loading').style.display = 'none';
+    document.getElementById('resposta').style.display = 'none';
 }
 </script>
 </body>
